@@ -1,0 +1,11 @@
+Package: pa
+Title: Performance Attribution for Equity Portfolios
+Version: 0.1-0
+Date: 2011-09-25
+Author: Yang Lu <yang.lu@williams.edu>
+Description: Classes that serve as a framework for matching equity portfolios.
+Maintainer: Luyi Zhao <luyizhao@fas.harvard.edu>
+Depends: R (>= 2.4.0), methods, lattice, grid
+License: GPL (>= 2)
+LazyLoad: yes
+
