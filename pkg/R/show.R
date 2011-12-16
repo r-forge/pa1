@@ -1,15 +1,12 @@
+## show method
 ## Yang Lu Yang.Lu@williams.edu
 
-## the summary method for brinson class
+## The show method displays the first part of the summary, which
+## contains only the essential info about the brinson model.
 
-## The summary has three parts. First, the essential info about the
-## portfolio; second, the exposures; third, the returns of both the
-## portfolio and the benchmark, and the attribution.
-
-setMethod("summary",
+setMethod("show",
           signature(object = "brinson"),
-          function(object,
-                   ...){
+          function(object){
             
             cat(sprintf("Period:                                     %-s",
                         paste(unique(as.character(object@universe[[object@date.var]])),
@@ -24,28 +21,16 @@ setMethod("summary",
                 )
             
             cat("\n")
-            
-            cat("Exposures", "\n")
-            print(exposure(object))
-            cat("\n")
-
-            cat("Returns", "\n")
-            print(returns(object))
-            cat("\n")
           }
           )
 
-##############################################
 
-## For brinsonMulti class
-## The summary has three parts. First, the essential info about the
-## portfolio; second, the exposures; third, the returns of both the
-## portfolio and the benchmark, and the attribution.
+## The show method displays the first part of the summary, which
+## contains only the essential info about the brinson model.
 
-setMethod("summary",
+setMethod("show",
           signature(object = "brinsonMulti"),
-          function(object,
-                   ...){
+          function(object){
             
             cat(sprintf("Period:                                     %-s",
                         paste(as.character(object@date.var),
@@ -61,14 +46,6 @@ setMethod("summary",
                 sep = ""
                 )
             
-            cat("\n")
-            
-            cat("Exposures", "\n")
-            print(exposure(object))
-            cat("\n")
-
-            cat("Returns", "\n")
-            print(returns(object))
             cat("\n")
           }
           )
