@@ -43,15 +43,15 @@
 
 \section{Methods}{
 \describe{
-  \item{show}{\code{signature(object = "brinson")}. Summarize
+  \item{\code{show}}{\code{signature(object = "brinson")}. Summarize
     the essential information about the portfolio.}
-  \item{summary}{\code{signature(object = "brinson")}. Summarize
+  \item{\code{summary}}{\code{signature(object = "brinson")}. Summarize
     the portfolio and the brinson analysis.}
-  \item{exposure}{\code{signature(object = "brinson")}. Calculate and
+  \item{\code{exposure}}{\code{signature(object = "brinson")}. Calculate and
     display the sector exposure of a portfolio. }
-  \item{returns}{\code{signature(object = "brinson")}. Calculate the
+  \item{\code{returns}}{\code{signature(object = "brinson")}. Calculate the
     contribution of various effects based on the brinson model. }
-  \item{plot}{\code{signature(object = "brinson")}. Plot the exposure or
+  \item{\code{plot}}{\code{signature(object = "brinson")}. Plot the exposure or
     the return of a portfolio. }
 }
 }
