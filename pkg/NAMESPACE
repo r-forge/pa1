@@ -1,0 +1,19 @@
+import(
+	)
+
+exportClasses(
+	      "brinson",
+	      "brinsonMulti"
+              )
+
+exportMethods(
+              "summary",
+              "returns",
+              "exposure",
+              "show",
+              "plot"
+              )
+
+export(
+       "brinson"
+       )
