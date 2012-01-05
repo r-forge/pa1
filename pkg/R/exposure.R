@@ -10,7 +10,7 @@ setMethod("exposure",
             
             ## round to certain digits
             options(digits = 3)
-
+            
             expo.mat <- cbind(object@weight.port,
                               object@weight.bench)
 
