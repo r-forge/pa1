@@ -33,7 +33,8 @@ setMethod("show",
           function(object){
             
             cat(sprintf("Period:                                     %-s",
-                        paste(as.character(object@date.var),
+                        paste(c(min(unique(as.character(object@date.var))),
+                                max(unique(as.character(object@date.var)))),
                               collapse = ", ")), "\n",
                 sprintf("Methodology:                                %-s",
                         paste("Brinson")), "\n",

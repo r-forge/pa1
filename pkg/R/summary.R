@@ -48,7 +48,8 @@ setMethod("summary",
                    ...){
             
             cat(sprintf("Period:                                     %-s",
-                        paste(as.character(object@date.var),
+                        paste(c(min(unique(as.character(object@date.var))),
+                                max(unique(as.character(object@date.var)))),
                               collapse = ", ")), "\n",
                 sprintf("Methodology:                                %-s",
                         paste("Brinson")), "\n",
@@ -66,7 +67,7 @@ setMethod("summary",
             cat("Exposures", "\n")
             print(exposure(object))
             cat("\n")
-
+            
             cat("Returns", "\n")
             print(returns(object))
             cat("\n")

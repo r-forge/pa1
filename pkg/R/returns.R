@@ -61,7 +61,8 @@ setMethod("returns",
             ret.mat[3, 1] <- interaction
             ret.mat[4, 1] <- active.ret
             
-            colnames(ret.mat) <- paste(unique(as.character(object@date.var)),
+            colnames(ret.mat) <- paste(c(min(unique(as.character(object@date.var))),
+                                         max(unique(as.character(object@date.var)))),
                                        collapse = ", ")
             rownames(ret.mat) <- c("Allocation Effect",
                                    "Selection Effect",
