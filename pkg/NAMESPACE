@@ -3,7 +3,9 @@ import(
 
 exportClasses(
 	      "brinson",
-	      "brinsonMulti"
+	      "brinsonMulti",
+              "regression",
+              "regressionMulti"
               )
 
 exportMethods(
@@ -15,5 +17,6 @@ exportMethods(
               )
 
 export(
-       "brinson"
+       "brinson",
+       "regress"
        )

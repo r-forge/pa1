@@ -83,3 +83,87 @@ setClass("brinsonMulti",
          validity = function(object){
            return(TRUE)
          })
+
+
+
+###############################################################
+##
+## regression class
+##
+###############################################################
+
+
+setClass("regression",
+         representation = representation(
+           date.var        = "character",
+           ret.var         = "character",
+           reg.var         = "character",
+           benchmark.weight    = "character",
+           portfolio.weight= "character",
+           coefficients = "list",
+           benchmark.ret = "matrix",
+           portfolio.ret = "matrix",
+           act.ret = "matrix",
+           contrib = "numeric",
+           universe        = "data.frame"
+           ),
+         prototype = prototype(
+           date.var        = character(),
+           ret.var         = character(),
+           reg.var         = character(),
+           benchmark.weight    = character(),
+           portfolio.weight= character(),
+           benchmark.ret = matrix(),
+           portfolio.ret = matrix(),
+           act.ret = matrix(),
+           contrib = numeric(),          
+           universe        = data.frame()
+           ),
+         validity = function(object){
+
+           ## The length of the original portfolio should be the
+           ## same as the length of each matching portfolio.
+           
+           ## weights.orig  <- object@weights.orig
+           ## weights.match <- object@weights.match
+           
+           ## if(!nrow(weights.match) %in% length(weights.orig))
+           ##   return(paste("Each column of \"weights.match\" must have",
+           ##                "the same length as \"weights.orig\"."))
+
+           ## return(TRUE)
+         }
+         )
+
+
+
+
+setClass("regressionMulti",
+         representation = representation(
+           date.var         = "character",
+           ret.var          = "character",
+           reg.var          = "character",
+           benchmark.weight = "character",
+           portfolio.weight = "character",
+           benchmark.ret    = "matrix",
+           portfolio.ret    = "matrix",
+           act.ret          = "matrix",
+           pred.mat         = "matrix",
+           universe         = "list"
+           ),
+         prototype = prototype(
+           date.var         = character(),
+           ret.var          = character(),
+           reg.var          = character(),
+           benchmark.weight = character(),
+           portfolio.weight = character(),
+           benchmark.ret    = matrix(),
+           portfolio.ret    = matrix(),
+           act.ret          = matrix(),
+           pred.mat         = matrix(),          
+           universe         = list()
+           ),
+         validity = function(object){
+           
+         }
+         )
