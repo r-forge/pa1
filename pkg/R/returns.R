@@ -72,3 +72,34 @@ setMethod("returns",
           }
           )
 
+
+
+## returns for regression class object
+
+
+setMethod("returns",
+          signature(object = "regression"),
+          function(object,
+                   ...){
+            
+            ## round to certain digits
+            options(digits = 3)
+
+            no.row <- length(object@reg.var) + 4
+            ret.mat <- matrix(NA, nrow = no.row, ncol = 1)
+            
+            ret.mat[1:(no.row - 4), 1] <- object@contrib
+            ret.mat[no.row - 3, 1] <- object@portfolio.ret - sum(object@contrib)
+            ret.mat[no.row - 2, 1] <- object@portfolio.ret
+            ret.mat[no.row - 1, 1] <- object@benchmark.ret
+            ret.mat[no.row, 1] <- object@act.ret
+
+            colnames(ret.mat) <- as.character(unique(object@universe[[object@date.var]]))
+            rownames(ret.mat) <- c(object@reg.var,
+                                   "Residual",
+                                   "Portfolio Return",
+                                   "Benchmark Return",
+                                   "Active Return")
+            return(ret.mat)
+          }
+          )
