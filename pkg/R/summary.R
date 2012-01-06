@@ -74,3 +74,70 @@ setMethod("summary",
           }
           )
 
+
+
+
+## summary for regression class object
+
+## The summary has two parts. First, the essential info about the
+## portfolio; second, the returns.
+
+setMethod("summary",
+          signature(object = "regression"),
+          function(object,
+                   ...){
+            
+            cat(sprintf("Period:                                     %-s",
+                        paste(unique(as.character(object@universe[[object@date.var]])),
+                              collapse = ", ")), "\n",
+                sprintf("Methodology:                                %-s",
+                        paste("Regression")), "\n",
+                sprintf("Securities in the original portfolio:       %-s",
+                        length(which(object@universe[[object@portfolio.weight]] > 0))), "\n",
+                sprintf("Securities in the universe:                 %-s",
+                        nrow(object@universe)), "\n",
+                sep = ""
+                )
+            
+            cat("\n")
+            
+            cat("Returns", "\n")
+            print(returns(object))
+            cat("\n")
+          }
+          )
+
+
+## summary for regressionMulti class object
+
+## The summary has two parts. First, the essential info about the
+## portfolio; second, the returns.
+
+setMethod("summary",
+          signature(object = "regressionMulti"),
+          function(object,
+                   ...){
+            
+            cat(sprintf("Period:                                     %-s",
+                        paste(c(min(unique(as.character(object@date.var))),
+                                max(unique(as.character(object@date.var)))),
+                              collapse = ", ")), "\n",
+                sprintf("Methodology:                                %-s",
+                        paste("Regression")), "\n",
+                sprintf("Securities in the original portfolio:       %-s",
+                        do.call(mean, lapply(1:length(object@date.var),
+                                             function(i){length(which(object@universe[[i]]@universe[[object@portfolio.weight]] > 0))}))), "\n",
+                sprintf("Securities in the universe:                 %-s",
+                        do.call(mean, lapply(1:length(object@date.var),
+                                             function(i){nrow(object@universe[[i]]@universe)}))), "\n",
+                sep = ""
+                )
+            
+            cat("\n")
+                  
+            cat("Returns", "\n")
+            print(returns(object))
+            cat("\n")
+          }
+          )
+
