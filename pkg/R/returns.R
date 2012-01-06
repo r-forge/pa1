@@ -76,7 +76,6 @@ setMethod("returns",
 
 ## returns for regression class object
 
-
 setMethod("returns",
           signature(object = "regression"),
           function(object,
@@ -95,6 +94,43 @@ setMethod("returns",
             ret.mat[no.row, 1] <- object@act.ret
 
             colnames(ret.mat) <- as.character(unique(object@universe[[object@date.var]]))
+            rownames(ret.mat) <- c(object@reg.var,
+                                   "Residual",
+                                   "Portfolio Return",
+                                   "Benchmark Return",
+                                   "Active Return")
+            return(ret.mat)
+          }
+          )
+
+
+
+## returns for regressionMulti class object
+
+setMethod("returns",
+          signature(object = "regressionMulti"),
+          function(object,
+                   ...){
+            
+            ## round to certain digits
+            options(digits = 3)
+            
+            no.row <- length(object@reg.var) + 4
+            ret.mat <- matrix(NA, nrow = no.row, ncol = 1)
+
+            port.ret <- apply(object@portfolio.ret + 1, 1, prod) - 1
+            ret.mat[1:(no.row - 4), 1] <- port.ret -
+              apply(object@pred.mat + 1, 1, prod) + 1
+            
+            ret.mat[no.row - 3, 1] <- port.ret - sum(ret.mat[1: (no.row - 4), 1])
+            ret.mat[no.row - 2, 1] <- port.ret
+            ret.mat[no.row - 1, 1] <- apply(object@benchmark.ret + 1, 1, prod) - 1
+            ret.mat[no.row, 1] <- port.ret - ret.mat[no.row - 1, 1]
+
+            
+            colnames(ret.mat) <- paste(c(min(unique(as.character(object@date.var))),
+                                         max(unique(as.character(object@date.var)))),
+                                       collapse = ", ")
             rownames(ret.mat) <- c(object@reg.var,
                                    "Residual",
                                    "Portfolio Return",
