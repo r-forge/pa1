@@ -99,7 +99,7 @@ setMethod("exposure",
             ## round to certain digits
             options(digits = 3)
 
-            if (class(object@universe[[var]]) != "numeric"){
+            if (class(object@universe[[1]]@universe[[var]]) != "numeric"){
               ## categorical
               expo.list <- list()
               no.date <- length(object@date.var)
