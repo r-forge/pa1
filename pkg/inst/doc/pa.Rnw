@@ -10,7 +10,7 @@
 \DefineVerbatimEnvironment{Scode}{Verbatim}{fontsize=\small,fontshape=sl}
 
 %% \SweaveOpts{prefix.string=graphics/portfolio}
-\SweaveOpts{echo = FALSE, results = verbatim}
+\SweaveOpts{echo = TRUE, results = verbatim}
 
 \bibliographystyle{abbrvnat}
 
@@ -75,93 +75,156 @@ by hundreds of institutional fund managers worldwide.
 
 \normalsize
 
-Part of the data used by GEM2 are in the \texttt{year2010} data frame,
+Part of the data used by GEM2 is in the \texttt{GEM2} data frame,
 available as part of the \pkg{pa} package. 
 
-<<>>=
+<<echo = FALSE, results = hide>>=
+options(width = 50, digits = 2, scipen = 5)
+library(pa)
 @ 
 
-intro
 
-background
-- MSCI BARRA Data
-- brinson
-- regression
-- MSCI's paper
+<<>>=
+data(GEM2)
+names(GEM2)
+@ 
 
-Brinson model
-- single period
+\texttt{GEM2} contains selected attributes such as industry, size,
+country, and various style factors for a universe of 36,000
+securities. The data is on a monthly frequency from January, 2010
+through December, 2010. For illustrative purposes, the same 3000
+securities are in the data frame each month. 200 of the securities are
+randomly selected as holdings in January and are held through December
+2010.
+
+Here is a sample of rows and columns from the data frame:
+
+<<echo = FALSE>>=
+current.options <- options(digits = 1, width = 80, scipen = 99)
+sample.mat <- rbind(GEM2[GEM2$barrid == "USA9J31",][1, ],
+                    GEM2[GEM2$date == "2010-02-01",][10,],
+                    GEM2[GEM2$barrid == "USA9J31",][3, ],
+                    GEM2[GEM2$portfolio > 0,][705, ],
+                    GEM2[GEM2$portfolio > 0,][1105, ],
+                    GEM2[GEM2$portfolio > 0 & GEM2$return > 0,][500,]
+                    )
+
+sample.mat[ , c(1, 3, 4:13, 19, 20)]
+@ 
+
+<<echo = FALSE>>=
+options(current.options)
+@
+
+All portfolio and benchmark holidings are equal-weighted. The row for
+Ryanair indicates that, as of July, 2010, it is one of the 200
+portfolio holdings with a weight of 0.005. During the month of July,
+its return was 4\%. Other columns indicate the style factor scores of
+each security.
+
+
+\section*{The Brinson Model}
+
+The Brinson Model was first presented in the Journal of Portfolio
+Management in 1985 and has become the best-known approach to
+performance attribution. It separates active returns of any given
+portfolio into asset allocation, stock selection, and
+interaction. Brinson analysis is run by calling the function
+\texttt{brinson} to produce an object of class either \texttt{brinson}
+(a single-period portfolio) or \texttt{brinsonMulti} (a multi-period
+portfolio).
+
+<<>>=
+data(JanGEM2)
+br1 <- brinson(JanGEM2, date.var = "date", sector.var = "industry", 
+               bench.weight = "benchmark", portfolio.weight = "portfolio", 
+               ret.var = "return")
+               
+@ 
+
+\texttt{JanGEM2} is a data frame containing all the information
+necessary to conduct a single-period Brinson
+analysis. \texttt{date.var}, \texttt{sector.var}, and \texttt{return}
+identify the columns containing the date, sector, and return
+variables, respectively. \texttt{bench.weight} and
+\texttt{portfolio.weight} specify the portfolio and universe weight of
+each security.
+
+Calling \texttt{summary} on the resulting object of class
+\texttt{brinson} reports the essential information about the input
+portfolio (including number of securities in the portfolio and the
+universe and sector exposures) and the results of the Brinson
+analysis.
+
+<<>>=
+summary(br1)
+@ 
+
+The brinson summary shows that the active return of the portfolio,
+which consists of 200 randomly selected securities, in January, 2010
+was 3.6 basis points (bps). This return can be attributed to 0.6 bps
+of allocation effect, -3.0 bps of selection effect, and -1.1 bps of
+interaction effect.
+
+\begin{figure}
+\centering
+\vspace*{.1in}
+<<fig=TRUE>>=
+plot(br1, type = "return")
+@ 
+\caption{\label{figure:return}
+Sector return.}
+\end{figure}
+
+%%
+Figure \ref{figure:return} is a visual representation of the return 
+
+
 - multi period
+
+\section*{The Regression-based Analysis}
+
 
 regression based
 - single period
 - multi period
 
-conclusion
+\section*{Decomposition of Cross-sectional Volatility}
+MSCI paper
 
-bibliography
+
+
+
+
+
+
+
+\section*{Conclusion}
+
+The \pkg{backtest} package provides a simple collection of tools for
+performing portfolio-based tests of financial conjectures.  A much
+more complex package, \pkg{portfolioSim}, provides facilities for
+historical portfolio performance analysis using more realistic
+assumptions.  Built on the framework of the
+\pkg{portfolio}\footnote{See \cite{kane:david} for an introduction to
+  the \pkg{portfolio} package.} package, \pkg{portfolioSim} tackles
+the issues of risk exposures and liquidity constraints, as well as
+arbitrary portfolio construction and trading rules.  Above all, the
+flexibility of \R{} itself allows users to extend and modify these
+packages to suit their own needs.  Before reaching that level of
+complexity, however, \pkg{backtest} provides a good starting point for
+testing a new conjecture.
+
+\address{David Kane and Yang Lu 
+  \email{Dave's email} and \email{Yang.Lu@williams.edu}}
+
+\bibliography{backtest}
+
+\end{article}
+\end{document}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-<<echo = FALSE>>=
-options(width = 50, digits = 2, scipen = 5)
-set.seed(1)
-cat.df.without.rownames <- function (d, file = ""){
-  stopifnot(is.data.frame(d))
-  row.names(d) <- 1:nrow(d)
-  x <- NULL
-  conn <- textConnection("x", "w", local = TRUE)
-  capture.output(print(d), file = conn)
-  close(conn)
-  cat(substring(x, first = max(nchar(row.names(d))) + 2), sep = "\n", 
-      file = file)
-}
-@ 
-
-These ranks and other attributes of stocks are in the
-\texttt{starmine} data frame, available as part of the
-\pkg{backtest} package.
-
-<<echo=FALSE, results=hide>>=
-library(backtest)
-@ 
-
-<<echo=TRUE>>=
-data(starmine)
-names(starmine)
-@ 
-
-\texttt{starmine} contains selected attributes such as sector, market
-capitalisation, country, and various measures of return for a universe
-of approximately 6,000 securities.  The data is on a monthly frequency
-from January, 1995 through November, 1995.  The number of observations
-varies over time from a low of 4,528 in February to a high of 5,194 in
-November.
-
-<<echo=FALSE>>=
-cat.df.without.rownames(as.data.frame.table(table(date = as.character(starmine$date)), responseName = "count"))
-@ 
-
-The \texttt{smi} column contains the StarMine Indicator score for each
-security and date if available.  Here is a sample of rows
-and columns from the data frame:
-
-<<echo=false>>=
-current.options <- options(digits = 1, width = 80, scipen = 99)
-@
-
-<<echo=false>>=
-cat.df.without.rownames(starmine[row.names(starmine) %in% c(2254, 9852, 10604, 18953, 62339, 77387, 85739), c("date", "name", "ret.0.1.m", "ret.0.6.m","smi")])
-@ 
-
-<<echo=false>>=
-options(current.options)
-@
-
-Most securities (like LoJack above) have multiple entries in the data
-frame, each for a different date.  The row for Supercuts indicates
-that, as of the close of business on August 31, 1995, its \texttt{smi}
-was 57.  During the month of September, its return (i.e.,
-\texttt{ret.0.1.m}) was -11\%.
 
 \section*{A simple backtest}
 
@@ -540,29 +603,3 @@ only 4\% in the 5 months which follow.
 options(op)
 @ 
 
-\section*{Conclusion}
-
-The \pkg{backtest} package provides a simple collection of tools for
-performing portfolio-based tests of financial conjectures.  A much
-more complex package, \pkg{portfolioSim}, provides facilities for
-historical portfolio performance analysis using more realistic
-assumptions.  Built on the framework of the
-\pkg{portfolio}\footnote{See \cite{kane:david} for an introduction to
-  the \pkg{portfolio} package.} package, \pkg{portfolioSim} tackles
-the issues of risk exposures and liquidity constraints, as well as
-arbitrary portfolio construction and trading rules.  Above all, the
-flexibility of \R{} itself allows users to extend and modify these
-packages to suit their own needs.  Before reaching that level of
-complexity, however, \pkg{backtest} provides a good starting point for
-testing a new conjecture.
-
-  \address{Kyle Campbell, Jeff Enos, Daniel Gerlanc and David Kane \\
-    Kane Capital Management \\
-    Cambridge, Massachusetts, USA\\
-    \email{Kyle.W.Campbell@williams.edu}, \email{jeff@kanecap.com},
-    \email{dgerlanc@gmail.com} and \email{david@kanecap.com}}
-
-\bibliography{backtest}
-
-\end{article}
-\end{document}
