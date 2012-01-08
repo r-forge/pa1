@@ -10,6 +10,7 @@
 \DefineVerbatimEnvironment{Scode}{Verbatim}{fontsize=\small,fontshape=sl}
 
 %% \SweaveOpts{prefix.string=graphics/portfolio}
+\SweaveOpts{echo = FALSE, results = verbatim}
 
 \bibliographystyle{abbrvnat}
 
@@ -28,18 +29,57 @@
 \section*{Introduction}
 
 The \pkg{pa} package provides facilities for conducting performance
-attribution for equity portfolios. 
+attribution for equity portfolios. Three approaches to portfolio
+attribution are the Brinson Model, the Regression-based analysis, and
+Cross-sectional volatility (CSV) decomposition. This article will
+demonstrate how to use the \pkg{pa} package to accomplish these
+analyses.
 
-portfolio-based conjectures about
-financial instruments (stocks, bonds, swaps, options, et cetera).  For
-example, consider a claim that stocks for which analysts are raising
-their earnings estimates perform better than stocks for which analysts
-are lowering estimates.  We want to examine if, on average, stocks
-with raised estimates have higher future returns than stocks with
-lowered estimates and whether this is true over various time horizons
-and across different categories of stocks.  Colloquially, ``backtest''
-is the term used in finance for such tests.
+\section*{Background}
 
+To demonstrate the capabilities of the \pkg{pa} package we will
+consider a series of examples based on a single real-world data
+set. MSCI Barra\footnote{See www.msci.com for details.} is a leaing
+provider ofinvestment decision support tools to investment
+institutions worldwide. According to the company:
+
+% Note that we make the font size for this quote small and then go
+% back to normal.
+
+\small
+
+\begin{quote}
+  GEM2 is the latest Barra global multi-factor equity model. It
+  provides a foundation for investment decision support tools via a
+  broad range of insightful analytics for developed and emerging
+  market portfolios. The latest model version provides:
+
+\begin{itemize}
+\item Improved accuracy of risk forecasts and increased explanatory
+  power.
+  
+\item An intuitive structure that accommodates different investment
+  processes in developed vs. emerging markets.
+  
+\item Greater responsiveness to market dynamics. 
+  
+\item Comprehensive market coverage. 
+
+\end{itemize}
+
+GEM2 leverages the decades of experience that MSCI Barra has in
+developing and maintaining global equity multi-factor models and
+indices, and offers important enhancements over GEM, which is utilized
+by hundreds of institutional fund managers worldwide.
+\end{quote}
+
+\normalsize
+
+Part of the data used by GEM2 are in the \texttt{year2010} data frame,
+available as part of the \pkg{pa} package. 
+
+<<>>=
+@ 
 
 intro
 
@@ -76,59 +116,6 @@ cat.df.without.rownames <- function (d, file = ""){
       file = file)
 }
 @ 
-
-\maketitle
-
-\setkeys{Gin}{width=0.95\textwidth}
-
-\section*{Introduction}
-
-The \pkg{backtest} package provides facilities for exploring
-portfolio-based conjectures about financial instruments (stocks, bonds,
-swaps, options, et cetera).  For example, consider a claim that stocks
-for which analysts are raising their earnings estimates perform better
-than stocks for which analysts are lowering estimates.  We want to
-examine if, on average, stocks with raised estimates have higher
-future returns than stocks with lowered estimates and whether this is
-true over various time horizons and across different categories of
-stocks.  Colloquially, ``backtest'' is the term used in finance for
-such tests.
-
-\section*{Background}
-To demonstrate the capabilities of the \pkg{backtest} package we will
-consider a series of examples based on a single real-world data set.
-StarMine\footnote{See www.starmine.com for details.} is a San
-Fransisco research company which creates quantitative equity models
-for stock selection.  According to the company:
-
-% Note that we make the font size for this quote small and then go
-% back to normal.
-
-\small
-
-\begin{quote}
-  StarMine Indicator is a 1-100 percentile ranking of stocks that is
-  predictive of future analyst revisions. StarMine Indicator improves
-  upon basic earnings revisions models by:
-
-\begin{itemize}
-\item Explicitly considering management guidance.
-  
-\item Incorporating SmartEstimates, StarMine's superior estimates
-  constructed by putting more weight on the most accurate analysts.
-  
-\item Using a longer-term (forward 12-month) forecast horizon (in
-  addition to the current quarter).
-
-\end{itemize}
-
-StarMine Indicator is positively correlated to future stock price
-movements. Top-decile stocks have annually outperformed bottom-decile
-stocks by 27 percentage points over the past ten years across all
-global regions.
-\end{quote}
-
-\normalsize
 
 These ranks and other attributes of stocks are in the
 \texttt{starmine} data frame, available as part of the
