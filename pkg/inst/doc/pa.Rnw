@@ -89,7 +89,7 @@ data(GEM2)
 names(GEM2)
 @ 
 
-\texttt{GEM2} contains selected attributes such as industry, size,
+\texttt{GEM2} contains selected attributes such as sector, size,
 country, and various style factors for a universe of 36,000
 securities. The data is on a monthly frequency from January, 2010
 through December, 2010. For illustrative purposes, the same 3000
@@ -109,7 +109,7 @@ sample.mat <- rbind(GEM2[GEM2$barrid == "USA9J31",][1, ],
                     GEM2[GEM2$portfolio > 0 & GEM2$return > 0,][500,]
                     )
 
-sample.mat[ , c(1, 3, 4:13, 19, 20)]
+sample.mat[ , c(1, 3, 4:16, 19, 20)]
 @ 
 
 <<echo = FALSE>>=
@@ -136,7 +136,7 @@ portfolio).
 
 <<>>=
 data(JanGEM2)
-br.single <- brinson(JanGEM2, date.var = "date", sector.var = "industry", 
+br.single <- brinson(JanGEM2, date.var = "date", sector.var = "sector", 
                      bench.weight = "benchmark", portfolio.weight = "portfolio", 
                      ret.var = "return")
                
@@ -177,7 +177,7 @@ plot(br.single, type = "return")
 \end{figure}
 
 Figure \ref{figure:return} is a visual representation of the return of
-both the portfolio and the universe by industry in Jan, 2010. This
+both the portfolio and the universe by sector in Jan, 2010. This
 plot suggests that the ''divmetal'' industry\footnote{A self-defined
   industry by GEM2} performed the best with a return of more than 30
 bps and that the ''banks'' industry\footnote{A self-defined industry
@@ -185,7 +185,7 @@ bps and that the ''banks'' industry\footnote{A self-defined industry
 
 
 <<>>=
-br.multi <- brinson(GEM2, date.var = "date", sector.var = "industry", 
+br.multi <- brinson(GEM2, date.var = "date", sector.var = "sector", 
                     bench.weight = "benchmark", portfolio.weight = "portfolio", 
                     ret.var = "return")
 
@@ -205,7 +205,7 @@ summary(br.multi)
 The \texttt{br.multi} summary shows that the Brinson analysis is
 applied to data from Jan, 2010 through Dec. 2010. with 200 securities
 in the portfolio out of the 3000-security universe on average. It also
-shows the exposure of the portfolio and the universe by industry as
+shows the exposure of the portfolio and the universe by sector as
 well as the results of the Brinson analysis across periods. The bottom
 part of the summary shows that the portfolio in year 2010 had an
 active return of 12 bps. The allocation and the interaction effect
@@ -220,7 +220,7 @@ single-period and multi-period data frames as well.
 
 <<>>=
 rb.single <- regress(JanGEM2, date.var = "date", ret.var = "return",
-                     reg.var = c("industry", "value", "size", "growth"),
+                     reg.var = c("sector", "value", "size", "growth"),
                      benchmark.weight = "benchmark", 
                      portfolio.weight = "portfolio")
 exposure(rb.single, var = "growth")
@@ -244,7 +244,7 @@ variable according to the Regression-based analysis.
 
 <<>>=
 rb.multi <- regress(GEM2, date.var = "date", ret.var = "return",
-                    reg.var = c("industry", "value", "size", "growth"),
+                    reg.var = c("sector", "value", "size", "growth"),
                     benchmark.weight = "benchmark", 
                     portfolio.weight = "portfolio")
 rb.multi
@@ -265,7 +265,7 @@ The Regression-based summary shows that the contribution of each input
 variable in addition to the basic information about the portfolio. The
 summary suggests that the active return of the portfolio in year 2010
 is -203 bps. The Residual number indicates the contribution of the
-interaction among various variables including \texttt{industry},
+interaction among various variables including \texttt{sector},
 \texttt{value}, \texttt{size}, and \texttt{growth}. 
 
 
@@ -285,7 +285,7 @@ complexity, however, \texttt{pa} provides a good starting point for
 executing the analyses as mentioned above.
 
 \address{David Kane and Yang Lu 
-  \email{Dave's email} and \email{Yang.Lu@williams.edu}}
+  \email{DKane@iq.harvard.edu} and \email{Yang.Lu@williams.edu}}
 
 \bibliography{pa}
 
