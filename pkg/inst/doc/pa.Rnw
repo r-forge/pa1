@@ -28,16 +28,16 @@
 
 \section*{Introduction}
 
-The \texttt{pa} package provides facilities for conducting performance
+The \pkg{pa} package provides facilities for conducting performance
 attribution for equity portfolios. Three approaches to portfolio
 attribution are the Brinson Model, the Regression-based analysis, and
 Cross-sectional volatility (CSV) decomposition. This article will
-demonstrate how to use the \texttt{pa} package to accomplish these
+demonstrate how to use the \pkg{pa} package to accomplish these
 analyses.
 
 \section*{Background}
 
-To demonstrate the capabilities of the \texttt{pa} package we will
+To demonstrate the capabilities of the \pkg{pa} package we will
 consider a series of examples based on a single real-world data
 set. MSCI Barra\footnote{See www.msci.com for details.} is a leaing
 provider ofinvestment decision support tools to investment
@@ -76,7 +76,7 @@ by hundreds of institutional fund managers worldwide.
 \normalsize
 
 Part of the data used by GEM2 is in the \texttt{GEM2} data frame,
-available as part of the \texttt{pa} package. 
+available as part of the \pkg{pa} package. 
 
 <<echo = FALSE, results = hide>>=
 options(width = 50, digits = 2, scipen = 5)
@@ -94,33 +94,28 @@ country, and various style factors for a universe of 36,000
 securities. The data is on a monthly frequency from January, 2010
 through December, 2010. For illustrative purposes, the same 3000
 securities are in the data frame each month. 200 of the securities are
-randomly selected as holdings in January and are held through December
-2010.
+randomly selected as portfolio holdings in January and are held
+through December 2010.
 
 Here is a sample of rows and columns from the data frame:
 
 <<echo = FALSE>>=
-current.options <- options(digits = 1, width = 80, scipen = 99)
 sample.mat <- rbind(GEM2[GEM2$barrid == "USA9J31",][1, ],
                     GEM2[GEM2$date == "2010-02-01",][10,],
                     GEM2[GEM2$barrid == "USA9J31",][3, ],
-                    GEM2[GEM2$portfolio > 0,][705, ],
                     GEM2[GEM2$portfolio > 0,][1105, ],
-                    GEM2[GEM2$portfolio > 0 & GEM2$return > 0,][500,]
+                    GEM2[GEM2$portfolio > 0 & GEM2$return > 0,][500,],
+                    GEM2[GEM2$portfolio > 0,][705, ]
                     )
 
-sample.mat[ , c(1, 3, 4:16, 19, 20)]
+sample.mat[ , c(1, 3, 4:14, 16, 19, 20)]
 @ 
-
-<<echo = FALSE>>=
-options(current.options)
-@
 
 All portfolio and benchmark holidings are equal-weighted. The row for
 Ryanair indicates that, as of July, 2010, it is one of the 200
 portfolio holdings with a weight of 0.005. During the month of July,
-its return was 4\%. Other columns indicate the style factor scores of
-each security.
+its return was -1.4\%. Other columns indicate the style factor scores
+of each security.
 
 
 \section*{The Brinson Model}
@@ -136,9 +131,12 @@ portfolio).
 
 <<>>=
 data(JanGEM2)
-br.single <- brinson(JanGEM2, date.var = "date", sector.var = "sector", 
-                     bench.weight = "benchmark", portfolio.weight = "portfolio", 
-                     ret.var = "return")
+br.single <- brinson(JanGEM2, date.var = "date", 
+                     sector.var = "sector",  
+                     bench.weight = "benchmark", 
+                     portfolio.weight = "portfolio", 
+                     ret.var = "return"
+                     )
                
 @ 
 
@@ -162,8 +160,8 @@ summary(br.single)
 
 The Brinson summary shows that the active return of the portfolio,
 which consists of 200 randomly selected securities, in January, 2010
-was 3.6 basis points (bps). This return can be attributed to 0.6 bps
-of allocation effect, -3.0 bps of selection effect, and -1.1 bps of
+was -8.3 basis points (bps). This return can be attributed to -0.3 bps
+of allocation effect, 3.6 bps of selection effect, and -11.6 bps of
 interaction effect.
 
 \begin{figure}
@@ -177,18 +175,18 @@ plot(br.single, type = "return")
 \end{figure}
 
 Figure \ref{figure:return} is a visual representation of the return of
-both the portfolio and the universe by sector in Jan, 2010. This
-plot suggests that the ''divmetal'' industry\footnote{A self-defined
-  industry by GEM2} performed the best with a return of more than 30
-bps and that the ''banks'' industry\footnote{A self-defined industry
-  by GEM2} performed the worst with a return of more than -60 bps.
+both the portfolio and the universe by sector in Jan, 2010. This plot
+suggests that for the portfolio, the ''Utilities'' sector performed
+the best with a return of more than 400 bps and that the ''Energy''
+sector performed the worst with a return of more than -400 bps.
 
 
 <<>>=
-br.multi <- brinson(GEM2, date.var = "date", sector.var = "sector", 
-                    bench.weight = "benchmark", portfolio.weight = "portfolio", 
+br.multi <- brinson(GEM2, date.var = "date", 
+                    sector.var = "sector", 
+                    bench.weight = "benchmark", 
+                    portfolio.weight = "portfolio", 
                     ret.var = "return")
-
 @ 
 
 The class \texttt{brinsonMulti} object \texttt{br.multi} is an example
@@ -199,28 +197,29 @@ containing all the information necessary to conduct a multi-period
 Brinson analysis.
 
 <<>>=
-summary(br.multi)
+exposure(br.multi, var = "size")
+returns(br.multi)
 @ 
 
-The \texttt{br.multi} summary shows that the Brinson analysis is
-applied to data from Jan, 2010 through Dec. 2010. with 200 securities
-in the portfolio out of the 3000-security universe on average. It also
-shows the exposure of the portfolio and the universe by sector as
-well as the results of the Brinson analysis across periods. The bottom
-part of the summary shows that the portfolio in year 2010 had an
-active return of 12 bps. The allocation and the interaction effect
-contributed 6.6 bps and 20.1 bps respectively and the selection effect
-made a loss of 14.3 bps. 
+The \texttt{exposure} method on the \texttt{br.multi} data frame shows
+the exposure of the portfolio and the universe by sector and the
+\texttt{returns} method shows the results of the Brinson analysis
+applied to the data from Jan, 2010 through Dec. 2010. The portfolio
+in year 2010 had an active return of -200 bps. The allocation and the
+selection effect contributed -11.0 bps and -45.6 bps respectively and
+the interaction effect made a loss of 146.7 bps.
 
 \section*{The Regression-based Analysis}
 
 Another conventional attribution methodolody is the Regression-based
-analysis. The \texttt{pa} package provides a tool to analyze both
+analysis. The \pkg{pa} package provides a tool to analyze both
 single-period and multi-period data frames as well.
 
 <<>>=
-rb.single <- regress(JanGEM2, date.var = "date", ret.var = "return",
-                     reg.var = c("sector", "value", "size", "growth"),
+rb.single <- regress(JanGEM2, date.var = "date", 
+                     ret.var = "return",
+                     reg.var = c("sector", "value", 
+                       "size", "growth"),
                      benchmark.weight = "benchmark", 
                      portfolio.weight = "portfolio")
 exposure(rb.single, var = "growth")
@@ -243,7 +242,8 @@ variable according to the Regression-based analysis.
 
 
 <<>>=
-rb.multi <- regress(GEM2, date.var = "date", ret.var = "return",
+rb.multi <- regress(GEM2, date.var = "date", 
+                    ret.var = "return",
                     reg.var = c("sector", "value", "size", "growth"),
                     benchmark.weight = "benchmark", 
                     portfolio.weight = "portfolio")
@@ -269,13 +269,30 @@ interaction among various variables including \texttt{sector},
 \texttt{value}, \texttt{size}, and \texttt{growth}. 
 
 
+
+\begin{figure}
+\centering
+\vspace*{.1in}
+<<fig = TRUE>>=
+plot(rb.multi, type = "return")
+@ 
+\caption{\label{figure:regmultiattrib}
+  Performance Attribution.}
+\end{figure}
+
+Figure \ref{figure:regmultiattrib} displays both the portfolio return
+and the benchmark return from January 2010 through December 2010. It
+suggests that the randomly selected portfolio underperformed the
+benchmark most of the time.
+
+
 \section*{Decomposition of Cross-sectional Volatility}
 MSCI paper
 
 
 \section*{Conclusion}
 
-The \texttt{pa} package provides a simple collection of tools for equity
+The \pkg{pa} package provides a simple collection of tools for equity
 portfolio performance attribution including the Brinson model, the
 Regression-based analysis, and decomposition of Cross-sectional
 Volatility. The flexibility of \R{} itself allows users to extend and
@@ -284,7 +301,7 @@ preferred attribution methodology. Before reaching that level of
 complexity, however, \texttt{pa} provides a good starting point for
 executing the analyses as mentioned above.
 
-\address{David Kane and Yang Lu 
+\address{David Kane and Yang Lu \\
   \email{DKane@iq.harvard.edu} and \email{Yang.Lu@williams.edu}}
 
 \bibliography{pa}
