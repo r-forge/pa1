@@ -10,20 +10,20 @@
   formula(paste(vdep, "~", paste(vexp, collapse = " + ")))
 }
 
-## a convenience function to get the weight of each sector 
-.sector.weight <- function(x,
-                           sector.var,
-                           all.sector,
-                           ret.var,
-                           var){
-  weight <- sapply(1:length(all.sector),
-                   function(i){x[x[[sector.var]] == all.sector[i], ][[ret.var]] %*%
-                                 x[x[[sector.var]] == all.sector[i], ][[var]]})
-  weight <- as.array(weight)
+## a convenience function to get the return of each sector 
+.sector.ret <- function(x,
+                        sector.var,
+                        all.sector,
+                        ret.var,
+                        var){
+  ret <- sapply(1:length(all.sector),
+                function(i){x[x[[sector.var]] == all.sector[i], ][[ret.var]] %*%
+                              x[x[[sector.var]] == all.sector[i], ][[var]]})
+  ret <- as.array(ret)
   
-  names(weight) <- all.sector
-
-  return(weight)
+  names(ret) <- all.sector
+  
+  return(ret)
 }
 
 

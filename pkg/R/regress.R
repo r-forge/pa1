@@ -4,10 +4,10 @@
 
 regress <- function(x,
                     date.var = "date",
-                    ret.var = "fwd.ret.1m",
+                    ret.var = "return",
                     ## variables on the right hand side of the
                     ## regression formula
-                    reg.var = c("sector", "cap.usd", "country", "size"),
+                    reg.var = c("sector", "country", "size", "value", "growth"),
                     benchmark.weight = "benchmark",
                     portfolio.weight = "portfolio"
                     ){

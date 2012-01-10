@@ -6,18 +6,43 @@
 setMethod("exposure",
           signature(object = "brinson"),
           function(object,
+                   var = "sector",
                    ...){
             
             ## round to certain digits
             options(digits = 3)
             
-            expo.mat <- cbind(object@weight.port,
-                              object@weight.bench)
+            ## decide whether it's categorical or continuous (split
+            ## into 5 quantiles)
+            if (class(object@universe[[var]])[1] != "numeric"){
+              ## categorical
+              expo.mat <- cbind(tapply(object@universe[[object@portfolio.weight]],
+                                       object@universe[[var]],
+                                       sum),
+                                tapply(object@universe[[object@bench.weight]],
+                                       object@universe[[var]],
+                                       sum))
+              
+              colnames(expo.mat) <- c("Portfolio", "Benchmark")
+              return(expo.mat)
+            } else {
 
-            colnames(expo.mat) <- c("Portfolio", "Benchmark")
-            return(expo.mat)
+              ## continuous (5 quantiles)
+              temp <- object@universe
+              temp$q <- as.factor(ceiling(rank(temp[[var]]) / nrow(temp) * 5))
+              expo.mat <- cbind(tapply(temp[[object@portfolio.weight]],
+                                       temp$q,
+                                       sum),
+                                tapply(temp[[object@bench.weight]],
+                                       temp$q,
+                                       sum))
+              colnames(expo.mat) <- c("Portfolio", "Benchmark")
+              rownames(expo.mat)[1] <- "Low"
+              rownames(expo.mat)[5] <- "High"
+              return(expo.mat)
+            }
           }
-        )
+          )
 
 ## exposure method for brinsonMulti class
 ## post: list
@@ -25,21 +50,64 @@ setMethod("exposure",
 setMethod("exposure",
           signature(object = "brinsonMulti"),
           function(object,
+                   var = "sector",
                    ...){
             
             ## round to certain digits
             options(digits = 3)
 
-            expo.list <- list()
-            ## portfolio exposures
-            expo.list[[1]] <- object@weight.port
+            if (class(object@universe[[1]]@universe[[var]])[1] != "numeric"){
+              ## categorical
+              expo.list <- list()
+              no.date <- length(object@date.var)
+              port.mat <- sapply(1:no.date,
+                                 function(i){tapply(object@universe[[i]]@universe[[object@portfolio.weight]],
+                                                    object@universe[[i]]@universe[[var]],
+                                                    sum)})
+              colnames(port.mat) <- object@date.var
+              expo.list[[1]] <- port.mat
+              
+              bench.mat <- sapply(1:no.date, function(i){tapply(object@universe[[i]]@universe[[object@bench.weight]],
+                                                          object@universe[[i]]@universe[[var]],
+                                                          sum)})
+              colnames(bench.mat) <- object@date.var
+              expo.list[[2]] <- bench.mat
+              names(expo.list) <- c("Portfolio", "Benchmark")
+              return(expo.list)
+            } else {
+              ## continous (5 quantiles)
 
-            ## benchmark exposures
-            expo.list[[2]] <- object@weight.bench
-            
-            names(expo.list) <- c("Portfolio", "Benchmark")
-            return(expo.list)
+              expo.list <- list()
+              no.date <- length(object@date.var)
+
+              for (i in 1:no.date){
+                object@universe[[i]]@universe$q <- as.factor(ceiling(rank(object@universe[[i]]@universe[[var]]) / nrow(object@universe[[i]]@universe) * 5))
+              }
+
+              port.mat <- sapply(1:no.date,
+                                 function(i){tapply(object@universe[[i]]@universe[[object@portfolio.weight]],
+                                                    object@universe[[i]]@universe$q,
+                                                    sum)})
+              colnames(port.mat) <- object@date.var
+              rownames(port.mat)[1] <- "Low"
+              rownames(port.mat)[5] <- "High"
+              expo.list[[1]] <- port.mat
+              
+              bench.mat <- sapply(1:no.date,
+                                  function(i){tapply(object@universe[[i]]@universe[[object@bench.weight]],
+                                                     object@universe[[i]]@universe$q,
+                                                     sum)})
+              
+              
+              colnames(bench.mat) <- object@date.var
+              rownames(bench.mat)[1] <- "Low"
+              rownames(bench.mat)[5] <- "High"
+              expo.list[[2]] <- bench.mat
+              names(expo.list) <- c("Portfolio", "Benchmark")
+              return(expo.list)
+            }
           }
+          
           )
 
 
@@ -56,7 +124,7 @@ setMethod("exposure",
 
             ## decide whether it's categorical or continuous (split
             ## into 5 quantiles)
-            if (class(object@universe[[var]]) != "numeric"){
+            if (class(object@universe[[var]])[1] != "numeric"){
               ## categorical
               expo.mat <- cbind(tapply(object@universe[[object@portfolio.weight]],
                                        object@universe[[var]],
@@ -79,8 +147,8 @@ setMethod("exposure",
                                        temp$q,
                                        sum))
               colnames(expo.mat) <- c("Portfolio", "Benchmark")
-              rownames(expo.mat)[1] <- "low"
-              rownames(expo.mat)[5] <- "high"
+              rownames(expo.mat)[1] <- "Low"
+              rownames(expo.mat)[5] <- "High"
               return(expo.mat)
             }
           }
@@ -99,7 +167,7 @@ setMethod("exposure",
             ## round to certain digits
             options(digits = 3)
 
-            if (class(object@universe[[1]]@universe[[var]]) != "numeric"){
+            if (class(object@universe[[1]]@universe[[var]])[1] != "numeric"){
               ## categorical
               expo.list <- list()
               no.date <- length(object@date.var)
@@ -132,8 +200,8 @@ setMethod("exposure",
                                                     object@universe[[i]]@universe$q,
                                                     sum)})
               colnames(port.mat) <- object@date.var
-              rownames(port.mat)[1] <- "low"
-              rownames(port.mat)[5] <- "high"
+              rownames(port.mat)[1] <- "Low"
+              rownames(port.mat)[5] <- "High"
               expo.list[[1]] <- port.mat
               
               bench.mat <- sapply(1:no.date,
@@ -143,8 +211,8 @@ setMethod("exposure",
               
               
               colnames(bench.mat) <- object@date.var
-              rownames(bench.mat)[1] <- "low"
-              rownames(bench.mat)[5] <- "high"
+              rownames(bench.mat)[1] <- "Low"
+              rownames(bench.mat)[5] <- "High"
               expo.list[[2]] <- bench.mat
               names(expo.list) <- c("Portfolio", "Benchmark")
               return(expo.list)

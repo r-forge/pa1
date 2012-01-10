@@ -169,8 +169,8 @@ interaction effect.
 \begin{figure}
 \centering
 \vspace*{.1in}
-<<fig = TRUE, height = 3in, width = 3in>>=
-## plot(br.single, type = "return")
+<<fig = TRUE>>=
+plot(br.single, type = "return")
 @ 
 \caption{\label{figure:return}
   Sector return.}

@@ -1,4 +1,5 @@
-## A method called brinson to apply brinson model analysis
+## A method called brinson to apply the Brinson model analysis
+
 ## Yang Lu Yang.Lu@williams.edu
 
 brinson <- function(x, 
@@ -6,7 +7,7 @@ brinson <- function(x,
                     sector.var = "sector",
                     bench.weight = "benchmark",
                     portfolio.weight = "portfolio",
-                    ret.var = "fwd.ret.1m"){
+                    ret.var = "return"){
   ## various checks
   ## x must be a data frame.
   stopifnot(is.data.frame(x))
@@ -118,24 +119,29 @@ brinson <- function(x,
     all.sector <- levels(x[[sector.var]])
 
     ## benchmark returns
-    ret.bench <- .sector.weight(x = x,
-                                sector.var = sector.var,
-                                all.sector = all.sector,
-                                ret.var = ret.var,
-                                var = bench.weight)
+    ret.bench <- .sector.ret(x = x,
+                             sector.var = sector.var,
+                             all.sector = all.sector,
+                             ret.var = ret.var,
+                             var = bench.weight)
     
     ## portfolio returns
-    ret.port <- .sector.weight(x = x,
-                               sector.var = sector.var,
-                               all.sector = all.sector,
-                               ret.var = ret.var,
-                               var = portfolio.weight)
-        
+    ret.port <- .sector.ret(x = x,
+                            sector.var = sector.var,
+                            all.sector = all.sector,
+                            ret.var = ret.var,
+                            var = portfolio.weight)
+    
     ## portfolio weight by sector
     weight.port <- tapply(x[[portfolio.weight]], x[[sector.var]], sum)
     ## benchmark weight by sector
     weight.bench <- tapply(x[[bench.weight]], x[[sector.var]], sum)
 
+    ret.bench <- ret.bench / weight.bench
+    ret.port <- ret.port / weight.port
+    ret.bench[ret.bench == "NaN"] <- 0
+    ret.port[ret.port == "NaN"] <- 0
+    
     portfolio@weight.port <- weight.port
     portfolio@weight.bench <- weight.bench
     portfolio@ret.port <- ret.port

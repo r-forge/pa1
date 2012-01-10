@@ -94,7 +94,7 @@ setMethod("returns",
             ret.mat[no.row, 1] <- object@act.ret
 
             colnames(ret.mat) <- as.character(unique(object@universe[[object@date.var]]))
-            rownames(ret.mat) <- c(object@reg.var,
+            rownames(ret.mat) <- c(CapLeading(object@reg.var),
                                    "Residual",
                                    "Portfolio Return",
                                    "Benchmark Return",
@@ -131,7 +131,7 @@ setMethod("returns",
             colnames(ret.mat) <- paste(c(min(unique(as.character(object@date.var))),
                                          max(unique(as.character(object@date.var)))),
                                        collapse = ", ")
-            rownames(ret.mat) <- c(object@reg.var,
+            rownames(ret.mat) <- c(CapLeading(object@reg.var),
                                    "Residual",
                                    "Portfolio Return",
                                    "Benchmark Return",
