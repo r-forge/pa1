@@ -103,3 +103,47 @@ setMethod("show",
           )
 
 
+## show for csvol class object
+
+setMethod("show",
+          signature(object = "csvol"),
+          function(object){
+            
+            cat(sprintf("Period:                                 %-s",
+                        paste(unique(as.character(object@universe[[object@date.var]])),
+                              collapse = ", ")), "\n",
+                sprintf("Methodology:                            %-s",
+                        paste("Cross Sectional Volatility")), "\n",
+                sprintf("Securities in the universe:             %-s",
+                        nrow(object@universe)), "\n",
+                sep = ""
+                )
+            
+            cat("\n")
+       
+          }
+          )
+
+
+## show for csvolMulti class object
+
+setMethod("show",
+          signature(object = "csvolMulti"),
+          function(object){
+            
+            cat(sprintf("Period:                                 %-s",
+                        paste(c(min(unique(as.character(object@date.var))),
+                                max(unique(as.character(object@date.var)))),
+                              collapse = ", ")), "\n",
+                sprintf("Methodology:                            %-s",
+                        paste("Cross-sectional Volatility")), "\n",
+                sprintf("Avg securities in the universe:         %-s",
+                        do.call(mean, lapply(1:length(object@date.var),
+                                             function(i){nrow(object@universe[[i]]@universe)}))), "\n",
+                sep = ""
+                )
+            
+            cat("\n")
+       
+          }
+          )

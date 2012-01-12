@@ -11,14 +11,14 @@ setMethod("summary",
           function(object,
                    ...){
             
-            cat(sprintf("Period:                                 %-s",
+            cat(sprintf("Period:                              %-s",
                         paste(unique(as.character(object@universe[[object@date.var]])),
                               collapse = ", ")), "\n",
-                sprintf("Methodology:                            %-s",
+                sprintf("Methodology:                         %-s",
                         paste("Brinson")), "\n",
-                sprintf("Securities in the portfolio:            %-s",
+                sprintf("Securities in the portfolio:         %-s",
                         length(which(object@universe[[object@portfolio.weight]] > 0))), "\n",
-                sprintf("Securities in the universe:             %-s",
+                sprintf("Securities in the universe:          %-s",
                         nrow(object@universe)), "\n",
                 sep = ""
                 )
@@ -47,16 +47,16 @@ setMethod("summary",
           function(object,
                    ...){
             
-            cat(sprintf("Period:                                 %-s",
+            cat(sprintf("Period:                              %-s",
                         paste(c(min(unique(as.character(object@date.var))),
                                 max(unique(as.character(object@date.var)))),
                               collapse = ", ")), "\n",
-                sprintf("Methodology:                            %-s",
+                sprintf("Methodology:                         %-s",
                         paste("Brinson")), "\n",
-                sprintf("Avg securities in the portfolio:        %-s",
+                sprintf("Avg securities in the portfolio:     %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){length(which(object@universe[[i]]@universe[[object@portfolio.weight]] > 0))}))), "\n",
-                sprintf("Avg securities in the universe:         %-s",
+                sprintf("Avg securities in the universe:      %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){nrow(object@universe[[i]]@universe)}))), "\n",
                 sep = ""
@@ -87,14 +87,14 @@ setMethod("summary",
           function(object,
                    ...){
             
-            cat(sprintf("Period:                                 %-s",
+            cat(sprintf("Period:                              %-s",
                         paste(unique(as.character(object@universe[[object@date.var]])),
                               collapse = ", ")), "\n",
-                sprintf("Methodology:                            %-s",
+                sprintf("Methodology:                         %-s",
                         paste("Regression")), "\n",
-                sprintf("Securities in the portfolio:            %-s",
+                sprintf("Securities in the portfolio:         %-s",
                         length(which(object@universe[[object@portfolio.weight]] > 0))), "\n",
-                sprintf("Securities in the universe:             %-s",
+                sprintf("Securities in the universe:          %-s",
                         nrow(object@universe)), "\n",
                 sep = ""
                 )
@@ -118,16 +118,16 @@ setMethod("summary",
           function(object,
                    ...){
             
-            cat(sprintf("Period:                                 %-s",
+            cat(sprintf("Period:                              %-s",
                         paste(c(min(unique(as.character(object@date.var))),
                                 max(unique(as.character(object@date.var)))),
                               collapse = ", ")), "\n",
-                sprintf("Methodology:                            %-s",
+                sprintf("Methodology:                         %-s",
                         paste("Regression")), "\n",
-                sprintf("Avg securities in the portfolio:        %-s",
+                sprintf("Avg securities in the portfolio:     %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){length(which(object@universe[[i]]@universe[[object@portfolio.weight]] > 0))}))), "\n",
-                sprintf("Avg securities in the universe:         %-s",
+                sprintf("Avg securities in the universe:      %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){nrow(object@universe[[i]]@universe)}))), "\n",
                 sep = ""
@@ -141,3 +141,58 @@ setMethod("summary",
           }
           )
 
+
+
+## summary for csvol class object
+
+setMethod("summary",
+          signature(object = "csvol"),
+          function(object,
+                   ...){
+            
+            cat(sprintf("Period:                              %-s",
+                        paste(unique(as.character(object@universe[[object@date.var]])),
+                              collapse = ", ")), "\n",
+                sprintf("Methodology:                         %-s",
+                        paste("Cross-sectional Volatility")), "\n",
+                sprintf("Securities in the universe:          %-s",
+                        nrow(object@universe)), "\n",
+                sep = ""
+                )
+            
+            cat("\n")
+            
+            cat("CSV", "\n")
+            print(returns(object))
+            cat("\n")
+          }
+          )
+
+
+## summary for csvolMulti class object
+
+setMethod("summary",
+          signature(object = "csvolMulti"),
+          function(object,
+                   ...){
+            
+            cat(sprintf("Period:                              %-s",
+                        paste(c(min(unique(as.character(object@date.var))),
+                                max(unique(as.character(object@date.var)))),
+                              collapse = ", ")), "\n",
+                sprintf("Methodology:                         %-s",
+                        paste("Cross-sectional Volatility")), "\n",
+                sprintf("Avg securities in the universe:      %-s",
+                        do.call(mean, lapply(1:length(object@date.var),
+                                             function(i){nrow(object@universe[[i]]@universe)}))), "\n",
+    
+                sep = ""
+                )
+            
+            cat("\n")
+            
+            cat("CSV", "\n")
+            print(returns(object))
+            cat("\n")
+          }
+          )
