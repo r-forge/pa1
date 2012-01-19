@@ -18,8 +18,8 @@ setMethod("summary",
                         paste("Brinson")), "\n",
                 sprintf("Securities in the portfolio:         %-s",
                         length(which(object@universe[[object@portfolio.weight]] > 0))), "\n",
-                sprintf("Securities in the universe:          %-s",
-                        nrow(object@universe)), "\n",
+                sprintf("Securities in the benchmark:         %-s",
+                        length(which(object@universe[[object@bench.weight]] > 0))), "\n",
                 sep = ""
                 )
             
@@ -58,9 +58,9 @@ setMethod("summary",
                 sprintf("Avg securities in the portfolio:     %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){length(which(object@universe[[i]]@universe[[object@portfolio.weight]] > 0))}))), "\n",
-                sprintf("Avg securities in the universe:      %-s",
+                sprintf("Avg securities in the benchmark:     %-s",
                         do.call(mean, lapply(1:length(object@date.var),
-                                             function(i){nrow(object@universe[[i]]@universe)}))), "\n",
+                                             function(i){length(which(object@universe[[i]]@universe[[object@bench.weight]] > 0))}))), "\n",
                 sep = ""
                 )
             
@@ -96,8 +96,8 @@ setMethod("summary",
                         paste("Regression")), "\n",
                 sprintf("Securities in the portfolio:         %-s",
                         length(which(object@universe[[object@portfolio.weight]] > 0))), "\n",
-                sprintf("Securities in the universe:          %-s",
-                        nrow(object@universe)), "\n",
+                sprintf("Securities in the benchmark:         %-s",
+                        length(which(object@universe[[object@benchmark.weight]] > 0))), "\n",
                 sep = ""
                 )
             
@@ -131,9 +131,9 @@ setMethod("summary",
                 sprintf("Avg securities in the portfolio:     %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){length(which(object@universe[[i]]@universe[[object@portfolio.weight]] > 0))}))), "\n",
-                sprintf("Avg securities in the universe:      %-s",
+                sprintf("Avg securities in the benchmark:     %-s",
                         do.call(mean, lapply(1:length(object@date.var),
-                                             function(i){nrow(object@universe[[i]]@universe)}))), "\n",
+                                             function(i){length(which(object@universe[[i]]@universe[[object@benchmark.weight]] > 0))}))), "\n",
                 sep = ""
                 )
             

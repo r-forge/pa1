@@ -12,13 +12,13 @@
 
 ## a convenience function to get the return of each sector 
 .sector.ret <- function(x,
-                        sector.var,
+                        cat.var,
                         all.sector,
                         ret.var,
                         var){
   ret <- sapply(1:length(all.sector),
-                function(i){x[x[[sector.var]] == all.sector[i], ][[ret.var]] %*%
-                              x[x[[sector.var]] == all.sector[i], ][[var]]})
+                function(i){x[x[[cat.var]] == all.sector[i], ][[ret.var]] %*%
+                              x[x[[cat.var]] == all.sector[i], ][[var]]})
   ret <- as.array(ret)
   
   names(ret) <- all.sector

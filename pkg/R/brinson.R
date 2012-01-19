@@ -4,7 +4,7 @@
 
 brinson <- function(x, 
                     date.var = "date",
-                    sector.var = "sector",
+                    cat.var = "sector",
                     bench.weight = "benchmark",
                     portfolio.weight = "portfolio",
                     ret.var = "return"){
@@ -16,7 +16,7 @@ brinson <- function(x,
   stopifnot(length(date.var) == 1)
   
   ## weight.var must have length 1.
-  stopifnot(length(sector.var) == 1)
+  stopifnot(length(cat.var) == 1)
 
   ## bench.weight must have length 1.
   stopifnot(length(bench.weight) == 1)
@@ -32,7 +32,7 @@ brinson <- function(x,
   if (length(dates) > 1){
     .fun <- function(i){brinson(x[x[[date.var]] %in% i, ],
                                 date.var,
-                                sector.var,
+                                cat.var,
                                 bench.weight,
                                 portfolio.weight,
                                 ret.var)}
@@ -41,7 +41,7 @@ brinson <- function(x,
     
     portfolio.multi <- new("brinsonMulti",
                            date.var = as.character(dates),
-                           sector.var = sector.var,
+                           cat.var = cat.var,
                            bench.weight = bench.weight,
                            portfolio.weight = portfolio.weight,
                            ret.var = ret.var,
@@ -110,32 +110,32 @@ brinson <- function(x,
     ## single period 
     portfolio <- new("brinson",
                      date.var = date.var,
-                     sector.var = sector.var,
+                     cat.var = cat.var,
                      bench.weight = bench.weight,
                      portfolio.weight = portfolio.weight,
                      ret.var = ret.var,
                      universe = x)
 
-    all.sector <- levels(x[[sector.var]])
+    all.sector <- levels(x[[cat.var]])
 
     ## benchmark returns
     ret.bench <- .sector.ret(x = x,
-                             sector.var = sector.var,
+                             cat.var = cat.var,
                              all.sector = all.sector,
                              ret.var = ret.var,
                              var = bench.weight)
     
     ## portfolio returns
     ret.port <- .sector.ret(x = x,
-                            sector.var = sector.var,
+                            cat.var = cat.var,
                             all.sector = all.sector,
                             ret.var = ret.var,
                             var = portfolio.weight)
     
     ## portfolio weight by sector
-    weight.port <- tapply(x[[portfolio.weight]], x[[sector.var]], sum)
+    weight.port <- tapply(x[[portfolio.weight]], x[[cat.var]], sum)
     ## benchmark weight by sector
-    weight.bench <- tapply(x[[bench.weight]], x[[sector.var]], sum)
+    weight.bench <- tapply(x[[bench.weight]], x[[cat.var]], sum)
 
     ret.bench <- ret.bench / weight.bench
     ret.port <- ret.port / weight.port
