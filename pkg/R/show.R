@@ -95,7 +95,7 @@ setMethod("show",
                 sprintf("Securities in the portfolio:         %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){length(which(object@universe[[i]]@universe[[object@portfolio.weight]] > 0))}))), "\n",
-                sprintf("Securities in the benchmark:          %-s",
+                sprintf("Securities in the benchmark:         %-s",
                         do.call(mean, lapply(1:length(object@date.var),
                                              function(i){length(which(object@universe[[i]]@universe[[object@benchmark.weight]] > 0))}))), "\n",
                 sep = ""
