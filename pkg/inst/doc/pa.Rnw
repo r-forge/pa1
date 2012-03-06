@@ -28,15 +28,19 @@
 
 \section*{Introduction}
 
-The \pkg{pa} package provides facilities for conducting performance
-attribution for equity portfolios. The conventional approaches include
-the Brinson Model, the Regression-based analysis, and the
-Cross-sectional Volatility (CSV) (\cite{gem2}). This article will
-demonstrate how these analyses can be applied to real-world data sets
-by using the tools provided in the \pkg{pa} package.
+The \pkg{pa} package provides tools for conducting performance
+attribution for equity portfolios. The package uses two primary
+methods, the Brinson Model [\cite{brinson:gary}] and a
+Regression-based analysis [\cite{jpmreg}]. \cite{brinson:gary}
+takes an ANOVA-type approach and decomposes active return of any given
+portfolio into asset allocation, stock selection, and interaction
+effects. The Regression-based analysis utilizes the estimated
+coefficients, based on a regression model, to attribute active return
+to different factors. This article will show how to apply these
+methods by using the \pkg{pa} package.
 
 
-\section*{Background}
+\section*{Brinson Model}
 
 
 %% two paragraphs about brinson, regression for brinson -- explain the
@@ -44,74 +48,271 @@ by using the tools provided in the \pkg{pa} package.
 %% of of sectors, SP500 benchmark, but a heavy weight sector like
 %% utilities; explain the formula
 
-The Brinson Model was first presented by Brinson and Fachler in the
-Journal of Portfolio Management in 1986 (\cite{brinson:gary}) and was
-later updated in 1991 (\cite{garytwo}). It has become one of the
-best-known approaches to investment performance attribution. It
-decomposes active return of any given portfolio into asset
-allocation, stock selection, and interaction.
+Consider an equity portfolio manager who uses the S\&P 500 as the
+benchmark. In a given month, she outperforms the S\&P by 3\%. Part of
+that performance is due to the fact that she overweighted certain
+sectors that performed well. Call this the \emph{allocation
+  effect}. Part of her outperformance is caused by some of her stocks
+doing better than the sector as a whole. Call this the \emph{selection
+  effect}. The rest of her outperformance can then be attributed to an
+interaction between allocation and selection: \emph{interaction
+  effect}. The Brinson Model provides mathematical definitions for
+these terms and methods of calculating them.
 
-For instance, a portfolio manager would like to decompose the return
-of her portfolio. One way to achieve that is to categorize the
-portfolio holdings by various sectors. Suppose she uses the S\&P 500 as the
-benchmark and her portfolio has different weights from the
-benchmark. She can then compare the return of the portfolio with that
-of the S\&P 500 sector by sector. According to the Brinson Model, the
-return of the original portfolio is calculated by $r_p = \sum_{j}
-w^p_jr^p_j$ where $r_p$ denotes the return of the portfolio, $w^p_j$,
-the weight of each equity $j$ in the portfolio, and $r^p_j$, the
-return of each equity $j$ in the benchmark. The benchmark return is
-calculated by $r_b = \sum_{j} w^b_jr^b_j$ where $r_b$ denotes the
-return of the benchmark (S\&P 500), $w^b_j$, the weight of each equity
-$j$ in the benchmark, and $r^b_j$, the return of each equity $j$ in
-the benchmark. The active return of the portfolio is $r_{active} = r_p
-- r_b$. Since the sector allocation of the portfolio is different from
-that of the benchmark, asset allocation plays a role in the active
-retun $r_{active}$. The same applies to stock selection where assuming
-that the portfolio has the exact same sector exposures as the
-benchmark does, the equities within each sector are different. This
-contributes to the return of the active return $r_{active}$ as
-well. The formulae to calculate asset allocation return
-$r_{allocation}$ and stock selection return $r_{selection}$ are as
-follows:
+There are two ways to calculate the return of a portfolio, essentially
+an aggregation of return on either an individual security level or a
+\emph{category} level. Category is a user-defined term based on
+certain characteristic of a portfolio, such as sector and
+country. Even a continuous variable can be treated as a category by
+dividing it into discrete buckets, for example, quintiles.
 
-$r_{allocation} = \sum_j w^p_jr^b_j - \sum_{j} w^b_jr^b_j$.
+We define some symbols as follows:
 
-$r_{selection} = \sum_j w^b_jr^p_j - \sum_{j} w^b_jr^b_j$.
+\begin{itemize}
+\item $w_i$ is the weight of a security $i$.
+\item $r_i$ is the return of a security $i$.
+\item $w^b_i$ is the weight of a security $i$ in the benchmark.
+\item $w^p_i$ is the weight of a security $i$ in the portfolio.
+\item $C^b_j$ is the weight of a category $j$ in the benchmark. $C^b_j
+  = \sum w^b_i$, $i$ is a member of the category $j$.
+\item $C^p_j$ is the weight of a category $j$ in the portfolio. $C^p_j
+  = \sum w^p_i$, $i$ is a member of the category $j$.
+\item $R^b_j$ is the return of a category $j$ in the benchmark. $R^b_j
+  = \sum w^b_ir_i$, $i$ is a member of the category $j$.
+\item $R^p_j$ is the return of a category $j$ in the portfolio. $R^b_j
+  = \sum w^p_ir_i$, $i$ is a member of the category $j$.
+\end{itemize}
+
+We can thus calculate the various return metrics of the portfolio
+and the benchmark.
+
+$r_p$ is the return of the portfolio. It can be calculated in two
+ways:
+
+\begin{itemize}
+  \item On an individual security level: $r_p = \sum w^p_ir_i$.
+  \item On a category level: $r_p = \sum C^p_jR^p_j$.
+\end{itemize}
+
+Similarly, $r_b$, return of the benchmark, can be calculated:
+
+\begin{itemize}
+  \item On an individual security level: $r_b = \sum w^b_ir_i$.
+  \item On a category level: $r_b = \sum C^b_jR^b_j$.
+\end{itemize}
+
+Active return of the portfolio $r_{active}$ is the difference between
+the return of the portfolio and that of the benchmark. $r_{active} =
+r_p - r_b$.
+
+
+
+%   \item $w^p_j$ is the weight of each sector $j$ in the equity
+%     portfolio. The weight of each sector can be calculated by
+%     $\sum_{i}w_{p_i}$ where $w_{p_i}$ refers to the weight of each
+%     equity in the chosen sector in the portfolio.
+%   \item $w^b_j$ is the weight of each sector $j$ in the
+%     benchmark. Similarly, the weight of each sector can be calculated
+%     by $\sum_{i}w_{b_i}$ where $w_{b_i}$ refers to the weight of each
+%     equity in the chosen sector in the benchmark.
+%   \item $r^p_j$ is the return of each sector $j$ in the equity
+%     portfolio. The return of each sector in the portfolio can be
+%     calculated by $\sum w_{p_i}r_{p_i}$ where $w_{p_i}$ and $r_{p_i}$
+%     refer to the weight and return of each equity in the chosen sector
+%     in the portfolio, respectively.
+%   \item $r^b_j$ is the return of each sector $j$ in the benchmark. The
+%     return of each sector in the benchmark can be calculated by $\sum
+%     w_{b_i}r_{b_i}$ where $w_{b_i}$ and $r_{b_i}$ refer to the weight
+%     and return of each equity in the chosen sector in the benchmark,
+%     respectively.
+%   \item $r_p$ is the return of the equity portfolio.
+%   \item $r_b$ is the return of the benchmark.
+%   \item Return of the original equity portfolio $r_p$ = $\sum_{j}
+%     w^p_jr^p_j$.
+%   \item Benchmark return $r_b$ = $\sum_{j} w^b_jr^b_j$.
+%   \item Active return of the equity portfolio $r_{active}$ = $r_p -
+%     r_b$.
+% \end{itemize}
+
+
+%% talk about sector allocation, stock selection
+
+Since the allocation of the portfolio is different from that of the
+benchmark, allocation plays a role in the active retun
+$r_{active}$. The same applies to selection where assuming that the
+portfolio has the exact same category exposures as the benchmark does,
+the equities within each category are different. This contributes to
+the active return $r_{active}$ as well. The formulae to calculate
+allocation effect $r_{allocation}$ and selection effect
+$r_{selection}$ are as follows:
+
+$r_{allocation} = \sum C^p_jR^b_j - \sum C^b_jR^b_j$.
+
+$r_{selection} = \sum C^b_jR^p_j - \sum C^b_jR^b_j$.
 
 The interaction effect $r_{interaction}$ is the result of subtracting
-return due to asset allocation $r_{allocation}$ and return due to
-stock selection $r_{selection}$ from the overall active return
-$r_{active}$.
+return due to allocation $r_{allocation}$ and return due to selection
+$r_{selection}$ from the overall active return $r_{active}$.
 
 $r_{interaction} = r_{active} - r_{allocation} - r_{selection}$.
+
+The Brinson Model allows portfolio managers to analyze the relative
+return of the portfolio by any category. One challenge faced by the
+Brinson Model is to expand the analysis beyond a single categorical
+factor. \cite{garytwo} proposed a framework to include two variables
+in the Brinson analysis with much complexity. However, such procedure
+does not handle multiple variables well and faces the problem of the
+\emph{curse of dimensionality} as the number of sub-categories
+increases.
+
+% To expand beyond two
+% variables requires much more sophistication and is almost impossible
+% to achieve. Further, the Brinson Model also has difficulty in
+% analyzing the contribution of a continuous variable though
+% empirically, portfolio managers could break a continous variable into
+% various quantiles.
 
 To obtain the Brinson attribution on a multi-period data, one can
 calculate compounded returns due to allocation and selection,
 respectively and thus calculate the allocation, selection, and
 interaction effects in the same vein.
 
-The Brinson Model allows portfolio managers to analyze the relative
-return of the portfolio by a certain factor (for instance, sector or
-country). However, the Brinson Model no longer works when one wants to
-analyze the impact of sector and country together. 
 
-The Regression-based analysis solves the problem. Suppose the same
-portfolio manager wants to explore the return due to both sector
-allocation and country allocation. She can apply the Regression-based
-analysis to her portfolio by running a regression with \texttt{return}
-on the right-hand side and \texttt{sector} and \texttt{country}, the
-left-hand side. The return due to \texttt{sector} is $r_{sector} =
-r_{portfolio} - r_{no\mbox{ }sector}$ where $r_{portfolio}$ is the
-return of the original portfolio and $r_{no\mbox{ }sector}$ is the
-predicted return based on the regression without \texttt{sector} on
-the left-hand side. Similarly, the return due to \texttt{country} is
-$r_{country} = r_{portfolio} - r_{no\mbox{ }country}$ where
-$r_{portfolio}$ is the return of the original portfolio and
-$r_{no\mbox{ }country}$ is the predicted return based on the
-regression without \texttt{country} on the left-hand side. The
-difference between the portfolio return and the sum of the return of
-each factor is the \texttt{residual}.
+\section*{Regression Model}
+
+%% Another point to make is that a problem with the brinson model is to
+%% difficult to expand to more than one factor. ``no longer works'' is
+%% wrong,. reference the 2nd article, expand it to more than one factor.
+
+%% REGRESSION
+
+Another way to think about the analysis as Brinson has done is to
+consider it in a regression context. A regression can be run without
+intercept. Estimated coefficients will be the mean return of each
+sector in the universe. The mean return of each sector also appears in
+the Brinson analysis. The equivalent to the allocation effect for the
+universe in the Brinson Model is the sum of the product of estimated
+coefficient of each sector and the active weight of each sector,
+defined by the difference between the sector weight in the portfolio
+and that in the benchmark.
+
+%% mean return to a sector, i also know the active weight of each
+%% sector. 10\% financials in portfolio, 8\% in benchmark, 2\% active
+%% weight.
+
+%% return of each sector is known.
+
+%% 10\% return from financial sector, 2\% active weight.
+
+%% what's the equivalent of allocation effect
+
+%% running a regression, coefficients times active weights
+
+In order to estimate the selection effect of each sector in the
+Brinson analysis, one can also calculate the product of the residual
+of the aforementioned regression and active weight of each sector.
+
+%% However, one would not be able to derive the selection effect in the
+%% Brinson analysis from the aforementioned procedure. In order to
+%% calculate the selection effect, one has to take into account
+%% stock-specific characteristics such as market capitalization and
+%% various style factors.
+
+%% in a regression approach, not getting selection effect. in order to
+%% see selection effect, have to start looking at stock specific
+%% things. calculate a selection effect within a single factor at a
+%% time. regress returns for just financial stocks. take the residual of
+%% the regression, multiply by active weights, will get selection effect.
+
+The interaction effect is the difference between the actual return of
+the portfolio and the sum of the allocation and selection effect.
+
+Now we will show the attribution framework under a regression
+framework.  One advantage of a Regression-based approach is that such
+analysis allows one to define her own attribution model by easily
+incorporating multiple variables in the regression formula. And these
+variables can be either discrete or continuous.
+
+Suppose a portfolio manager wants to find out how much country
+allocation, sector selection, and size of her holdings have each
+contribute to the overall performance of her portfolio. Consider the
+following formula:
+
+$r = \sum\limits_{i = 1}^{m} b_ix_i + \sum\limits_{i = 1}^{n}
+a_iy_i + d z + e$
+
+where
+\begin{itemize}
+\item $r$ is the return of each equity.
+\item ${x_1, \ldots, x_{m}}$ refer to each of the \emph{m} countries
+  in the portfolio.
+\item ${b_1, \ldots, b_{m}}$ refer to the estimated
+  coefficients corresponding to each country.
+\item ${y_1, \ldots, y_{n}}$ refer to each of the \emph{n} sectors in
+  the portfolio.
+\item ${a_1, \ldots, a_{n}}$ refer to the estimated coefficients
+  corresponding to each sector.
+\item $z$ refers to the size variable of each equity.
+\item $d$ refers to the estimated coefficient of the size
+  variable.
+\item $e$ is the error term.
+\end{itemize}
+
+Active exposure of each variable can be calculated as mentioned in the
+Brinson Model. The contribution of each variable can thus be
+calculated as follows:
+
+$r_{country} = \sum\limits_{i = 1}^{m} b_iw_{x_{i}}$
+
+$r_{sector} = \sum\limits_{i = 1}^{n} a_iw_{y_{i}}$
+
+$r_{size} = dw_{size}$
+
+where $r_{country}$, $r_{sector}$, and $r_{size}$ refer to the
+contribution of country, sector, and size to the overall performance
+of the portfolio, respectively. $w_{x_{i}}$, $w_{y_{i}}$, and
+$w_{size}$ denote the active exposure of each country, sector, and
+size, respectively.
+
+Then the interaction effect among country, sector, and size is
+$r_{interaction} = r - r_{country} - r_{sector} - r_{size}$.
+
+%% return = country, sector, size
+%% other variables are also possible.
+%% y = x1 + x2 + (sector has dummy variables).
+%% run a regression, coefficients of size are estimated.
+%% active exposure calculated
+%% attribution to size = coeff * exposure.
+%% if active weight of size is 0. no effect.
+%% The higher exposure to size, the more influence it has.
+%% regression run is predict returns for individual companies -- sector,
+%% country and size. difference between the predicted ret and the real
+%% value is the residual.
+
+%% Regression allows continuous var.
+
+%% exposure for caps, coefficients times exposures
+
+%% regress with terms on sectors with no intersection.
+
+
+
+%% The Regression-based analysis solves the problem. Suppose the same
+%% portfolio manager wants to explore the return due to both sector
+%% allocation and country allocation. She can apply the Regression-based
+%% analysis to her portfolio by running a regression with \texttt{return}
+%% on the right-hand side and \texttt{sector} and \texttt{country}, the
+%% left-hand side. The return due to \texttt{sector} is $r_{sector} =
+%% r_{portfolio} - r_{no\mbox{ }sector}$ where $r_{portfolio}$ is the
+%% return of the original portfolio and $r_{no\mbox{ }sector}$ is the
+%% predicted return based on the regression without \texttt{sector} on
+%% the left-hand side. Similarly, the return due to \texttt{country} is
+%% $r_{country} = r_{portfolio} - r_{no\mbox{ }country}$ where
+%% $r_{portfolio}$ is the return of the original portfolio and
+%% $r_{no\mbox{ }country}$ is the predicted return based on the
+%% regression without \texttt{country} on the left-hand side. The
+%% difference between the portfolio return and the sum of the return of
+%% each factor is the \texttt{residual}.
 
 
 \section*{Data}
@@ -128,7 +329,7 @@ company:
 \small
 
 \begin{quote}
-  Global Equity Model II (GEM2) is the latest Barra global
+  Global Equity Model II (GEM2) [\cite{gem2}] is the latest Barra global
   multi-factor equity model. It provides a foundation for investment
   decision support tools via a broad range of insightful analytics for
   developed and emerging market portfolios. The latest model version
@@ -163,7 +364,7 @@ country, and various style factors for a universe of approximately
 48,000 securities across 12 months.
 
 For illustrative purposes, this article uses two modified versions of
-the original data set, namely \texttt{year} and \texttt{jan}. 
+the original data set, namely \texttt{year} and \texttt{jan}.
 
 <<echo = FALSE, results = hide>>=
 options(width = 50, digits = 2, scipen = 5)
@@ -177,31 +378,31 @@ names(year)
 
 \begin{itemize}
 \item barrid: security identifier by Barra.
-  
+
 \item name: name of a security.
-  
+
 \item return: monthly total return in trading currency.
-  
+
 \item date: the month to which the data belong.
-  
+
 \item sector: consolidated sector categories based on the
   GICS\footnote{Global Industry Classification Standard}.
-  
+
 \item momentum: capture sustained relative performance.
-  
+
 \item value: capture the extent to which a stock is priced
   inexpensively in the market.
-  
+
 \item size: differentiate between large and small cap companies.
-  
+
 \item growth: capture stock's growth prospects.
-  
+
 \item cap.usd: capitalization in model base currency USD.
 
 \item yield: dividend of a security.
 
 \item country: the country in which the company is traded.
-  
+
 \item currency: currency of exposure.
 
 \item portfolio: top 200 securities based on \texttt{value} scores
@@ -211,8 +412,8 @@ names(year)
 
 \item benchmark: top 1000 securities based on size each month. The
   benchmark is cap-weighted.
-    
-    
+
+
 \end{itemize}
 
 
@@ -234,11 +435,11 @@ year[sample.mat, c(-1, -6, -8: -11, -13) ]
 All portfolio holidings are equal-weighted. The row for Canadian
 Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
-2.61\% in August, and 2.90\% in November. 
+2.61\% in August, and 2.90\% in November.
 
 %% explanation of each column names
 
-\section*{The Brinson Model}
+\section*{Brinson Tools}
 
 Brinson analysis is run by calling the function
 \texttt{brinson} to produce an object of class either \texttt{brinson}
@@ -340,7 +541,7 @@ an active return of 10.2\%. The allocation and the selection effect
 contributed 2.68\% and 9.84\% respectively; the interaction effect
 made a loss of 2.37\%.
 
-\section*{The Regression-based Analysis}
+\section*{Regression Tools}
 
 %% mention that regression is an improvement to brinson if you want to
 %% look at two categorical/continuous attributes at the same time
@@ -388,7 +589,7 @@ The \texttt{summary} method shows the number of securities in the
 portfolio and the benchmark, and the contribution of each input
 variable according to the Regression-based analysis. In this case, the
 portfolio made a loss of 2.91\% and the benchmark lost
-4.38\%. Therefore, the portfolio overperformed the benchmark by
+4.38\%. Therefore, the portfolio outperformed the benchmark by
 1.47\%. For the portfolio, \texttt{sector} and \texttt{growth}
 contributed 1.09\% and 1.13\%, respectively; \texttt{value} made a
 loss of 1.01\%. \texttt{residual} contributed -4.11\%.
@@ -447,68 +648,23 @@ suggests that the portfolio, consisted of high \texttt{value}
 securities in January, is less volatile than the benchmark. Overall,
 the portfolio beat the benchmark by 10.2\% in 2010.
 
-\section*{CSV Calculation}
-
-%% need to quote or insert biblio for the first sentence
-
-CSV is defined as the standard deviation of a set of asset returns
-over a period. The \pkg{pa} package provides a simple tool to calcuate
-CSV of a given universe.
-
-<<>>=
-csv.single <- csvol(jan, date.var = "date",
-                    ret.var = "return",
-                    uni.var = "benchmark")
-
-summary(csv.single)
-@
-
-\texttt{csvol} function calculates the CSV of the given data set
-\texttt{jan}. \texttt{date.var} indicates the name of the column
-with the date information. \texttt{ret.var} and \texttt{uni.var}
-identify the columns containing the return and the security weight
-variables, respectively. \texttt{summary} shows the basic information
-about the data set and the CSV calculation.
-
-<<>>=
-csv.multi <- csvol(year, date.var = "date",
-                   ret.var = "return",
-                   uni.var = "benchmark")
-@
-
-\begin{figure}
-\centering
-\vspace*{.1in}
-<<fig = TRUE>>=
-plot(csv.multi)
-@
-\caption{\label{figure:csvmulti}
-  CSV in Year 2010.}
-\end{figure}
-
-Figure \ref{figure:csvmulti} displays the CSV in year 2010 on a
-monthly frequency. According to Menchero et al.(2010), a dispersion in
-CSV suggests that securities have a diverse range of performance and
-represents the opportunity for active portfolio management. Figure
-\ref{figure:csvmulti} suggests the presence of such opportunities in
-2010.
-
-
-
 \section*{Conclusion}
 
 The \pkg{pa} package provides a simple collection of tools for equity
-portfolio performance attribution including the Brinson model, the
-Regression-based analysis, and CSV calculation. The flexibility of
-\R{} itself allows users to extend and modify these packages to suit
-their own needs and/or execute their preferred attribution
-methodology. Before reaching that level of complexity, however,
-\pkg{pa} provides a good starting point for executing the analyses
-as mentioned above.
+portfolio performance attribution including the Brinson model and a
+Regression-based analysis. A comprehensive package, \pkg{portfolio}
+[\cite{kane:david}], provides facilities to calculate exposure and
+return of an equity portfolio by a given factor. One can then run the
+Brinson analysis based on the output generated by the \pkg{portfolio}
+package. Further, the flexibility of \R{} itself allows users to
+extend and modify these packages to suit their own needs and/or
+execute their preferred attribution methodology. Before reaching that
+level of complexity, however, \pkg{pa} provides a good starting point
+for executing the analyses as mentioned above.
 
 \address{Yang Lu and David Kane\\
-  \email{Yang.Lu@williams.edu} and \\
-  \email{DKane@Acadian-Asset.com}}
+  \email{yang.lu@williams.edu} and \\
+  \email{dkane@Acadian-Asset.com}}
 
 \bibliography{pa}
 
