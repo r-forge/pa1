@@ -42,11 +42,6 @@ methods by using the \pkg{pa} package.
 \section*{Brinson Model}
 
 
-%% two paragraphs about brinson, regression for brinson -- explain the
-%% concept of allocation -- give an example, the weight and allocation
-%% of of sectors, SP500 benchmark, but a heavy weight sector like
-%% utilities; explain the formula
-
 Consider an equity portfolio manager who uses the S\&P 500 as the
 benchmark. In a given month, she outperforms the S\&P by 3\%. Part of
 that performance is due to the fact that she overweighted certain
@@ -106,36 +101,6 @@ r_p - r_b$.
 
 
 
-%   \item $w^p_j$ is the weight of each sector $j$ in the equity
-%     portfolio. The weight of each sector can be calculated by
-%     $\sum_{i}w_{p_i}$ where $w_{p_i}$ refers to the weight of each
-%     equity in the chosen sector in the portfolio.
-%   \item $w^b_j$ is the weight of each sector $j$ in the
-%     benchmark. Similarly, the weight of each sector can be calculated
-%     by $\sum_{i}w_{b_i}$ where $w_{b_i}$ refers to the weight of each
-%     equity in the chosen sector in the benchmark.
-%   \item $r^p_j$ is the return of each sector $j$ in the equity
-%     portfolio. The return of each sector in the portfolio can be
-%     calculated by $\sum w_{p_i}r_{p_i}$ where $w_{p_i}$ and $r_{p_i}$
-%     refer to the weight and return of each equity in the chosen sector
-%     in the portfolio, respectively.
-%   \item $r^b_j$ is the return of each sector $j$ in the benchmark. The
-%     return of each sector in the benchmark can be calculated by $\sum
-%     w_{b_i}r_{b_i}$ where $w_{b_i}$ and $r_{b_i}$ refer to the weight
-%     and return of each equity in the chosen sector in the benchmark,
-%     respectively.
-%   \item $r_p$ is the return of the equity portfolio.
-%   \item $r_b$ is the return of the benchmark.
-%   \item Return of the original equity portfolio $r_p$ = $\sum_{j}
-%     w^p_jr^p_j$.
-%   \item Benchmark return $r_b$ = $\sum_{j} w^b_jr^b_j$.
-%   \item Active return of the equity portfolio $r_{active}$ = $r_p -
-%     r_b$.
-% \end{itemize}
-
-
-%% talk about sector allocation, stock selection
-
 Since the allocation of the portfolio is different from that of the
 benchmark, allocation plays a role in the active retun
 $r_{active}$. The same applies to selection where assuming that the
@@ -172,7 +137,6 @@ interaction effects in the same vein.
 
 \section*{Regression Model}
 
-%% REGRESSION
 
 Another way to think about the analysis as Brinson has done is to
 consider it in a regression context. A regression can be run without
@@ -184,33 +148,9 @@ coefficient of each sector and the active weight of each sector,
 defined by the difference between the sector weight in the portfolio
 and that in the benchmark.
 
-%% mean return to a sector, i also know the active weight of each
-%% sector. 10\% financials in portfolio, 8\% in benchmark, 2\% active
-%% weight.
-
-%% return of each sector is known.
-
-%% 10\% return from financial sector, 2\% active weight.
-
-%% what's the equivalent of allocation effect
-
-%% running a regression, coefficients times active weights
-
 In order to estimate the selection effect of each sector in the
 Brinson analysis, one can also calculate the product of the residual
 of the aforementioned regression and active weight of each sector.
-
-%% However, one would not be able to derive the selection effect in the
-%% Brinson analysis from the aforementioned procedure. In order to
-%% calculate the selection effect, one has to take into account
-%% stock-specific characteristics such as market capitalization and
-%% various style factors.
-
-%% in a regression approach, not getting selection effect. in order to
-%% see selection effect, have to start looking at stock specific
-%% things. calculate a selection effect within a single factor at a
-%% time. regress returns for just financial stocks. take the residual of
-%% the regression, multiply by active weights, will get selection effect.
 
 The interaction effect is the difference between the actual return of
 the portfolio and the sum of the allocation and selection effect.
@@ -264,44 +204,6 @@ size, respectively.
 
 Then the interaction effect among country, sector, and size is
 $r_{interaction} = r - r_{country} - r_{sector} - r_{size}$.
-
-%% return = country, sector, size
-%% other variables are also possible.
-%% y = x1 + x2 + (sector has dummy variables).
-%% run a regression, coefficients of size are estimated.
-%% active exposure calculated
-%% attribution to size = coeff * exposure.
-%% if active weight of size is 0. no effect.
-%% The higher exposure to size, the more influence it has.
-%% regression run is predict returns for individual companies -- sector,
-%% country and size. difference between the predicted ret and the real
-%% value is the residual.
-
-%% Regression allows continuous var.
-
-%% exposure for caps, coefficients times exposures
-
-%% regress with terms on sectors with no intersection.
-
-
-
-%% The Regression-based analysis solves the problem. Suppose the same
-%% portfolio manager wants to explore the return due to both sector
-%% allocation and country allocation. She can apply the Regression-based
-%% analysis to her portfolio by running a regression with \texttt{return}
-%% on the right-hand side and \texttt{sector} and \texttt{country}, the
-%% left-hand side. The return due to \texttt{sector} is $r_{sector} =
-%% r_{portfolio} - r_{no\mbox{ }sector}$ where $r_{portfolio}$ is the
-%% return of the original portfolio and $r_{no\mbox{ }sector}$ is the
-%% predicted return based on the regression without \texttt{sector} on
-%% the left-hand side. Similarly, the return due to \texttt{country} is
-%% $r_{country} = r_{portfolio} - r_{no\mbox{ }country}$ where
-%% $r_{portfolio}$ is the return of the original portfolio and
-%% $r_{no\mbox{ }country}$ is the predicted return based on the
-%% regression without \texttt{country} on the left-hand side. The
-%% difference between the portfolio return and the sum of the return of
-%% each factor is the \texttt{residual}.
-
 
 \section*{Data}
 
