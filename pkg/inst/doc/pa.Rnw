@@ -1,0 +1,594 @@
+\documentclass[a4paper]{report}
+\usepackage[round]{natbib}
+
+\usepackage{Rnews}
+\usepackage{fancyvrb}
+\usepackage{Sweave}
+
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontsize=\small,fontshape=sl}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{fontsize=\small,fontshape=sl}
+
+\SweaveOpts{echo = TRUE, results = verbatim}
+
+\bibliographystyle{abbrvnat}
+
+\begin{document}
+\begin{article}
+\title{Performance Attribution for Equity Portfolios}
+\author{Yang Lu and David Kane}
+
+%%\VignetteIndexEntry{Using the pa package}
+%%\VignetteDepends{pa}
+
+\maketitle
+
+\setkeys{Gin}{width=0.95\textwidth}
+
+\section*{Introduction}
+
+The \pkg{pa} package provides tools for conducting performance
+attribution for equity portfolios. The package uses two primary
+methods: the Brinson Model [\cite{brinson:gary}] and a
+regression-based analysis [\cite{jpmreg}]. The Brinson Model takes an
+ANOVA-type approach and decomposes active return of any given
+portfolio into asset allocation, stock selection, and interaction
+effects. The regression-based analysis utilizes estimated
+coefficients, based on a regression model, to attribute active return
+to different factors. This article will show how to apply these
+methods by using the \pkg{pa} package.
+
+
+\section*{Brinson Model}
+
+Consider an equity portfolio manager who uses the S\&P 500 as the
+benchmark. In a given month, she outperforms the S\&P by 3\%. Part of
+that performance is due to the fact that she overweighted certain
+sectors that performed well. Call this the \emph{allocation
+  effect}. Part of her outperformance is caused by some of her stocks
+doing better than their sector as a whole. Call this the
+\emph{selection effect}. The residual can then be attributed to an
+interaction between allocation and selection: the \emph{interaction
+  effect}. The Brinson Model provides mathematical definitions for
+these terms and methods for calculating them.
+
+The above example uses sector as the classification scheme when
+calculating the allocation effect. But the same approach can work with
+any other variable which places each security into one, and only one,
+discrete category: country, industry, and so on. In fact, a similar
+approach can work with continuous variables that have been
+``bucketed'' into discrete ranges: the highest quintile of market cap,
+the second highest quintile and so forth. For generality, we will use
+the term ``category'' to describe any classification scheme which
+places each security in one, and only one, category.
+
+Notation:
+
+%% Should use the i in C_j notation using i \in C_j.
+%% what does this mean?
+
+%% b and P should either both be uppercase or both lowercase, probably
+%% the former.[done]
+
+\begin{itemize}
+\item $w_i$ is the weight of security $i$.
+\item $r_i$ is the return of security $i$.
+\item $w^B_i$ is the weight of security $i$ in the benchmark.
+\item $w^P_i$ is the weight of security $i$ in the portfolio.
+\item $C^B_j$ is the weight of category $i$ in the benchmark. $C^B_j
+  = \sum w^B_i$, $i$ is a member of the category $j$.
+\item $C^P_j$ is the weight of a category $j$ in the portfolio. $C^P_j
+  = \sum w^P_i$, $i$ is a member of the category $j$.
+\item $R^B_j$ is the return of a category $j$ in the benchmark. $R^B_j
+  = \sum w^B_ir_i$, $i$ is a member of the category $j$.
+\item $R^P_j$ is the return of a category $j$ in the portfolio. $R^P_j
+  = \sum w^P_ir_i$, $i$ is a member of the category $j$.
+\end{itemize}
+
+%% We might want to clean up the notation to indicate the length of
+%% w_i and so on. That is, w^b_i is zero for all the securities not in
+%% the benchmark. [from 1 to N stocks?]
+
+$R_P$ is the return of the portfolio. It can be calculated in two
+ways:
+
+\begin{itemize}
+  \item On an individual security level: $R_P = \sum w^P_ir_i$.
+  \item On a category level: $R_P = \sum C^P_jR^P_j$.
+\end{itemize}
+
+%% Maybe using R (capital r) for returns to entire portfolios? [done]
+
+Similarly, $R_B$, return of the benchmark, can be calculated:
+
+\begin{itemize}
+  \item On an individual security level: $R_B = \sum w^B_ir_i$.
+  \item On a category level: $R_B = \sum C^B_jR^B_j$.
+\end{itemize}
+
+Active return of the portfolio $R_{active}$ is the difference between
+the return of the portfolio and that of the benchmark. $R_{active} =
+R_p - R_b$.
+
+
+
+Since the allocation of the portfolio is different from that of the
+benchmark, allocation plays a role in the active retun
+$R_{active}$. The same applies to selection where assuming that the
+portfolio has the exact same category exposures as the benchmark does,
+the equities within each category are different. This contributes to
+the active return $R_{active}$ as well. The formulae to calculate
+allocation effect $R_{allocation}$ and selection effect
+$R_{selection}$ are as follows:
+
+$R_{allocation} = \sum C^P_jR^B_j - \sum C^B_jR^B_j$.
+
+$R_{selection} = \sum C^B_jR^P_j - \sum C^B_jR^B_j$.
+
+The interaction effect $R_{interaction}$ is the result of subtracting
+return due to allocation $R_{allocation}$ and return due to selection
+$R_{selection}$ from the overall active return $R_{active}$.
+
+$R_{interaction} = R_{active} - R_{allocation} - R_{selection}$.
+
+
+The Brinson Model allows portfolio managers to analyze the relative
+return of the portfolio using any category. One challenge faced by the
+Brinson Model is to expand the analysis beyond a single categorical
+factor. \cite{garytwo} proposed a framework to include two variables
+in the Brinson analysis with much complexity. However, such procedure
+does not handle multiple variables well and faces the problem of the
+\emph{curse of dimensionality} as the number of sub-categories
+increases.
+
+To obtain the Brinson attribution on a multi-period data, one can
+calculate compounded returns due to allocation and selection,
+respectively and thus calculate the allocation, selection, and
+interaction effects in the same vein. Two measures of multiperiod
+attribution exist - arithmetic and geometric. The Brinson model takes
+the arithmetic approach for a single-period data set where the
+relative performance is the difference between portfolio return and
+benchmark return. However, a well-known challenge in arithmetic
+attribution is that active returns do not add up over multiple periods
+due to geometric compounding.\footnote{See \cite{practical} for a
+  complete discussion of the complexities involved.}
+
+%% should i cite menchero's 2004 paper on the well-known challenge.
+
+%% Add a citation to Practical portfolio measurement and
+%% attribution. Someone along on the lines of: See \cite for complete
+%% discussion of the complexities involved. Perhaps a summary of how
+%% muti-period approached have trouble making everything "add up" and
+%% that there has been a lot of work to work around that. See
+
+%% http://www.statpro.com/news/blog/carl_bacon_blog/the_future_landscape_of_perfor.aspx
+%% [is this for my reference or I have to include it in the footntoe?]
+
+%% for details. For this article, we don't really care. We provide a
+%% simple approach (I hope) for the multi-period situation, but we
+%% don't bother providing or describing all the many options out
+%% there.
+
+
+\section*{Regression Model}
+
+
+Another way to think about the analysis as Brinson has done is to
+consider it in a regression context. A regression can be run without
+intercept. Estimated coefficients will be the mean return of each
+sector in the universe. The mean return of each sector also appears in
+the Brinson analysis. The equivalent to the allocation effect for the
+universe in the Brinson Model is the sum of the product of estimated
+coefficient of each sector and the active weight of each sector,
+defined by the difference between the sector weight in the portfolio
+and that in the benchmark.
+
+In order to estimate the selection effect of each sector in the
+Brinson analysis, one can also calculate the product of the residual
+of the aforementioned regression and active weight of each sector.
+
+The interaction effect is the difference between the actual return of
+the portfolio and the sum of the allocation and selection effect.
+
+Now we will show the attribution framework under a regression
+framework.  One advantage of a regression-based approach is that such
+analysis allows one to define her own attribution model by easily
+incorporating multiple variables in the regression formula. And these
+variables can be either discrete or continuous.
+
+Suppose a portfolio manager wants to find out how much country
+allocation, sector selection, and size of her holdings have each
+contribute to the overall performance of her portfolio. Consider the
+following formula:
+
+$r = \sum\limits_{i = 1}^{m} b_ix_i + \sum\limits_{i = 1}^{n}
+a_iy_i + d z + e$
+
+where
+\begin{itemize}
+\item $r$ is the return of each equity.
+\item ${x_1, \ldots, x_{m}}$ refer to each of the \emph{m} countries
+  in the portfolio.
+\item ${b_1, \ldots, b_{m}}$ refer to the estimated
+  coefficients corresponding to each country.
+\item ${y_1, \ldots, y_{n}}$ refer to each of the \emph{n} sectors in
+  the portfolio.
+\item ${a_1, \ldots, a_{n}}$ refer to the estimated coefficients
+  corresponding to each sector.
+\item $z$ refers to the size variable of each equity.
+\item $d$ refers to the estimated coefficient of the size
+  variable.
+\item $e$ is the error term.
+\end{itemize}
+
+Active exposure of each variable can be calculated as mentioned in the
+Brinson Model. The contribution of each variable can thus be
+calculated as follows:
+
+$r_{country} = \sum\limits_{i = 1}^{m} b_iw_{x_{i}}$
+
+$r_{sector} = \sum\limits_{i = 1}^{n} a_iw_{y_{i}}$
+
+$r_{size} = dw_{size}$
+
+where $r_{country}$, $r_{sector}$, and $r_{size}$ refer to the
+contribution of country, sector, and size to the overall performance
+of the portfolio, respectively. $w_{x_{i}}$, $w_{y_{i}}$, and
+$w_{size}$ denote the active exposure of each country, sector, and
+size, respectively.
+
+Then the interaction effect among country, sector, and size is
+$r_{interaction} = r - r_{country} - r_{sector} - r_{size}$.
+
+
+\section*{Data}
+
+In the \pkg{pa} package we will consider a series of examples based on
+real-world data sets by MSCI Barra\footnote{See www.msci.com for
+  details.}. MSCI Barra is a leaing provider of investment decision
+support tools to investment institutions worldwide. According to the
+company:
+
+% Note that the font size for this quote small and then go
+% back to normal.
+
+\small
+
+\begin{quote}
+  Global Equity Model II (GEM2) [\cite{gem2}] is the latest Barra global
+  multi-factor equity model. It provides a foundation for investment
+  decision support tools via a broad range of insightful analytics for
+  developed and emerging market portfolios. The latest model version
+  provides:
+
+\begin{itemize}
+\item Improved accuracy of risk forecasts and increased explanatory
+  power.
+
+\item An intuitive structure that accommodates different investment
+  processes in developed vs. emerging markets.
+
+\item Greater responsiveness to market dynamics.
+
+\item Comprehensive market coverage.
+
+\end{itemize}
+
+GEM2 leverages the decades of experience that MSCI Barra has in
+developing and maintaining global equity multi-factor models and
+indices, and offers important enhancements over GEM, which is utilized
+by hundreds of institutional fund managers worldwide.
+\end{quote}
+
+\normalsize
+
+The full version of the original GEM2 data in 2010 is in the
+\texttt{gem2} data frame, available as part of the \pkg{pa} package.
+
+\texttt{gem2} contains selected attributes such as industry, size,
+country, and various style factors for a universe of approximately
+48,000 securities across 12 months.
+
+For illustrative purposes, this article uses two modified versions of
+the original data set, namely \texttt{year} and \texttt{jan}.
+
+<<echo = FALSE, results = hide>>=
+options(width = 50, digits = 2, scipen = 5)
+library(pa)
+@
+
+<<>>=
+data(year)
+names(year)
+@
+
+\begin{itemize}
+\item barrid: security identifier by Barra.
+
+\item name: name of a security.
+
+\item return: monthly total return in trading currency.
+
+\item date: the month to which the data belong.
+
+\item sector: consolidated sector categories based on the
+  GICS\footnote{Global Industry Classification Standard}.
+
+\item momentum: capture sustained relative performance.
+
+\item value: capture the extent to which a stock is priced
+  inexpensively in the market.
+
+\item size: differentiate between large and small cap companies.
+
+\item growth: capture stock's growth prospects.
+
+\item cap.usd: capitalization in model base currency USD.
+
+\item yield: dividend of a security.
+
+\item country: the country in which the company is traded.
+
+\item currency: currency of exposure.
+
+\item portfolio: top 200 securities based on \texttt{value} scores
+  in January are selected as portfolio holdings and are held through
+  December 2010. This is to avoid the complexity of trading in the
+  analyses later on.
+
+\item benchmark: top 1000 securities based on size each month. The
+  benchmark is cap-weighted.
+
+
+\end{itemize}
+
+
+\texttt{year} is on a monthly frequency from January, 2010 through
+December, 2010. The same 3000 securities are in the data frame each
+month, constituting the universe. Here is a sample of rows and columns
+from the data frame:
+
+<<echo = FALSE>>=
+
+sample.mat <- rbind(which(year$portfolio == 0 & year$benchmark == 0)[2],
+                    which(year$portfolio == 0 & year$benchmark > 0)[2],
+                    which(year$portfolio > 0 & year$benchmark == 0)[2],
+                    which(year$return > 0 & year$portfolio > 0 & year$benchmark > 0)[500],
+                    which(year$barrid == "CANAITC")[11])
+year[sample.mat, c(-1, -6, -8: -11, -13) ]
+@
+
+All portfolio holidings are equal-weighted. The row for Canadian
+Imperial Bank of Commerce indicates that it is one of the 200
+portfolio holdings with a weight of 0.5\% in 2010. Its return was
+2.61\% in August, and 2.90\% in November.
+
+
+\section*{Brinson Tools}
+
+Brinson analysis is run by calling the function
+\texttt{brinson} to produce an object of class either \texttt{brinson}
+(a single-period portfolio) or \texttt{brinsonMulti} (a multi-period
+portfolio).
+
+<<echo = FALSE>>=
+data(jan)
+br.single <- brinson(x = jan, date.var = "date", cat.var = "sector",
+                     bench.weight = "benchmark", portfolio.weight =
+                     "portfolio", ret.var = "return")
+
+@
+
+\begin{verbatim}
+> data(jan)
+> br.single <- brinson(x = jan,
++    date.var = "date", cat.var = "sector",
++    bench.weight = "benchmark",
++    portfolio.weight = "portfolio",
++    ret.var = "return")
+\end{verbatim}
+
+\texttt{jan}, a subset of the data frame \texttt{year} in January,
+contains all the information necessary to conduct a single-period
+Brinson analysis. \texttt{date.var}, \texttt{cat.var}, and
+\texttt{return} identify the columns containing the date, the factor
+to be analyzed, and the return variable,
+respectively. \texttt{bench.weight} and \texttt{portfolio.weight}
+specify the benchmark weight and portfolio weight of each security.
+
+Calling \texttt{summary} on the resulting object of class
+\texttt{brinson} reports the essential information about the input
+portfolio (including the number of securities in the portfolio and the
+benchmark as well as sector exposures) and the results of the Brinson
+analysis.
+
+<<>>=
+summary(br.single)
+@
+
+The \texttt{br.single} summary shows that the active return of the
+portfolio, in January, 2010 was 146.9 basis points (bps). This return
+can be decomposed into allocation effect (-14 bps), selection effect
+(141.8 bps), and interaction effect (19.1 bps).
+
+\begin{figure}
+\centering
+\vspace*{.1in}
+<<fig = TRUE>>=
+plot(br.single, type = "return")
+@
+\caption{\label{figure:return}
+  Sector return.}
+\end{figure}
+
+Figure \ref{figure:return} is a visual representation of the return of
+both the portfolio and the benchmark sector by sector in January,
+2010. This plot suggests that for the portfolio, \texttt{Utilities}
+performed the best with a gain of more than 5\% and that
+\texttt{Consumer Discretionary} performed the worst with a loss of
+more than 10\%.
+
+
+<<echo = FALSE>>=
+br.multi <- brinson(year, date.var = "date",
+                    cat.var = "sector",
+                    bench.weight = "benchmark",
+                    portfolio.weight = "portfolio",
+                    ret.var = "return")
+@
+\begin{verbatim}
+> br.multi <- brinson(x = year,
++              date.var = "date",
++              cat.var = "sector",
++              bench.weight = "benchmark",
++              portfolio.weight = "portfolio",
++              ret.var = "return"
++              )
+\end{verbatim}
+
+
+The class \texttt{brinsonMulti} object \texttt{br.multi} is an example
+of a multi-period Brinson analysis. \texttt{year} is a data frame
+containing all the information necessary to conduct a multi-period
+Brinson analysis.
+
+<<>>=
+exposure(br.multi, var = "size")
+returns(br.multi)
+@
+
+The \texttt{exposure} method on the class \texttt{br.multi} object
+shows the exposure of the portfolio and the benchmark sector by sector
+and the \texttt{returns} method shows the results of the Brinson
+analysis applied to the data from January, 2010 through December,
+2010. The portfolio formed by top 200 value securities in January had
+an active return of 10.2\%. The allocation and the selection effect
+contributed 2.68\% and 9.84\% respectively; the interaction effect
+made a loss of 2.37\%.
+
+\section*{Regression Tools}
+
+Another conventional attribution methodolody is the regression-based
+analysis. The \pkg{pa} package provides a tool to analyze both
+single-period and multi-period data frames.
+
+\begin{verbatim}
+> rb.single <- regress(x = jan,
++             date.var = "date",
++             ret.var = "return",
++             reg.var = c("sector", "value",
++              "growth"),
++             benchmark.weight = "benchmark",
++             portfolio.weight = "portfolio"
++             )
+> exposure(rb.single, var = "growth")
+\end{verbatim}
+
+<<echo = FALSE>>=
+rb.single <- regress(jan, date.var = "date",
+                     ret.var = "return",
+                     reg.var = c("sector", "value",
+                       "growth"),
+                     benchmark.weight = "benchmark",
+                     portfolio.weight = "portfolio")
+exposure(rb.single, var = "growth")
+@
+
+\texttt{reg.var} specifies the columns containing variables whose
+contributions are to be analyzed. Calling \texttt{exposure} with a
+specified \texttt{var} yields information on the exposure of both the
+portfolio and the benchmark by that variable. If \texttt{var} is a
+continuous variable, for instance, \texttt{growth}, the exposure will
+be shown in 5 quantiles. Majority of the high \texttt{value}
+securities in the portfolio in January have relatively low
+\texttt{growth} scores.
+
+<<>>=
+summary(rb.single)
+@
+
+The \texttt{summary} method shows the number of securities in the
+portfolio and the benchmark, and the contribution of each input
+variable according to the regression-based analysis. In this case, the
+portfolio made a loss of 2.91\% and the benchmark lost
+4.38\%. Therefore, the portfolio outperformed the benchmark by
+1.47\%. For the portfolio, \texttt{sector} and \texttt{growth}
+contributed 1.09\% and 1.13\%, respectively; \texttt{value} made a
+loss of 1.01\%. \texttt{residual} contributed -4.11\%.
+
+\begin{verbatim}
+> rb.multi <- regress(year, date.var = "date",
++            ret.var = "return",
++            reg.var = c("sector",
++            "value", "growth"),
++            benchmark.weight = "benchmark",
++            portfolio.weight = "portfolio"
++            )
+> rb.multi
+\end{verbatim}
+
+<<echo = FALSE>>=
+rb.multi <- regress(year, date.var = "date",
+                    ret.var = "return",
+                    reg.var = c("sector", "value", "growth"),
+                    benchmark.weight = "benchmark",
+                    portfolio.weight = "portfolio")
+rb.multi
+@
+
+Regression-based analysis can be applied to a multi-period data frame
+by calling the same method \texttt{regress}. By typing the name of the
+class object \texttt{rb.multi} directly, a short summary of the
+analysis is provided, showing the starting and ending period of the
+analysis, the methodology, and the average number of securities in
+both the portfolio and the benchmark.
+
+<<>>=
+summary(rb.multi)
+@
+
+The regression-based summary shows that the contribution of each input
+variable in addition to the basic information on the portfolio. The
+summary suggests that the active return of the portfolio in year 2010
+is 1.02\%. The \texttt{Residual} number indicates the contribution
+of the interaction among various variables including \texttt{sector},
+\texttt{value}, and \texttt{growth}.
+
+\begin{figure}
+\centering
+\vspace*{.1in}
+<<fig = TRUE>>=
+plot(rb.multi, type = "return")
+@
+\caption{\label{figure:regmultiattrib}
+  Performance Attribution.}
+\end{figure}
+
+Figure \ref{figure:regmultiattrib} displays both the portfolio return
+and the benchmark return from January, 2010 through December, 2010. It
+suggests that the portfolio, consisted of high \texttt{value}
+securities in January, is less volatile than the benchmark. Overall,
+the portfolio beat the benchmark by 10.2\% in 2010.
+
+\section*{Conclusion}
+
+The \pkg{pa} package provides a simple collection of tools for equity
+portfolio performance attribution including the Brinson model and a
+regression-based analysis. A comprehensive package, \pkg{portfolio}
+[\cite{kane:david}], provides facilities to calculate exposures and
+returns for equity portfolios. The \pkg{pa} package will work on the
+output generated by the \pkg{portfolio} package. Further, the
+flexibility of \R{} itself allows users to extend and modify these
+packages to suit their own needs and/or execute their preferred
+attribution methodology. Before reaching that level of complexity,
+however, \pkg{pa} provides a good starting point for basic
+attribution.
+
+\address{Yang Lu and David Kane\\
+  \email{yang.lu@williams.edu} and \\
+  \email{dkane@acadian-asset.com}}
+
+\bibliography{pa}
+
+\end{article}
+\end{document}
