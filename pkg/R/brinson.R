@@ -116,29 +116,30 @@ brinson <- function(x,
                      ret.var = ret.var,
                      universe = x)
 
-    all.sector <- levels(x[[cat.var]])
-
-    ## benchmark returns
-    ret.bench <- .sector.ret(x = x,
-                             cat.var = cat.var,
-                             all.sector = all.sector,
-                             ret.var = ret.var,
-                             var = bench.weight)
-    
-    ## portfolio returns
-    ret.port <- .sector.ret(x = x,
-                            cat.var = cat.var,
-                            all.sector = all.sector,
-                            ret.var = ret.var,
-                            var = portfolio.weight)
-    
-    ## portfolio weight by sector
+    ## portfolio weight by category
     weight.port <- tapply(x[[portfolio.weight]], x[[cat.var]], sum)
-    ## benchmark weight by sector
+
+    ## benchmark weight by category
     weight.bench <- tapply(x[[bench.weight]], x[[cat.var]], sum)
 
+    ## benchmark returns
+    ret.bench <- .cat.ret(x = x,
+                          cat.var = cat.var,
+                          ret.var = ret.var,
+                          var = bench.weight)
+    
+    ## portfolio returns
+    ret.port <- .cat.ret(x = x,
+                         cat.var = cat.var,
+                         ret.var = ret.var,
+                         var = portfolio.weight)
+
+    ## benchmark returns by category
     ret.bench <- ret.bench / weight.bench
+
+    ## portfolio returns by category
     ret.port <- ret.port / weight.port
+    
     ret.bench[ret.bench == "NaN"] <- 0
     ret.port[ret.port == "NaN"] <- 0
     

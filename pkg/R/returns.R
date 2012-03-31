@@ -6,26 +6,26 @@ setMethod("returns",
           signature(object = "brinson"),
           function(object,
                    ...){
-            
+
             ## round to certain digits
             options(digits = 3)
-
+            
             q1 <- object@q1
             q2 <- object@q2
             q3 <- object@q3
             q4 <- object@q4
-            
+
             asset.allocation <- q2 - q1
             stock.selection <- q3 - q1
             interaction <- q4 - q3 - q2 + q1
             active.ret <- q4 - q1
-
+            
             ret.mat <- matrix(NA, nrow = 4, ncol = 1)
             ret.mat[1, 1] <- asset.allocation
             ret.mat[2, 1] <- stock.selection
             ret.mat[3, 1] <- interaction
             ret.mat[4, 1] <- active.ret
-
+            
             colnames(ret.mat) <- as.character(unique(object@universe[[object@date.var]]))
             rownames(ret.mat) <- c("Allocation Effect",
                                    "Selection Effect",
@@ -35,43 +35,89 @@ setMethod("returns",
           }
           )
 
-## returns method for brinsonMulti class
+## returns method for brinsonMulti class with three different types of
+## compounding - arithmetic, geometric and linking coefficient
+## approach.
 
 setMethod("returns",
           signature(object = "brinsonMulti"),
           function(object,
+                   type = "arithmetic",
                    ...){
+
+            ## three types - default is arithmetic, the other two are
+            ## geometric and linking
             
-            ## round to certain digits
-            options(digits = 3)
-
-            temp.mat <- apply(object@brinson.mat + 1, 1, prod) - 1
+            active.return <- object@brinson.mat[1,] - object@brinson.mat[4,]
+            allocation <- object@brinson.mat[3,] - object@brinson.mat[4,]
+            selection <- object@brinson.mat[2,] - object@brinson.mat[4,]
+            interaction <- active.return - allocation - selection
             
-            asset.allocation <- temp.mat[3] - temp.mat[4] ## q2 - q1
-            stock.selection <- temp.mat[2] - temp.mat[4] ## q3 - q1
-
-            ## q4 - q3 - q2 + q1
-            interaction <- temp.mat[1] - temp.mat[2] - temp.mat[3] + temp.mat[4]
-
-            active.ret <- temp.mat[1] - temp.mat[4] ## q4 - q1
-
-            ret.mat <- matrix(NA, nrow = 4, ncol = 1)
-            ret.mat[1, 1] <- asset.allocation
-            ret.mat[2, 1] <- stock.selection
-            ret.mat[3, 1] <- interaction
-            ret.mat[4, 1] <- active.ret
+            ari.raw <- rbind(allocation, selection, interaction, active.return)
+            rownames(ari.raw) <- c("Allocation", "Selection",
+                                   "Interaction", "Active Return")
             
-            colnames(ret.mat) <- paste(c(min(unique(as.character(object@date.var))),
-                                         max(unique(as.character(object@date.var)))),
-                                       collapse = ", ")
-            rownames(ret.mat) <- c("Allocation Effect",
-                                   "Selection Effect",
-                                   "Interaction Effect",
-                                   "Active Return")
-            return(ret.mat)
+            if (type == "arithmetic"){
+              ari.agg <- .aggregate(object, ari.raw)
+              ari.list <- .combine(ari.raw, ari.agg)
+              return(ari.list)
+            }
+
+            if (type == "linking"){
+              port.ret.overtime <- apply(object@brinson.mat + 1, 1,prod)[1]
+              bench.ret.overtime <- apply(object@brinson.mat + 1, 1, prod)[4]
+              act.return <- port.ret.overtime - bench.ret.overtime
+
+              T <- dim(object@brinson.mat)[2]
+
+              A.natural.scaling <- act.return / T /
+                ((port.ret.overtime) ^ (1 / T) - (bench.ret.overtime) ^ (1 / T))
+
+              names(A.natural.scaling) <- NULL
+
+              C <- (act.return -
+                    A.natural.scaling * sum(object@brinson.mat[1,] -
+                                            object@brinson.mat[4,])) /
+                (sum((object@brinson.mat[1,] - object@brinson.mat[4,])^2))
+              alpha <- C * (object@brinson.mat[1,] - object@brinson.mat[4,])
+
+              B.linking <- A.natural.scaling + alpha
+              
+              linking.raw <- t(sapply(1:4, function(i){ari.raw[i,] * B.linking})) 
+              rownames(linking.raw) <- c("Allocation", "Selection",
+                                         "Interaction", "Active Return")
+              linking.agg <- .aggregate(object, linking.raw)
+              linking.list <- .combine(linking.raw, linking.agg)
+              return(linking.list)
+            }
+
+            if (type == "geometric"){
+              temp.mat <- apply(object@brinson.mat + 1, 1, prod) - 1
+              allocation <- temp.mat[3] - temp.mat[4] ## q2 - q1
+              selection <- temp.mat[2] - temp.mat[4] ## q3 - q1
+              
+              ## q4 - q3 - q2 + q1
+              interaction <- temp.mat[1] - temp.mat[2] - temp.mat[3] + temp.mat[4]
+              
+              active.ret <- temp.mat[1] - temp.mat[4] ## q4 - q1
+              
+              ret.mat <- matrix(NA, nrow = 4, ncol = 1)
+              ret.mat[1, 1] <- allocation
+              ret.mat[2, 1] <- selection
+              ret.mat[3, 1] <- interaction
+              ret.mat[4, 1] <- active.ret
+              
+              colnames(ret.mat) <- paste(c(min(unique(as.character(object@date.var))),
+                                           max(unique(as.character(object@date.var)))),
+                                         collapse = ", ")
+              rownames(ret.mat) <- c("Allocation", "Selection",
+                                     "Interaction", "Active Return")
+              geo.list <- .combine(ari.raw, ret.mat)
+              return(geo.list)
+            }
+            
           }
           )
-
 
 
 ## returns for regression class object
