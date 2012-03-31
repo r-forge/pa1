@@ -5,9 +5,7 @@ exportClasses(
 	      "brinson",
 	      "brinsonMulti",
               "regression",
-              "regressionMulti",
-              "csvol",
-              "csvolMulti"
+              "regressionMulti"
               )
 
 exportMethods(
@@ -20,6 +18,5 @@ exportMethods(
 
 export(
        "brinson",
-       "regress",
-       "csvol"
+       "regress"
        )
