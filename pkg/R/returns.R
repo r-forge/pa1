@@ -186,37 +186,3 @@ setMethod("returns",
           }
           )
 
-
-## csvol returns
-
-setMethod("returns",
-          signature(object = "csvol"),
-          function(object,
-                   ...){
-            
-            ## round to certain digits
-            options(digits = 3)
-            ret.mat <- matrix(NA, nrow = 1, ncol = 1)
-            
-            ret.mat[1, 1] <- object@csv
-            colnames(ret.mat) <- "csv"
-            rownames(ret.mat) <- as.character(unique(object@universe[[object@date.var]]))
-            return(ret.mat)
-          }
-          )
-
-
-## csvolMulti returns
-
-setMethod("returns",
-          signature(object = "csvolMulti"),
-          function(object,
-                   ...){
-            
-            ## round to certain digits
-            options(digits = 3)
-            
-            ret.mat <- object@csv
-            return(ret.mat)
-          }
-          )
