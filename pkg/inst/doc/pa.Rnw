@@ -113,7 +113,7 @@ R_p - R_b$.
 
 
 Since the allocation of the portfolio is different from that of the
-benchmark, allocation plays a role in the active retun
+benchmark, allocation plays a role in the active return
 $R_{active}$. The same applies to selection where assuming that the
 portfolio has the exact same category exposures as the benchmark does,
 the equities within each category are different. This contributes to
