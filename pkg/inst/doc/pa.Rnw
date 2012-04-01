@@ -156,24 +156,29 @@ increases.
 
 \section*{Multi-Period Brinson Model}
 
-To obtain the Brinson attribution on a multi-period data, one can
-calculate compounded returns due to allocation and selection,
-respectively and thus calculate the allocation, selection, and
-interaction effects in the same vein. Two measures of multiperiod
-attribution exist - arithmetic and geometric. The Brinson model takes
-the arithmetic approach for a single-period data set where the
-relative performance is the difference between portfolio return and
-benchmark return. However, a well-known challenge in arithmetic
-attribution is that active returns do not add up over multiple periods
-due to geometric compounding.\footnote{See \cite{practical} for a
-  complete discussion of the complexity involved.}
+To obtain Brinson attribution on a multi-period data set, one can
+calculate allocation, selection and interaction effect within each
+period and link them across time. Two methods of linking attribution
+effects over multiple periods exist – arithmetic and
+geometric. Arithmetic measure calculates relative performance of a
+portfolio and its benchmark by a difference; geometric measure does so
+by a ratio. Arithmetic measure is more intuitive but a well-known
+challenge in arithmetic attribution is that active returns do not add
+up over multiple periods due to geometric compounding.\footnote{See
+  \cite{practical} for a complete discussion of the complexity
+  involved.} Geometric measure which appears to be less intuitive, is
+able to circumvent the adding-up problem. \cite{multi} discussed
+various linking algorithms to connect arithmetic measure with
+geometric measure and argued that the \emph{optimized linking
+  algorithm} is the best way to link attribution over time.
 
-%% should i cite menchero's 2004 paper on the well-known challenge.
+We present arithmetic, geometric and optimized linking algorithm
+below. The \pkg{pa} package also offers the same three options for
+multi-period attribution which is discussed later in the paper.
 
-%% for details. For this article, we don't really care. We provide a
-%% simple approach (I hope) for the multi-period situation, but we
-%% don't bother providing or describing all the many options out
-%% there.
+
+
+
 
 
 \section*{Regression Model}
@@ -433,7 +438,7 @@ performed the best with a gain of more than 5\% and that
 \texttt{Consumer Discretionary} performed the worst with a loss of
 more than 10\%.
 
-\section*{Single-Period Brinson Tools}
+\section*{Multi-Period Brinson Tools}
 
 <<echo = FALSE>>=
 br.multi <- brinson(year, date.var = "date",
