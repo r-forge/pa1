@@ -174,11 +174,11 @@ geometric measure and argued that the \emph{optimized linking
 
 We present arithmetic, geometric and optimized linking algorithm
 below. The \pkg{pa} package offers the same three options for
-multi-period attribution which is discussed later in the paper.
+multi-period attribution which are discussed later in the paper.
 
 \texttt{Arithmetic Attribution.} The arithmetic attribution is to
 calculate active return and contributions due to allocation,
-selection, and interaction for each period and sum them over multiple
+selection, and interaction in each period and sum them over multiple
 periods. The arithmetic active return over $T$ periods
 $R_{arithmetic}$ is expressed as:
 
@@ -192,13 +192,13 @@ and $R_t^{active}$ is the active return in a single period $t$.
 compound various returns over $T$ periods where,
 
 \begin{center}
-  $1 + R_P = \prod_{t = 1}^T (1 + R_t^P)$,
+  $1 + R_P = \prod\limits_{t = 1}^T (1 + R_t^P)$,
   
-  $1 + R_B = \prod_{t = 1}^T (1 + R_t^B)$,
+  $1 + R_B = \prod\limits_{t = 1}^T (1 + R_t^B)$,
 \end{center}
 
-and $R_t^P$ and $R_t^B$ are portfolio and benchmark return in a period
-$t$, respectively. 
+and $R_t^P$ and $R_t^B$ are portfolio and benchmark return in a single
+period $t$, respectively.
 
 \texttt{Optimized Linking Algorithm.} The well-known challenge faced
 in arithmetic attribution is that the arithmetic summation of
@@ -206,13 +206,13 @@ single-period active returns is not equal to the actual active return
 over time,
 
 \begin{center}
-  $R_{arithmetic} \not R_p - R_B$,
+  $R_{arithmetic} \not= R_p - R_B$,
 \end{center}
 
 i.e.,
 
 \begin{center}
-  $R_p - R_B \not \sum\limits_{t = 1}^T R_t^{active}$.
+  $R_p - R_B \not= \sum\limits_{t = 1}^T R_t^{active}$.
 \end{center}
 
 \cite{multi} proposed an optimized linking coefficient $b^{opt}$ to
@@ -226,9 +226,52 @@ over time,
 where $b_t^{opt}$ is the optimized linking coefficient in period $t$.
 
 The optimized linking coefficient $b_t^{opt}$ is the summation of a
-\emph{natural scaling} $A$ and an adjustment $a_t$\footnote{See
-  \cite{linking} for more information on the optimized linking
-  coefficients.}.
+\emph{natural scaling} $A$ and an adjustment $a_t$,
+
+\begin{center}
+  $b_t^{opt} = A + a_t$,
+\end{center}
+
+where $A$ is an coefficient for linking from the single-period to the
+multi-period return and $a_t$ is an adjustment to eliminate
+residuals.\footnote{See \cite{linking} for more information on the
+  optimized linking coefficients.}.
+
+Since active return over time $R_P - R_B$ is a summation of active
+return in each period adjusted for linking, the following is true:
+
+\begin{center}
+  $R_P - R_B = \sum\limits_{t = 1}^T b_t^{opt}(R_t^{allocation} +
+  R_t^{selection} + R_t^{interaction})$
+\end{center}
+
+where $R_t^{allocation}$, $R_t^{selection}$, and $R_t^{interaction}$
+represent allocation, selection and interaction effect in each period
+$t$, respectively.
+
+Within each period $t$, the adjusted attribution is thus expressed as
+
+\begin{center}
+  $\hat{R}_t^{allocation} = b_t^{opt}R_t^{allocation}$,
+  
+  $\hat{R}_t^{selection} = b_t^{opt}R_t^{selection}$,
+\end{center}
+
+and
+
+\begin{center}
+  $\hat{R}_t^{interaction} = b_t^{opt}R_t^{interaction}$. 
+\end{center}
+
+Therefore, across $T$ periods, active return $R_{active}$, the
+difference between portfolio return $R_P$ and benchmark return $R_B$,
+can be written as
+
+\begin{center}
+  $R_{active} = \sum\limits_{t= 1}^T (\hat{R}_t^{allocation} +
+  \hat{R}_t^{selection} + \hat{R}_t^{interaction})$.
+\end{center}
+
 
 
 \section*{Regression Model}
@@ -261,8 +304,10 @@ allocation, sector selection, and size of her holdings have each
 contribute to the overall performance of her portfolio. Consider the
 following formula:
 
-$r = \sum\limits_{i = 1}^{m} b_ix_i + \sum\limits_{i = 1}^{n}
-a_iy_i + d z + e$
+\begin{center}
+  $r = \sum\limits_{i = 1}^{m} b_ix_i + \sum\limits_{i = 1}^{n}
+  a_iy_i + d z + e$
+\end{center}
 
 where
 \begin{itemize}
@@ -285,11 +330,14 @@ Active exposure of each variable can be calculated as mentioned in the
 Brinson Model. The contribution of each variable can thus be
 calculated as follows:
 
-$r_{country} = \sum\limits_{i = 1}^{m} b_iw_{x_{i}}$
-
-$r_{sector} = \sum\limits_{i = 1}^{n} a_iw_{y_{i}}$
-
-$r_{size} = dw_{size}$
+\begin{center}
+  $r_{country} = \sum\limits_{i = 1}^{m} b_iw_{x_{i}}$
+  
+  $r_{sector} = \sum\limits_{i = 1}^{n} a_iw_{y_{i}}$
+  
+  $r_{size} = dw_{size}$
+  
+\end{center}
 
 where $r_{country}$, $r_{sector}$, and $r_{size}$ refer to the
 contribution of country, sector, and size to the overall performance
