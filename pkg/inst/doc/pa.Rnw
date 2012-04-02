@@ -201,12 +201,12 @@ and $R_t^P$ and $R_t^B$ are portfolio and benchmark return in a single
 period $t$, respectively.
 
 \texttt{Optimized Linking Algorithm.} The well-known challenge faced
-in arithmetic attribution is that the arithmetic summation of
-single-period active returns is not equal to the actual active return
-over time,
+in arithmetic attribution is that the actual active return over time
+is not equal to the arithmetic summation of single-period active
+returns,
 
 \begin{center}
-  $R_{arithmetic} \not= R_p - R_B$,
+  $ R_p - R_B \not= R_{arithmetic}$,
 \end{center}
 
 i.e.,
@@ -223,7 +223,8 @@ over time,
   $R_p - R_B = \sum\limits_{t = 1}^T b_t^{opt}R_t^{active}$,
 \end{center}
 
-where $b_t^{opt}$ is the optimized linking coefficient in period $t$.
+where $b_t^{opt}$ is the optimized linking coefficient in a single
+period $t$.
 
 The optimized linking coefficient $b_t^{opt}$ is the summation of a
 \emph{natural scaling} $A$ and an adjustment $a_t$,
