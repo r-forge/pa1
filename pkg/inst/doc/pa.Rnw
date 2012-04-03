@@ -274,28 +274,27 @@ can be written as
 \end{center}
 
 
-
 \section*{Regression Model}
 
 Another way to think about the analysis as Brinson has done is to
-consider it in a regression context. A regression can be run without
-intercept. Estimated coefficients will be the mean return of each
-sector in the universe. The mean return of each sector also appears in
-the Brinson analysis. The equivalent to the allocation effect for the
-universe in the Brinson Model is the sum of the product of estimated
-coefficient of each sector and the active weight of each sector,
-defined by the difference between the sector weight in the portfolio
-and that in the benchmark.
+consider it in the contextof a regression model. A regression can be
+run without intercept. Estimated coefficients will be the mean return
+of each category in the universe. The mean return of each category
+also appears in the Brinson analysis. The equivalent to the allocation
+effect for the universe in the Brinson model is the sum of the product
+of estimated coefficient of each category and the active weight of
+each category, defined by the difference between portfolio weight and
+benchmark weight of the category.
 
-In order to estimate the selection effect of each sector in the
-Brinson analysis, one can also calculate the product of the residual
-of the aforementioned regression and active weight of each sector.
+In order to estimate the selection effect of each category in the
+Brinson analysis, one can calculate the product of the residual of the
+aforementioned regression and active weight of each category.
 
-The interaction effect is the difference between the actual return of
-the portfolio and the sum of the allocation and selection effect.
+The interaction effect is the difference between the portfolio's
+actual return and the sum of the allocation and selection effect.
 
 Now we will show the attribution framework under a regression
-framework.  One advantage of a regression-based approach is that such
+framework. One advantage of a regression-based approach is that such
 analysis allows one to define her own attribution model by easily
 incorporating multiple variables in the regression formula. And these
 variables can be either discrete or continuous.
@@ -303,16 +302,50 @@ variables can be either discrete or continuous.
 Suppose a portfolio manager wants to find out how much country
 allocation, sector selection, and size of her holdings have each
 contribute to the overall performance of her portfolio. Consider the
-following formula:
+following regression formulae without intercept based on a portfolio
+of $n$ securities with $k$ different categories (such as country,
+sector, and size):
 
 \begin{center}
-  $r = \sum\limits_{i = 1}^{m} b_ix_i + \sum\limits_{i = 1}^{n}
-  a_iy_i + d z + e$
+  $r = f x + u$
 \end{center}
 
-where
+where 
+
 \begin{itemize}
-\item $r$ is the return of each equity.
+\item $r_n$ is a $1$ by $n$ vector of stock returns from the portfolio.
+\item $f_n$, called \emph{factor return}, is a $1$ by $n$ vector of
+  estimated coefficients from the regression.
+\item $x_{n,k}$ is an $n$ by $k$ vector of stock characteristics.
+\item $u_n$ is a $1$ by $n$ vector of residuals.
+\end{itemize}
+
+For each of the $k$ categories, the active exposure $X_i$, $i$ $\in$
+$k$, is expressed as
+
+\begin{center}
+  $X_i = w_{active}'x_{n,i}$.
+\end{center}
+
+The contribution of a category $i$, $R_i$, is thus the vector product
+of active exposure of the category and the factor return. That is,
+
+\begin{center}
+  $R_i = X_if_n$.
+\end{center}
+
+Therefore, the active return of the portfolio $R_{active}$ is the sum
+of contributions of all $k$ categories and the residual,
+
+\begin{center}
+  $R_{active} = \sum\limits_{i = 1}^kR_i + u$.
+\end{center}
+
+
+
+OLD
+\begin{itemize}
+\item $R$ is the return vector. 
 \item ${x_1, \ldots, x_{m}}$ refer to each of the \emph{m} countries
   in the portfolio.
 \item ${b_1, \ldots, b_{m}}$ refer to the estimated
