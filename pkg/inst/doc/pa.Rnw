@@ -300,9 +300,9 @@ analysis allows one to define her own attribution model by easily
 incorporating multiple variables in the regression formula. And these
 variables can be either discrete or continuous.
 
-Suppose a portfolio manager wants to find out how much country
-allocation, sector selection, and size of her holdings each contribute
-to the overall performance of her portfolio. Consider the following
+Suppose a portfolio manager wants to find out how much each of country
+allocation, sector selection, and size of her holdings contributes to
+the overall performance of her portfolio. Consider the following
 linear regression without intercept based on a portfolio of $n$
 securities with $k$ different variables (such as country, sector, and
 size):
