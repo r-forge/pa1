@@ -34,11 +34,10 @@ methods: the Brinson model\footnote{See \cite{brinson:gary} for more
 analysis\footnote{See \cite{jpmreg} for more information on the
   regression model.}. The Brinson model takes an ANOVA-type approach
 and decomposes active return of any given portfolio into asset
-allocation, stock selection, and interaction effects. The
-regression-based analysis utilizes estimated coefficients, based on a
-regression model, to attribute active return to different
-factors. This article will show how to apply these methods by using
-the \pkg{pa} package.
+allocation, stock selection, and interaction. The regression-based
+analysis utilizes estimated coefficients, based on a regression model,
+to attribute active return to different factors. This article will
+show how to apply these methods by using the \pkg{pa} package.
 
 
 \section*{Single-Period Brinson Model}
@@ -112,7 +111,7 @@ arithmetic measure for a single-period Brinson model. The full
 complexity of arithmetic and geometric measures is discussed in the
 next section.
 
-The arithmetic active return measure of the portfolio $R_{active}$ is
+The arithmetic active return measure of a portfolio $R_{active}$ is
 the portfolio return $R_P$ less the benchmark return $R_B$:
 
 \begin{center}
@@ -136,7 +135,7 @@ categories are defined as:
     1}^N W^B_jR^B_j$.
 \end{center}
 
-The interaction effect $R_{interaction}$ is the result of subtracting
+Interaction effect $R_{interaction}$ is the result of subtracting
 return due to allocation $R_{allocation}$ and return due to selection
 $R_{selection}$ from the active return $R_{active}$:
 
@@ -157,24 +156,24 @@ increases.
 \section*{Multi-Period Brinson Model}
 
 To obtain Brinson attribution on a multi-period data set, one can
-calculate allocation, selection and interaction effect within each
-period and link them across time. Two methods of linking attribution
-effects over multiple periods exist -- arithmetic and
-geometric. Arithmetic measure calculates relative performance of a
-portfolio and its benchmark by a difference; geometric measure does so
-by a ratio. Arithmetic measure is more intuitive but a well-known
-challenge in arithmetic attribution is that active returns do not add
-up over multiple periods due to geometric compounding.\footnote{See
-  \cite{practical} for a complete discussion of the complexity
-  involved.} Geometric measure which appears to be less intuitive, is
-able to circumvent the adding-up problem. \cite{multi} discussed
-various linking algorithms to connect arithmetic measure with
-geometric measure and argued that the \emph{optimized linking
-  algorithm} is the best way to link attribution over time.
+calculate allocation, selection and interaction within each period and
+link them across time. Two methods of linking attribution effects over
+multiple periods exist -- arithmetic and geometric. Arithmetic measure
+calculates relative performance of a portfolio and its benchmark by a
+difference; geometric measure does so by a ratio. Arithmetic measure
+is more intuitive but a well-known challenge in arithmetic attribution
+is that active returns do not add up over multiple periods due to
+geometric compounding.\footnote{See \cite{practical} for a complete
+  discussion of the complexity involved.} Geometric measure which
+appears to be less intuitive, is able to circumvent the adding-up
+problem. \cite{multi} discussed various linking algorithms to connect
+arithmetic return with geometric return and argued that the
+\emph{optimized linking algorithm} is the best way to link attribution
+over time.
 
-We present arithmetic, geometric and optimized linking algorithm
+We present arithmetic, geometric and optimized linking algorithms
 below. The \pkg{pa} package offers the same three options for
-multi-period attribution which are discussed later in the paper.
+multi-period attribution as shown later in the paper.
 
 \texttt{Arithmetic Attribution.} The arithmetic attribution is to
 calculate active return and contributions due to allocation,
@@ -197,8 +196,8 @@ compound various returns over $T$ periods where,
   $1 + R_B = \prod\limits_{t = 1}^T (1 + R_t^B)$,
 \end{center}
 
-and $R_t^P$ and $R_t^B$ are portfolio and benchmark return in a single
-period $t$, respectively.
+and $R_t^P$ and $R_t^B$ are portfolio and benchmark returns in a
+single period $t$, respectively.
 
 \texttt{Optimized Linking Algorithm.} The well-known challenge faced
 in arithmetic attribution is that the actual active return over time
@@ -247,8 +246,8 @@ return in each period adjusted for linking, the following is true:
 \end{center}
 
 where $R_t^{allocation}$, $R_t^{selection}$, and $R_t^{interaction}$
-represent allocation, selection and interaction effect in each period
-$t$, respectively.
+represent allocation, selection and interaction in each period $t$,
+respectively.
 
 Within each period $t$, the adjusted attribution is thus expressed as
 
@@ -277,21 +276,23 @@ can be written as
 \section*{Regression Model}
 
 Another way to think about the analysis as Brinson has done is to
-consider it in the contextof a regression model. A regression can be
+consider it in the context of a regression model. A regression can be
 run without intercept. Estimated coefficients will be the mean return
-of each category in the universe. The mean return of each category
-also appears in the Brinson analysis. The equivalent to the allocation
-effect for the universe in the Brinson model is the sum of the product
-of estimated coefficient of each category and the active weight of
-each category, defined by the difference between portfolio weight and
-benchmark weight of the category.
+of each category in the universe, a.k.a. the factor return of each
+category. The mean return of each category also appears in the Brinson
+analysis. The equivalent to the allocation effect for the universe in
+the Brinson model is the sum of the product of the estimated
+coefficient and the active weight of each category. Active weight of a
+category is defined as the difference between portfolio weight and
+benchmark weight for that category.
 
 In order to estimate the selection effect of each category in the
-Brinson analysis, one can calculate the product of the residual of the
-aforementioned regression and active weight of each category.
+Brinson analysis, one can calculate the sum of the product of the
+residual of the aforementioned regression and the active weight of
+each category.
 
-The interaction effect is the difference between the portfolio's
-actual return and the sum of the allocation and selection effect.
+Interaction effect is the difference between a portfolio's actual
+return and the sum of the allocation and selection effects.
 
 Now we will show the attribution framework under a regression
 framework. One advantage of a regression-based approach is that such
@@ -300,88 +301,58 @@ incorporating multiple variables in the regression formula. And these
 variables can be either discrete or continuous.
 
 Suppose a portfolio manager wants to find out how much country
-allocation, sector selection, and size of her holdings have each
-contribute to the overall performance of her portfolio. Consider the
-following regression formulae without intercept based on a portfolio
-of $n$ securities with $k$ different categories (such as country,
-sector, and size):
+allocation, sector selection, and size of her holdings each contribute
+to the overall performance of her portfolio. Consider the following
+linear regression without intercept based on a portfolio of $n$
+securities with $k$ different variables (such as country, sector, and
+size):
 
 \begin{center}
-  $r = f x + u$
+  $r_n = x_{n,k} f_n + u_n$
 \end{center}
 
 where 
 
 \begin{itemize}
-\item $r_n$ is a $1$ by $n$ vector of stock returns from the portfolio.
-\item $f_n$, called \emph{factor return}, is a $1$ by $n$ vector of
-  estimated coefficients from the regression.
-\item $x_{n,k}$ is an $n$ by $k$ vector of stock characteristics.
-\item $u_n$ is a $1$ by $n$ vector of residuals.
+\item $r_n$ is a column vector of length $n$. Each element in $r_n$
+  represents the return of a security in the portfolio.
+\item $x_{n,k}$ is an $n$ by $k$ vector. Each row represents $k$
+  characteristics (variables) of a security. There are $n$ securities
+  in the portfolio.
+\item $f_n$ is a column vector of length $n$. The elements are
+  estimated coefficients from the regression. Each element represents
+  the \emph{factor return} of a variable.
+\item $u_n$ is a column vector of length $n$. The elements are the
+  residuals from the regression.
 \end{itemize}
 
-For each of the $k$ categories, the active exposure $X_i$, $i$ $\in$
+For the active exposure of each of the $k$ variables, $X_i$, $i$ $\in$
 $k$, is expressed as
 
 \begin{center}
-  $X_i = w_{active}'x_{n,i}$.
+  $X_i = w_{active}'x_{n,i}$
 \end{center}
 
-The contribution of a category $i$, $R_i$, is thus the vector product
-of active exposure of the category and the factor return. That is,
+where $X_i$ is a column vector of length $k$ representing the active
+exposure of a variable for all securities, and $w_{active}$ is a
+column vector of length $n$ including the active weight of every
+security in the portfolio.
+
+The contribution of a variable $i$, $R_i$, is thus the vector product
+of active exposure of the variable and the factor returns. That is,
 
 \begin{center}
-  $R_i = X_if_n$.
+  $R_i = X_i'f_n$.
 \end{center}
 
 Therefore, the active return of the portfolio $R_{active}$ is the sum
-of contributions of all $k$ categories and the residual,
+of contributions of all $k$ variables and the residual $u$,
 
 \begin{center}
-  $R_{active} = \sum\limits_{i = 1}^kR_i + u$.
+  $R_{active} = \sum\limits_{i = 1}^kR_i + u$,
 \end{center}
 
-
-
-OLD
-\begin{itemize}
-\item $R$ is the return vector. 
-\item ${x_1, \ldots, x_{m}}$ refer to each of the \emph{m} countries
-  in the portfolio.
-\item ${b_1, \ldots, b_{m}}$ refer to the estimated
-  coefficients corresponding to each country.
-\item ${y_1, \ldots, y_{n}}$ refer to each of the \emph{n} sectors in
-  the portfolio.
-\item ${a_1, \ldots, a_{n}}$ refer to the estimated coefficients
-  corresponding to each sector.
-\item $z$ refers to the size variable of each equity.
-\item $d$ refers to the estimated coefficient of the size
-  variable.
-\item $e$ is the error term.
-\end{itemize}
-
-Active exposure of each variable can be calculated as mentioned in the
-Brinson Model. The contribution of each variable can thus be
-calculated as follows:
-
-\begin{center}
-  $r_{country} = \sum\limits_{i = 1}^{m} b_iw_{x_{i}}$
-  
-  $r_{sector} = \sum\limits_{i = 1}^{n} a_iw_{y_{i}}$
-  
-  $r_{size} = dw_{size}$
-  
-\end{center}
-
-where $r_{country}$, $r_{sector}$, and $r_{size}$ refer to the
-contribution of country, sector, and size to the overall performance
-of the portfolio, respectively. $w_{x_{i}}$, $w_{y_{i}}$, and
-$w_{size}$ denote the active exposure of each country, sector, and
-size, respectively.
-
-Then the interaction effect among country, sector, and size is
-$r_{interaction} = r - r_{country} - r_{sector} - r_{size}$.
-
+where $u$ is the residual, a.k.a. the interaction effect.
 
 \section*{Data}
 
