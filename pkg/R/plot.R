@@ -127,8 +127,8 @@ setMethod("plot",
                    var,
                    type = "exposure",
                    ...){
-
-            ## type == "exposure"
+            stopifnot(type %in% c("exposure", "return"))
+            
             if (type == "exposure"){
               temp <- exposure(object, var = var)
               len.row <- nrow(temp)
@@ -136,7 +136,7 @@ setMethod("plot",
                                Value = c(temp[ , 1], temp[ , 2]),
                                Type = c(rep("Portfolio", len.row),
                                  rep("Benchmark", len.row)))
-           
+              
               if (class(object@universe[[var]])[1] != "numeric"){
                 df <- within(df,
                              Name <- factor(Name, levels = rev(levels(object@universe[[var]]))))} else {
@@ -151,25 +151,11 @@ setMethod("plot",
               print(temp.plot)
               
             } else {
-              ## type == "returns"
-              df <- as.data.frame(returns(object)[c(-nrow(df)-2, -nrow(df) - 1, -nrow(df))])
-              names(df) <- "ret"
-              df$Name <- c(CapLeading(object@reg.var), "Residual")
-              df <- within(df,
-                           Name <- factor(Name, levels = rev(df$Name)))
               
-              
-              temp.plot <- ggplot(df, aes(x = Name, y = ret)) +
-                geom_bar(width = 0.5, position = "identity") + coord_flip() +
-                  scale_y_continuous()+ geom_hline(yintercept = 0) + 
-                    ylab("Return") + xlab("Attribution") +
-                      opts(panel.background = theme_blank(),
-                           title = "Portfolio Attribution",
-                           axis.line = theme_blank(),
-                           panel.grid.minor = theme_blank(),
-                           panel.grid.major = theme_blank(),
-                           plot.background = theme_rect(fill = NA, colour = NA))
-              print(temp.plot)
+              ## type == "return", no graph for a single-period
+              ## regression attribution.
+              print("No graph for single-period regression attribution.")
+              returns(object)
             }
           }
           )
