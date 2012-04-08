@@ -45,6 +45,8 @@ setMethod("returns",
                    type = "arithmetic",
                    ...){
 
+            stopifnot(type %in% c("arithmetic", "linking", "geometric"))
+                      
             ## three types - default is arithmetic, the other two are
             ## geometric and linking
             
@@ -162,32 +164,42 @@ setMethod("returns",
 setMethod("returns",
           signature(object = "regressionMulti"),
           function(object,
+                   type = "arithmetic",
                    ...){
             
-            ## round to certain digits
-            options(digits = 3)
-            no.row <- length(object@reg.var) + 4
-            ret.mat <- matrix(NA, nrow = no.row, ncol = 1)
-
-            port.ret <- apply(object@portfolio.ret + 1, 1, prod) - 1
-            ret.mat[1:(no.row - 4), 1] <- port.ret -
-              apply(object@pred.mat + 1, 1, prod) + 1
+            ## 3 types - default is arithmetic, the other two are
+            ## geometric and linking.
+            stopifnot(type %in% c("arithmetic", "linking", "geometric"))
             
-            ret.mat[no.row - 3, 1] <- port.ret - sum(ret.mat[1: (no.row - 4), 1])
-            ret.mat[no.row - 2, 1] <- port.ret
-            ret.mat[no.row - 1, 1] <- apply(object@benchmark.ret + 1, 1, prod) - 1
-            ret.mat[no.row, 1] <- port.ret - ret.mat[no.row - 1, 1]
+            ## raw attribution
+            raw <- sapply(1:3, function(i){returns(object@universe[[i]])})
+            rownames(raw) <- rownames(returns(object@universe[[1]]))
+            colnames(raw) <- unique(object@date.var)
 
+            if (type == "arithmetic"){
+              agg <- matrix(apply(raw, 1, sum))
+              colnames(agg) <- paste(c(min(unique(as.character(object@date.var))),
+                                       max(unique(as.character(object@date.var)))),
+                                     collapse = ", ")
+              rownames(agg) <- rownames(returns(object@universe[[1]]))
+              ari.list <- .combine(raw, agg)
+              return(ari.list)
+            }
             
-            colnames(ret.mat) <- paste(c(min(unique(as.character(object@date.var))),
-                                         max(unique(as.character(object@date.var)))),
-                                       collapse = ", ")
-            rownames(ret.mat) <- c(CapLeading(object@reg.var),
-                                   "Residual",
-                                   "Portfolio Return",
-                                   "Benchmark Return",
-                                   "Active Return")
-            return(ret.mat)
+            if (type == "linking"){}
+            
+            
+            if (type == "geometric"){
+              agg <- matrix(apply(raw + 1, 1, prod) - 1)
+              rownames(agg) <- rownames(returns(object@universe[[1]]))
+              colnames(agg) <- paste(c(min(unique(as.character(object@date.var))),
+                                       max(unique(as.character(object@date.var)))),
+                                     collapse = ", ")
+              geo.list <- .combine(raw, agg)
+              return(geo.list)
+            }
+            
           }
+          
           )
 
