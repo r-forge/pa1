@@ -119,9 +119,7 @@ setMethod("returns",
           }
           )
 
-
 ## returns for regression class object
-
 setMethod("returns",
           signature(object = "regression"),
           function(object,
@@ -129,15 +127,25 @@ setMethod("returns",
             
             ## round to certain digits
             options(digits = 3)
+            no.row <- length(object@reg.var)
+            ret.mat <- matrix(NA, nrow = no.row + 4, ncol = 1)
 
-            no.row <- length(object@reg.var) + 4
-            ret.mat <- matrix(NA, nrow = no.row, ncol = 1)
-            
-            ret.mat[1:(no.row - 4), 1] <- object@contrib
-            ret.mat[no.row - 3, 1] <- object@portfolio.ret - sum(object@contrib)
-            ret.mat[no.row - 2, 1] <- object@portfolio.ret
-            ret.mat[no.row - 1, 1] <- object@benchmark.ret
-            ret.mat[no.row, 1] <- object@act.ret
+            j <- 1
+            for (i in 1:no.row){
+              col.name <- object@universe[[object@reg.var[i]]]
+              if (class(col.name)[1] != "numeric"){
+                ret.mat[i, 1] <- sum(object@contrib[j:(j + length(levels(col.name)) - 1)])
+                j <- j + length(levels(col.name))
+              } else {
+                ret.mat[i, 1] <- object@contrib[j]
+                j <- j + 1
+              }
+            }
+                      
+            ret.mat[no.row + 1, 1] <- object@act.ret - sum(object@contrib)
+            ret.mat[no.row + 2, 1] <- object@portfolio.ret
+            ret.mat[no.row + 3, 1] <- object@benchmark.ret
+            ret.mat[no.row + 4, 1] <- object@act.ret
 
             colnames(ret.mat) <- as.character(unique(object@universe[[object@date.var]]))
             rownames(ret.mat) <- c(CapLeading(object@reg.var),
@@ -150,9 +158,7 @@ setMethod("returns",
           )
 
 
-
 ## returns for regressionMulti class object
-
 setMethod("returns",
           signature(object = "regressionMulti"),
           function(object,
@@ -160,7 +166,6 @@ setMethod("returns",
             
             ## round to certain digits
             options(digits = 3)
-            
             no.row <- length(object@reg.var) + 4
             ret.mat <- matrix(NA, nrow = no.row, ncol = 1)
 
