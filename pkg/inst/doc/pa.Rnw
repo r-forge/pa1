@@ -368,11 +368,11 @@ company:
 \small
 
 \begin{quote}
-  Global Equity Model II (GEM2) [\cite{gem2}] is the latest Barra global
-  multi-factor equity model. It provides a foundation for investment
-  decision support tools via a broad range of insightful analytics for
-  developed and emerging market portfolios. The latest model version
-  provides:
+  Global Equity Model II (GEM2)\footnote{See \cite{gem2} for more
+    information.} is the latest Barra global multi-factor equity
+  model. It provides a foundation for investment decision support
+  tools via a broad range of insightful analytics for developed and
+  emerging market portfolios. The latest model version provides:
 
 \begin{itemize}
 \item Improved accuracy of risk forecasts and increased explanatory
@@ -402,8 +402,9 @@ The full version of the original GEM2 data in 2010 is in the
 country, and various style factors for a universe of approximately
 48,000 securities across 12 months.
 
-For illustrative purposes, this article uses two modified versions of
-the original data set, namely \texttt{year} and \texttt{jan}.
+For illustrative purposes, this article uses three modified versions
+of the original data set, namely \texttt{jan}, \texttt{quarter}, and
+\texttt{year}.
 
 <<echo = FALSE, results = hide>>=
 options(width = 50, digits = 2, scipen = 5)
@@ -452,7 +453,6 @@ names(year)
 \item benchmark: top 1000 securities based on size each month. The
   benchmark is cap-weighted.
 
-
 \end{itemize}
 
 
@@ -462,7 +462,6 @@ month, constituting the universe. Here is a sample of rows and columns
 from the data frame:
 
 <<echo = FALSE>>=
-
 sample.mat <- rbind(which(year$portfolio == 0 & year$benchmark == 0)[2],
                     which(year$portfolio == 0 & year$benchmark > 0)[2],
                     which(year$portfolio > 0 & year$benchmark == 0)[2],
@@ -474,17 +473,18 @@ year[sample.mat, c(-1, -6, -8: -11, -13) ]
 All portfolio holidings are equal-weighted. The row for Canadian
 Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
-2.61\% in August, and 2.90\% in November.
+2.68\% in August, and 2.90\% in November.
 
 
 \section*{Single-Period Brinson Tools}
 
-Brinson analysis is run by calling the function
-\texttt{brinson} to produce an object of class either \texttt{brinson}
-(a single-period portfolio) or \texttt{brinsonMulti} (a multi-period
-portfolio).
+Brinson analysis is run by calling the function \texttt{brinson} to
+produce an object of class either \texttt{brinson} (a single-period
+portfolio) or \texttt{brinsonMulti} (a multi-period portfolio). Below
+we show the tools provided in the \pkg{pa} package to analyze a single
+period portfolio based on the Brinson model.
 
-<<echo = FALSE>>=
+<<>>=
 data(jan)
 br.single <- brinson(x = jan, date.var = "date", cat.var = "sector",
                      bench.weight = "benchmark", portfolio.weight =
@@ -492,14 +492,14 @@ br.single <- brinson(x = jan, date.var = "date", cat.var = "sector",
 
 @
 
-\begin{verbatim}
-> data(jan)
-> br.single <- brinson(x = jan,
-+    date.var = "date", cat.var = "sector",
-+    bench.weight = "benchmark",
-+    portfolio.weight = "portfolio",
-+    ret.var = "return")
-\end{verbatim}
+%% \begin{verbatim}
+%% > data(jan)
+%% > br.single <- brinson(x = jan,
+%% +    date.var = "date", cat.var = "sector",
+%% +    bench.weight = "benchmark",
+%% +    portfolio.weight = "portfolio",
+%% +    ret.var = "return")
+%% \end{verbatim}
 
 \texttt{jan}, a subset of the data frame \texttt{year} in January,
 contains all the information necessary to conduct a single-period
@@ -510,7 +510,7 @@ respectively. \texttt{bench.weight} and \texttt{portfolio.weight}
 specify the benchmark weight and portfolio weight of each security.
 
 Calling \texttt{summary} on the resulting object of class
-\texttt{brinson} reports the essential information about the input
+\texttt{brinson} reports essential information about the input
 portfolio (including the number of securities in the portfolio and the
 benchmark as well as sector exposures) and the results of the Brinson
 analysis.
@@ -531,7 +531,7 @@ can be decomposed into allocation effect (-14 bps), selection effect
 plot(br.single, type = "return")
 @
 \caption{\label{figure:return}
-  Sector return.}
+  Sector Return.}
 \end{figure}
 
 Figure \ref{figure:return} is a visual representation of the return of
@@ -543,66 +543,104 @@ more than 10\%.
 
 \section*{Multi-Period Brinson Tools}
 
-<<echo = FALSE>>=
-br.multi <- brinson(year, date.var = "date",
+In practice, analyzing a single-period portfolio is meaningless as
+portfolio managers and their clients are more interested in the
+performance of a portfolio over multiple periods. To apply the Brinson
+model over time, we can use the function \texttt{brinson} and input a
+multi-period data set (for instance, \texttt{quarter}) as shown
+below. 
+
+<<>>=
+data(quarter)
+br.multi <- brinson(quarter, date.var = "date",
                     cat.var = "sector",
                     bench.weight = "benchmark",
                     portfolio.weight = "portfolio",
                     ret.var = "return")
 @
-\begin{verbatim}
-> br.multi <- brinson(x = year,
-+              date.var = "date",
-+              cat.var = "sector",
-+              bench.weight = "benchmark",
-+              portfolio.weight = "portfolio",
-+              ret.var = "return"
-+              )
-\end{verbatim}
 
+%% \begin{verbatim}
+%% > br.multi <- brinson(x = year,
+%% +              date.var = "date",
+%% +              cat.var = "sector",
+%% +              bench.weight = "benchmark",
+%% +              portfolio.weight = "portfolio",
+%% +              ret.var = "return"
+%% +              )
+%% \end{verbatim}
 
 The class \texttt{brinsonMulti} object \texttt{br.multi} is an example
-of a multi-period Brinson analysis. \texttt{year} is a data frame
-containing all the information necessary to conduct a multi-period
-Brinson analysis.
+of a multi-period Brinson analysis. \texttt{quarter} is a data frame
+containing all the information in the \texttt{GEM II} model from
+January, 2010 through March, 2010.
+
 
 <<>>=
 exposure(br.multi, var = "size")
-returns(br.multi)
 @
 
 The \texttt{exposure} method on the class \texttt{br.multi} object
-shows the exposure of the portfolio and the benchmark sector by sector
-and the \texttt{returns} method shows the results of the Brinson
-analysis applied to the data from January, 2010 through December,
-2010. The portfolio formed by top 200 value securities in January had
-an active return of 10.2\%. The allocation and the selection effect
-contributed 2.68\% and 9.84\% respectively; the interaction effect
-made a loss of 2.37\%.
+shows the exposure of the portfolio and the benchmark based on a
+user-defined category. Here, it shows the exposure on \emph{size}. We
+can see that the portfolio overweights the benchmark in size of the
+smallest quintile and underweights in that of the highest quintile.
 
-\section*{Regression Tools}
+<<>>=
+returns(br.multi, type = "linking")
+@ 
+
+The \texttt{returns} method shows the results of the Brinson analysis
+applied to the data from January, 2010 through March, 2010. The
+optimized linking algorithm is applied here by setting the type to
+\emph{linking}. The first portion of the \texttt{returns} output shows
+the Brinson attribution in individual periods. The second portion
+shows the aggregate attribution results. The portfolio formed by top
+200 value securities in January had an active return of 12.7\% over
+the first quarter of 2010. The allocation and the selection effects
+contributed 0.95\% and 1.73\% respectively; the interaction effect
+made a loss of 1.42\%.
+
+
+\begin{figure}
+\centering
+\vspace*{.1in}
+<<fig = TRUE>>=
+plot(br.multi, type = "return")
+@
+\caption{\label{figure:multireturn}
+  Sector Return Across Time.}
+\end{figure}
+
+Figure \ref{figure:multireturn} shows the returns of both the
+portfolio and the benchmark of the allocation effect from January,
+2010 through March. 2010. This plot suggests that for the portfolio,
+\texttt{Utilities} performed the best with a gain of more than 5\% in
+January and February, 2010 but tanked in March, 2010.
+
+
+\section*{Single-Period Regression Tools}
 
 Another conventional attribution methodolody is the regression-based
-analysis. The \pkg{pa} package provides a tool to analyze both
-single-period and multi-period data frames.
+analysis. As mentioned, the \pkg{pa} package provides tools to analyze
+both single-period and multi-period data frames.
 
-\begin{verbatim}
-> rb.single <- regress(x = jan,
-+             date.var = "date",
-+             ret.var = "return",
-+             reg.var = c("sector", "value",
-+              "growth"),
-+             benchmark.weight = "benchmark",
-+             portfolio.weight = "portfolio"
-+             )
-> exposure(rb.single, var = "growth")
-\end{verbatim}
+## \begin{verbatim}
+## > rb.single <- regress(x = jan,
+## +             date.var = "date",
+## +             ret.var = "return",
+## +             reg.var = c("sector", "value",
+## +              "size"),
+## +             benchmark.weight = "benchmark",
+## +             portfolio.weight = "portfolio"
+## +             )
+## > exposure(rb.single, var = "growth")
+## \end{verbatim}
 
-<<echo = FALSE>>=
+<<>>=
 rb.single <- regress(jan, date.var = "date",
                      ret.var = "return",
-                     reg.var = c("sector", "value",
-                       "growth"),
+                     reg.var = c("sector", "growth",
+                       "size"),
                      benchmark.weight = "benchmark",
                      portfolio.weight = "portfolio")
 exposure(rb.single, var = "growth")
@@ -626,25 +664,25 @@ portfolio and the benchmark, and the contribution of each input
 variable according to the regression-based analysis. In this case, the
 portfolio made a loss of 2.91\% and the benchmark lost
 4.38\%. Therefore, the portfolio outperformed the benchmark by
-1.47\%. For the portfolio, \texttt{sector} and \texttt{growth}
-contributed 1.09\% and 1.13\%, respectively; \texttt{value} made a
-loss of 1.01\%. \texttt{residual} contributed -4.11\%.
+1.47\%. \texttt{Sector}, \texttt{growth}, and \texttt{size}
+contributed 0.32\%, 0.05\%, and 0.29\%, respectively.
 
-\begin{verbatim}
-> rb.multi <- regress(year, date.var = "date",
-+            ret.var = "return",
-+            reg.var = c("sector",
-+            "value", "growth"),
-+            benchmark.weight = "benchmark",
-+            portfolio.weight = "portfolio"
-+            )
-> rb.multi
-\end{verbatim}
+%% \begin{verbatim}
+%% > rb.multi <- regress(year, date.var = "date",
+%% +            ret.var = "return",
+%% +            reg.var = c("sector",
+%% +            "value", "growth"),
+%% +            benchmark.weight = "benchmark",
+%% +            portfolio.weight = "portfolio"
+%% +            )
+%% > rb.multi
+%% \end{verbatim}
 
-<<echo = FALSE>>=
-rb.multi <- regress(year, date.var = "date",
+\section*{Multi-Period Regression Tools}
+<<>>=
+rb.multi <- regress(quarter, date.var = "date",
                     ret.var = "return",
-                    reg.var = c("sector", "value", "growth"),
+                    reg.var = c("sector", "growth", "size"),
                     benchmark.weight = "benchmark",
                     portfolio.weight = "portfolio")
 rb.multi
@@ -664,15 +702,34 @@ summary(rb.multi)
 The regression-based summary shows that the contribution of each input
 variable in addition to the basic information on the portfolio. The
 summary suggests that the active return of the portfolio in year 2010
-is 1.02\%. The \texttt{Residual} number indicates the contribution
+is 1.27\%. The \texttt{Residual} number indicates the contribution
 of the interaction among various variables including \texttt{sector},
-\texttt{value}, and \texttt{growth}.
+\texttt{growth}, and \texttt{growth}.
+
+Visual representation of relative performance of a portfolio against
+its benchmark is best viewed with a longer time horizon. Here, we use
+the data frame \texttt{year} for illustrative purposes. 
+
+<<>>=
+rb.multi2 <- regress(year, date.var = "date",
+                     ret.var = "return",
+                     reg.var = c("sector", "growth", "size"),
+                     benchmark.weight = "benchmark",
+                     portfolio.weight = "portfolio")
+returns(rb.multi2, type = "linking")
+@ 
+
+We obtained an object \emph{rb.multi2} of class \emph{regressMulti}
+based on the data set from January, 2010 through December, 2010. The
+portfolio beat the benchmark by 10.1\% over this period. Based on the
+regression model, \texttt{size} contributed to the lion share of the
+active return.
 
 \begin{figure}
 \centering
 \vspace*{.1in}
 <<fig = TRUE>>=
-plot(rb.multi, type = "return")
+plot(rb.multi2, type = "return")
 @
 \caption{\label{figure:regmultiattrib}
   Performance Attribution.}
@@ -681,8 +738,9 @@ plot(rb.multi, type = "return")
 Figure \ref{figure:regmultiattrib} displays both the portfolio return
 and the benchmark return from January, 2010 through December, 2010. It
 suggests that the portfolio, consisted of high \texttt{value}
-securities in January, is less volatile than the benchmark. Overall,
-the portfolio beat the benchmark by 10.2\% in 2010.
+securities in January, is less volatile than the benchmark. Its
+smaller drawdowns in January, May, August, and November contributed to
+the overall positive active return in 2010.
 
 \section*{Conclusion}
 

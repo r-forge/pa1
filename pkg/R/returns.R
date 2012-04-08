@@ -172,7 +172,7 @@ setMethod("returns",
             stopifnot(type %in% c("arithmetic", "linking", "geometric"))
             
             ## raw attribution
-            raw <- sapply(1:3, function(i){returns(object@universe[[i]])})
+            raw <- sapply(1:length(object@date.var), function(i){returns(object@universe[[i]])})
             rownames(raw) <- rownames(returns(object@universe[[1]]))
             colnames(raw) <- unique(object@date.var)
 
