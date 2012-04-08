@@ -186,8 +186,31 @@ setMethod("returns",
               return(ari.list)
             }
             
-            if (type == "linking"){}
-            
+            if (type == "linking"){
+              T <- length(object@date.var)
+              portfolio.ret <- apply(object@portfolio.ret + 1, 1, prod)
+              benchmark.ret <- apply(object@benchmark.ret + 1, 1, prod)
+              act.ret <- portfolio.ret - benchmark.ret
+              A <- act.ret / T / (portfolio.ret ^ (1 / T) -
+                                  benchmark.ret ^ (1 / T))
+              C <- (act.ret - sum(object@act.ret * A)) / sum(object@act.ret^2)
+              alpha <- C * object@act.ret
+              B.linking <- A + alpha
+              .mat <- returns(object)[["Raw"]]
+              .no.row <- nrow(.mat)
+              linking.raw <- t(sapply(1:.no.row, function(i){.mat[i,] * B.linking})) 
+              rownames(linking.raw) <- rownames(.mat)
+              colnames(linking.raw) <- colnames(.mat)
+              linking.raw <- linking.raw[c(-.no.row + 1, -.no.row + 2), ]
+              
+              linking.agg <- matrix(apply(linking.raw, 1, sum))
+              colnames(linking.agg) <- paste(c(min(unique(as.character(object@date.var))),
+                                       max(unique(as.character(object@date.var)))),
+                                     collapse = ", ")
+              rownames(linking.agg) <- rownames(linking.raw)
+              linking.list <- .combine(linking.raw, linking.agg)
+              return(linking.list)
+            }
             
             if (type == "geometric"){
               agg <- matrix(apply(raw + 1, 1, prod) - 1)
