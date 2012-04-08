@@ -214,6 +214,8 @@ setMethod("returns",
             
             if (type == "geometric"){
               agg <- matrix(apply(raw + 1, 1, prod) - 1)
+              .no.row <- nrow(agg)
+              agg[.no.row, 1] <- agg[.no.row - 2, 1] - agg[.no.row - 1, 1]
               rownames(agg) <- rownames(returns(object@universe[[1]]))
               colnames(agg) <- paste(c(min(unique(as.character(object@date.var))),
                                        max(unique(as.character(object@date.var)))),
@@ -221,8 +223,6 @@ setMethod("returns",
               geo.list <- .combine(raw, agg)
               return(geo.list)
             }
-            
           }
-          
           )
 
