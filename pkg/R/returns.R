@@ -42,13 +42,13 @@ setMethod("returns",
 setMethod("returns",
           signature(object = "brinsonMulti"),
           function(object,
-                   type = "arithmetic",
+                   type = "geometric",
                    ...){
 
             stopifnot(type %in% c("arithmetic", "linking", "geometric"))
                       
-            ## three types - default is arithmetic, the other two are
-            ## geometric and linking
+            ## three types - default is geometric, the other two are
+            ## arithmetic and linking
             
             active.return <- object@brinson.mat[1,] - object@brinson.mat[4,]
             allocation <- object@brinson.mat[3,] - object@brinson.mat[4,]
@@ -164,11 +164,11 @@ setMethod("returns",
 setMethod("returns",
           signature(object = "regressionMulti"),
           function(object,
-                   type = "arithmetic",
+                   type = "geometric",
                    ...){
             
-            ## 3 types - default is arithmetic, the other two are
-            ## geometric and linking.
+            ## 3 types - default is geometric, the other two are
+            ## arithmetic and linking.
             stopifnot(type %in% c("arithmetic", "linking", "geometric"))
             
             ## raw attribution

@@ -160,12 +160,12 @@ setMethod("plot",
           }
           )
 
-## plot for regressionMulti class object
 
+## plot for regressionMulti class object
 setMethod("plot",
           signature(object = "regressionMulti"),
           function(object,
-                   var,
+                   var = "sector",
                    type = "exposure",
                    ...){
 
