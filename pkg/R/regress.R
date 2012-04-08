@@ -5,8 +5,6 @@
 regress <- function(x,
                     date.var = "date",
                     ret.var = "return",
-                    ## variables on the right hand side of the
-                    ## regression formula
                     reg.var = c("sector", "value", "growth"),
                     benchmark.weight = "benchmark",
                     portfolio.weight = "portfolio"
@@ -48,17 +46,14 @@ regress <- function(x,
                      portfolio.weight = portfolio.weight,
                      universe = multiples
                      )
-   
-  
+
     ## 
     benchmark.ret.mat <- NULL
     for (i in 1:len){
       benchmark.ret.mat <- cbind(benchmark.ret.mat, multiples[[i]]@benchmark.ret)
     }
     colnames(benchmark.ret.mat) <- as.character(dates)
-
     reg.multi@benchmark.ret <- benchmark.ret.mat
-    
 
     ##
     portfolio.ret.mat <- NULL
@@ -66,9 +61,7 @@ regress <- function(x,
       portfolio.ret.mat <- cbind(portfolio.ret.mat, multiples[[i]]@portfolio.ret)
     }
     colnames(portfolio.ret.mat) <- as.character(dates)
-
     reg.multi@portfolio.ret <- portfolio.ret.mat
-
 
     ## 
     act.ret.mat <- NULL
@@ -76,19 +69,31 @@ regress <- function(x,
       act.ret.mat <- cbind(act.ret.mat, multiples[[i]]@act.ret)
     }
     colnames(act.ret.mat) <- as.character(dates)
-
     reg.multi@act.ret <- act.ret.mat
 
     ##
-    pred.mat <- NULL
+    coeff.mat <- NULL
     for (i in 1:len){
-      pred.mat <- cbind(pred.mat, multiples[[i]]@portfolio.ret -
-                        multiples[[1]]@contrib)
+      coeff.mat <- cbind(coeff.mat, multiples[[i]]@coefficients)
     }
-    colnames(pred.mat) <- as.character(dates)
-    rownames(pred.mat) <- reg.var
+    colnames(coeff.mat) <- as.character(dates)
+    reg.multi@coefficients <- coeff.mat
 
-    reg.multi@pred.mat <- pred.mat
+    ##
+    act.expo <- NULL
+    for (i in 1:len){
+      act.expo <- cbind(act.expo, multiples[[i]]@act.expo)
+    }
+    colnames(act.expo) <- as.character(dates)
+    reg.multi@act.expo <- act.expo
+    
+    ##
+    contrib <- NULL
+    for (i in 1:len){
+      contrib <- cbind(contrib, multiples[[i]]@contrib)
+    }
+    colnames(contrib) <- as.character(dates)
+    reg.multi@contrib <- contrib
     
     return(reg.multi)
     

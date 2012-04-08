@@ -11,7 +11,7 @@ setMethod("exposure",
             
             ## round to certain digits
             options(digits = 3)
-            
+                      
             ## decide whether it's categorical or continuous (split
             ## into 5 quantiles)
             if (class(object@universe[[var]])[1] != "numeric"){
@@ -116,12 +116,15 @@ setMethod("exposure",
 setMethod("exposure",
           signature(object = "regression"),
           function(object,
-                   var,
+                   var = NULL,
                    ...){
 
             ## round to certain digits
             options(digits = 3)
-
+            stopifnot(var %in% names(object@universe))
+            
+            if (!is.null(var)){
+            
             ## decide whether it's categorical or continuous (split
             ## into 5 quantiles)
             if (class(object@universe[[var]])[1] != "numeric"){
@@ -151,6 +154,9 @@ setMethod("exposure",
               rownames(expo.mat)[5] <- "High"
               return(expo.mat)
             }
+          } else {
+            return("Please enter a variable name")
+          }
           }
           )
 
@@ -161,12 +167,14 @@ setMethod("exposure",
 setMethod("exposure",
           signature(object = "regressionMulti"),
           function(object,
-                   var,
+                   var = NULL,
                    ...){
             
             ## round to certain digits
             options(digits = 3)
+            stopifnot(var %in% names(object@universe[[1]]@universe))
 
+            if (!is.null(var)){
             if (class(object@universe[[1]]@universe[[var]])[1] != "numeric"){
               ## categorical
               expo.list <- list()
@@ -217,5 +225,8 @@ setMethod("exposure",
               names(expo.list) <- c("Portfolio", "Benchmark")
               return(expo.list)
             }
+          } else {
+            return("Please enter a variable name")
+          }
           }
           )

@@ -123,23 +123,8 @@ setClass("regression",
            universe            = data.frame()
            ),
          validity = function(object){
-
-           ## The length of the original portfolio should be the
-           ## same as the length of each matching portfolio.
-           
-           ## weights.orig  <- object@weights.orig
-           ## weights.match <- object@weights.match
-           
-           ## if(!nrow(weights.match) %in% length(weights.orig))
-           ##   return(paste("Each column of \"weights.match\" must have",
-           ##                "the same length as \"weights.orig\"."))
-
-           ## return(TRUE)
          }
          )
-
-
-
 
 setClass("regressionMulti",
          representation = representation(
@@ -148,10 +133,12 @@ setClass("regressionMulti",
            reg.var          = "character",
            benchmark.weight = "character",
            portfolio.weight = "character",
+           coefficients     = "matrix",
            benchmark.ret    = "matrix",
            portfolio.ret    = "matrix",
            act.ret          = "matrix",
-           pred.mat         = "matrix",
+           act.expo         = "matrix",
+           contrib          = "matrix",
            universe         = "list"
            ),
          prototype = prototype(
@@ -160,10 +147,12 @@ setClass("regressionMulti",
            reg.var          = character(),
            benchmark.weight = character(),
            portfolio.weight = character(),
+           coefficients     = matrix(),
            benchmark.ret    = matrix(),
            portfolio.ret    = matrix(),
            act.ret          = matrix(),
-           pred.mat         = matrix(),          
+           act.expo         = matrix(),
+           contrib          = matrix(),
            universe         = list()
            ),
          validity = function(object){
