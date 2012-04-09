@@ -604,9 +604,10 @@ exposure(br.multi, var = "size")
 
 The \texttt{exposure} method on the class \texttt{br.multi} object
 shows the exposure of the portfolio and the benchmark based on a
-user-defined category. Here, it shows the exposure on \emph{size}. We
-can see that the portfolio overweights the benchmark in size of the
-smallest quintile and underweights in that of the highest quintile.
+user-defined category. Here, it shows the exposure on
+\texttt{size}. We can see that the portfolio overweights the benchmark
+in the lowest quintile in \texttt{size} and underweights in the
+highest quintile.
 
 <<>>=
 returns(br.multi, type = "linking")
