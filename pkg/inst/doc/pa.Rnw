@@ -53,7 +53,7 @@ interaction between allocation and selection: the \emph{interaction
   effect}. The Brinson model provides mathematical definitions for
 these terms and methods for calculating them.
 
-The above example uses sector as the classification scheme when
+The example above uses sector as the classification scheme when
 calculating the allocation effect. But the same approach can work with
 any other variable which places each security into one, and only one,
 discrete category: country, industry, and so on. In fact, a similar
@@ -327,11 +327,11 @@ where
   are the residuals from the regression.
 \end{itemize}
 
-For the active exposure of each of the $k$ variables $i$,
-$\mathbf{X_{i}}$, $i$ $\in$ $k$, is expressed as
+For the active exposure of each of the $k$ variables $i$, $X_{i}$, $i$
+$\in$ $k$, is expressed as
 
 \begin{center}
-  $X_i = \mathbf{w_{active}'x_{n,i}}$
+  $X_i = \mathbf{w_{active}'x_{n,i}}$,
 \end{center}
 
 where $X_i$ is value representing the active exposure of the attribute
