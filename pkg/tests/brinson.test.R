@@ -3,23 +3,23 @@
 
 library(pa)
 
-## data(s1)
-## truth <- brinson(x = s1)
-## data(s2)
-## truth.multi <- brinson(x = s2)
+## data(jan)
+## truth <- brinson(x = jan)
+## data(quarter)
+## truth.multi <- brinson(x = quarter)
 ## save(truth, truth.multi, file = "brinson.test.RData")
 
 ## Single-period
 
-data(s1)
-result <- brinson(x = s1)
+data(jan)
+result <- brinson(x = jan)
 
 stopifnot(all.equal(result, truth))
 
 ## Multi-period
 
-data(s2)
-result.multi <- brinson(x = s2)
+data(quarter)
+result.multi <- brinson(x = quarter)
 
 stopifnot(all.equal(result.multi, truth.multi))
 
