@@ -41,11 +41,11 @@ bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
 
 \examples{
 
-data(s1)
+data(jan)
 
 ## Single-period brinson analysis
 
-p1 <- brinson(x = s1, date.var = "date", sector.var = "sector",
+p1 <- brinson(x = jan, date.var = "date", sector.var = "sector",
                     bench.weight = "benchmark", portfolio.weight =
                     "portfolio", ret.var = "fwd.ret.1m")
 
@@ -53,9 +53,9 @@ summary(p1)
 
 ## Multi-period brinson analysis
 
-data(s2)
+data(quarter)
 
-p2 <- brinson(x = s2, date.var = "date", sector.var = "sector",
+p2 <- brinson(x = quarter, date.var = "date", sector.var = "sector",
                     bench.weight = "benchmark", portfolio.weight =
                     "portfolio", ret.var = "fwd.ret.1m")
 
