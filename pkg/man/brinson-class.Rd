@@ -72,11 +72,11 @@
 
 \examples{
 
-data(s1)
+data(jan)
 
 ## Single-period brinson analysis
 
-p1 <- brinson(x = s1, date.var = "date", sector.var = "sector",
+p1 <- brinson(x = jan, date.var = "date", sector.var = "sector",
                     bench.weight = "benchmark", portfolio.weight =
                     "portfolio", ret.var = "fwd.ret.1m")
 
