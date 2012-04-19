@@ -68,7 +68,7 @@
 }
 }
 
-\author{  Yang Lu }
+\author{  Yang Lu  \email{yang.lu@williams.edu} }
 
 \examples{
 

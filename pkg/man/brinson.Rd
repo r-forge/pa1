@@ -7,9 +7,9 @@
   single-period data set or \code{brinsonMulti} for a multi-period data
   set.  }
 
-\usage{ brinson(x, date.var = "date", sector.var = "sector",
-bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
-"fwd.ret.1m")}
+\usage{ brinson(x, date.var = "date", cat.var = "sector", bench.weight =
+    "benchmark", portfolio.weight = "portfolio", ret.var = "return")
+}
 
 \arguments{
   \item{x}{ A data frame containing the data from which
@@ -19,8 +19,8 @@ bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
     observation. If the unique number of \code{date.var} is one,
     a class object of \code{brinson} will be formed. Otherwise, a class
     object of \code{brinsonMulti} will be formed.}
-  \item{sector.var}{A character vector which indicates the name of the
-    column in \code{x} to be used as sector variable.}
+  \item{cat.var}{A character vector which indicates the name of the
+    column in \code{x} to be used as categorical variables.}
   \item{bench.weight}{A character vector which indicates the name of the
     column or columns in \code{x} to be used as benchmark weight.}
   \item{portfolio.weight}{A character vector which indicates the name of the
@@ -41,24 +41,16 @@ bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
 
 \examples{
 
-data(jan)
-
 ## Single-period brinson analysis
-
-p1 <- brinson(x = jan, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
-
+data(jan)
+p1 <- brinson(x = jan, date.var = "date", cat.var = "sector", bench.weight = "benchmark", 
+    portfolio.weight = "portfolio", ret.var = "return")
 summary(p1)
 
 ## Multi-period brinson analysis
-
 data(quarter)
-
-p2 <- brinson(x = quarter, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
-
+p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
+bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var = "return")
 summary(p2)
 
 }
