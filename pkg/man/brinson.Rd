@@ -52,6 +52,5 @@ data(quarter)
 p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
 bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var = "return")
 summary(p2)
-
 }
 \keyword{file}

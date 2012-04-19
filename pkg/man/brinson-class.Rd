@@ -76,9 +76,8 @@ data(jan)
 
 ## Single-period brinson analysis
 
-p1 <- brinson(x = jan, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
+p1 <- brinson(x = jan, date.var = "date", cat.var = "sector", bench.weight = "benchmark", 
+    portfolio.weight = "portfolio", ret.var = "return")
 
 summary(p1)
 

@@ -1,58 +1,39 @@
 \name{show}
 \alias{show}
-\title{Provide a concise summary for an object of either class brinson
-  or class brinsonMulti}
-
-\description{
-
-  Summarize a portfolio including the time period, number of stocks in
-  the portfolio and in the benchmark. The input can be a class object of
-  either \code{brinson} for a single-period data set or
-  \code{brinsonMulti} for a multi-period data set.
- 
+\title{
+  Provide a concise summary for an object of analysis.
 }
-
-\usage{ show(object) }
-
+\description{
+  Provide a concise summary for an object of one of the following
+  classes, brinson, brinsonMulti, regression, and regressionMulti. 
+}
+\usage{
+show(object)
+}
 \arguments{
-
-  \item{object}{ An object of either class \code{brinson} or class
-    \code{brinsonMulti}.}
-  
+  \item{object}{ An object of either class \code{brinson}, class
+    \code{brinsonMulti}, \code{regression}, or \code{regressionMulti}. 
+  }
 }
 
 \value{
-
-  Return information of a portfolio including the time period, number of
-  stocks in the portfolio and in the benchmark. The input can be a class
-  object of either \code{brinson} for a single-period data set or
-  \code{brinsonMulti} for a multi-period data set.
-
+  Return relevant information about a portfolio and its benchmark. It
+  includes their exposures and returns. The input object is of class
+  \code{brinson}, \code{brinsonMulti}, \code{regression}, or
+  \code{regressionMulti}. 
 }
 
 \author{Yang Lu \email{Yang.Lu@williams.edu}}
 
 \examples{
 
-data(s1)
-
 ## Single-period brinson analysis
-
-p1 <- brinson(x = s1, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
-
+data(jan)
+p1 <- brinson(x = jan, date.var = "date", cat.var = "sector", bench.weight = "benchmark", 
+    portfolio.weight = "portfolio", ret.var = "return")
 show(p1)
 
-## Multi-period brinson analysis
-
-data(s2)
-
-p2 <- brinson(x = s2, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
-
-show(p2)
 
 }
+
 \keyword{file}

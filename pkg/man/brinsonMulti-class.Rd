@@ -60,23 +60,11 @@
 
 \examples{
 
-data(s2)
-
 ## Multi-period brinson analysis
-
-p2 <- brinson(x = s2, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
-
+data(quarter)
+p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
+bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var = "return")
 summary(p2)
-
-exposure(p2)
-
-returns(p2)
-
-plot(p2, type = "exposure")
-
-plot(p2, type = "returns")
 
 }
 
