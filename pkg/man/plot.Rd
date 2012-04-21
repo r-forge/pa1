@@ -5,25 +5,35 @@
 
 \description{
 
-  This method plots the exposures or returns comparison graph of a
+  This method plots the exposure or return comparison graph of a
   portfolio and its benchmark.
 
 }
 
-\usage{ plot(object, type = "exposure") }
+\usage{ plot(object, var, type, ...) }
 
 \arguments{
-  \item{object}{ The input object on which the plot is based. It can be
-    either a \code{brinson} object or a \code{brinsonMulti} object. }
+  
+  \item{object}{The input object on which the plot is based. It can be
+    one of the four class objects including \code{brinson},
+    \code{brinsonMulti}, \code{regression}, and \code{regressionMulti}. } 
+  \item{var}{The name of the variable whose exposure to be shown. This
+    input has no effect when the \code{type} is \code{return}. The
+    default is \code{sector}. } 
   \item{type}{A character vector which indicates the type of plot to be
-  shown. It can be either "exposure" or "returns". By default, it shows
-  the exposure comparison plot.}
+  shown. It can be either \code{exposure} or \code{returns}. By default,
+    it shows the exposure comparison plot. }
 }
 
 \value{
 
-  Return a bar plot if the input is a \code{brinson} object. Return a
-  faceted bar plot if the input is a \code{brinsonMulti} object.
+  Return a bar plot if the input is an object of class
+  \code{brinson}. Return a faceted bar plot if the input is an object of
+  class \code{brinsonMulti}.
+
+  Return a trend line if the input is an object of class
+  \code{regressionMulti}. Show no graph for an object of class
+  \code{regression}. 
 
 }
 
@@ -31,17 +41,25 @@
 
 \examples{
 
-data(s1)
-
 ## Single-period brinson analysis
 
-p1 <- brinson(x = s1, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
+data(jan)
 
-plot(object = p1, type = "exposure")
+p1 <- brinson(x = jan, date.var = "date", cat.var = "sector",
+bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
+"return")
 
-plot(object = p1, type = "returns")
+plot(p1, type = "return")
+
+## Multi-period brinson analysis
+
+data(quarter)
+
+p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
+bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
+"return")
+
+plot(p2, var = "size")
 
 }
 \keyword{file}

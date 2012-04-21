@@ -1,55 +1,73 @@
 \name{returns}
 \alias{returns}
-\title{Calculate the contribution of various effects based on the brinson model}
+\title{Calculate the attribution results}
 
 \description{
 
-  Calculate and display the results of brinson analysis. Allocation
-  effect, selection effect, interaction, and active return are
-  displayed.
+  Calculate and display the attribution results. Allocation effect,
+  selection effect, interaction, and active return are displayed for
+  brinson analysis. Returns of user-defined input variables, portfolio
+  return, benchmark return, and active return are shown for regression
+  analysis.
   
 }
 
-\usage{ returns(object) }
+\usage{ returns(object, ...) }
 
 \arguments{
 
   \item{object}{ An object of either class \code{brinson} or class
-    \code{brinsonMulti}.}
+    \code{brinsonMulti}.} 
+  \item{type}{Type of returns to be shown for regression analysis. They
+    include \code{arithmetic}, \code{geometric}, and \code{linking}. The
+    default is \code{geometric}. }
   
 }
 
 \value{
 
-  Return a matrix of 4 rows including \code{Allocation Effect},
-  \code{Selection Effect}, \code{Interaction Effect}, and \code{Active
-  Return}.
+  When the input is an object of class \code{brinson}, return a matrix
+  of 4 rows including \code{Allocation}, \code{Selection},
+  \code{Interaction}, and \code{Active Return}.
 
+  When the input is an object of class \code{brinsonMulti}, return a
+  list including brison attribution for each individual period and the
+  aggregate. 
+
+  When the input is an object of class \code{regression}, return a
+  matrix including contributions of input variables, \code{Portfolio
+    Return}, \code{Benchmark Return}, and \code{Active Return}.
+
+  When the input is an object of class \code{regressionMulti}, return a
+  list including regression analysis for each individual period and the
+  aggregate. 
+  
 }
 
 \author{Yang Lu \email{Yang.Lu@williams.edu}}
 
 \examples{
 
-data(s1)
+## Single-period brinson analysis
 
-## Single-period brinson analysis results
+data(jan)
 
-p1 <- brinson(x = s1, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
+p1 <- brinson(x = jan, date.var = "date", cat.var = "sector",
+bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
+"return")
 
 returns(p1)
 
-## Multi-period brinson analysis results
+## Multi-period brinson analysis
 
-data(s2)
+data(quarter)
 
-p2 <- brinson(x = s2, date.var = "date", sector.var = "sector",
-                    bench.weight = "benchmark", portfolio.weight =
-                    "portfolio", ret.var = "fwd.ret.1m")
+p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
+bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
+"return")
 
-returns(p2)
+returns(p2, type = "linking")
+
 
 }
 \keyword{file}

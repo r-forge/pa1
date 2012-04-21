@@ -8,8 +8,7 @@
 
 setMethod("summary",
           signature(object = "brinson"),
-          function(object,
-                   ...){
+          function(object){
             
             cat(sprintf("Period:                              %-s",
                         paste(unique(as.character(object@universe[[object@date.var]])),
@@ -44,8 +43,7 @@ setMethod("summary",
 
 setMethod("summary",
           signature(object = "brinsonMulti"),
-          function(object,
-                   ...){
+          function(object){
             
             cat(sprintf("Period starts:                       %-s",
                         paste(min(unique(as.character(object@date.var))),
@@ -86,8 +84,7 @@ setMethod("summary",
 
 setMethod("summary",
           signature(object = "regression"),
-          function(object,
-                   ...){
+          function(object){
             
             cat(sprintf("Period:                              %-s",
                         paste(unique(as.character(object@universe[[object@date.var]])),
@@ -117,8 +114,7 @@ setMethod("summary",
 
 setMethod("summary",
           signature(object = "regressionMulti"),
-          function(object,
-                   ...){
+          function(object){
             
             cat(sprintf("Period starts:                       %-s",
                         paste(min(unique(as.character(object@date.var))),

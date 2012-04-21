@@ -11,16 +11,19 @@
 show(object)
 }
 \arguments{
+
   \item{object}{ An object of either class \code{brinson}, class
-    \code{brinsonMulti}, \code{regression}, or \code{regressionMulti}. 
-  }
+    \code{brinsonMulti}, \code{regression}, or \code{regressionMulti}.}
+  
 }
 
 \value{
+  
   Return relevant information about a portfolio and its benchmark. It
   includes their exposures and returns. The input object is of class
   \code{brinson}, \code{brinsonMulti}, \code{regression}, or
-  \code{regressionMulti}. 
+  \code{regressionMulti}.
+  
 }
 
 \author{Yang Lu \email{Yang.Lu@williams.edu}}
@@ -28,9 +31,13 @@ show(object)
 \examples{
 
 ## Single-period brinson analysis
+
 data(jan)
-p1 <- brinson(x = jan, date.var = "date", cat.var = "sector", bench.weight = "benchmark", 
-    portfolio.weight = "portfolio", ret.var = "return")
+
+p1 <- brinson(x = jan, date.var = "date", cat.var = "sector",
+    bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var
+    = "return")
+
 show(p1)
 
 

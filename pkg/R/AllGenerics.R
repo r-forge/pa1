@@ -18,5 +18,4 @@ if(!isGeneric("plot"))
                               ...) standardGeneric("plot"))
 
 if(!isGeneric("show"))
-  setGeneric("show", function(object,
-                                 ...) standardGeneric("show"))
+  setGeneric("show", function(object) standardGeneric("show"))
