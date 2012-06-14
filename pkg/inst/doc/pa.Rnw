@@ -276,9 +276,10 @@ where $R_{active} = R_P - R_B$.
 \section*{Single-Period Regression Model}
 
 Another way to think about the analysis as Brinson has done is to
-consider it in the context of a regression model. A regression can be
-run without intercept. Estimated coefficients will be the mean return
-of each category in the universe, a.k.a. the factor return of each
+consider it in the context of a regression model. Conducting the
+Brinson analysis is similar to running a linear regression without the
+intercept term. Estimated coefficients will then be the mean return of
+each category in the universe, a.k.a. the factor return of each
 category. The mean return of each category also appears in the Brinson
 analysis. The equivalent to the allocation effect for the universe in
 the Brinson model is the sum of the product of the estimated
@@ -309,7 +310,7 @@ sector, and size):
 
 
 \begin{center}
-  $\mathbf{r_n} = \mathbf{x_{n,k}f_k} + \mathbf{u_n}$
+  $\mathbf{r_n} = \mathbf{X_{n,k}f_k} + \mathbf{u_n}$
 \end{center}
 
 where 
@@ -317,7 +318,7 @@ where
 \begin{itemize}
 \item $\mathbf{r_n}$ is a column vector of length $n$. Each element in
   $\mathbf{r_n}$ represents the return of a security in the portfolio.
-\item $\mathbf{x_{n,k}}$ is an $n$ by $k$ vector. Each row represents
+\item $\mathbf{X_{n,k}}$ is an $n$ by $k$ matrix. Each row represents
   $k$ attributes of a security. There are $n$ securities in the
   portfolio.
 \item $\mathbf{f_k}$ is a column vector of length $k$. The elements
@@ -398,7 +399,7 @@ where $U$ is the residual across $T$ periods.
 
 In the \pkg{pa} package we will consider a series of examples based on
 real-world data sets by MSCI Barra\footnote{See www.msci.com for
-  details.}. MSCI Barra is a leaing provider of investment decision
+  details.}. MSCI Barra is a leading provider of investment decision
 support tools to investment institutions worldwide. According to the
 company:
 
@@ -568,10 +569,9 @@ plot(br.single, type = "return")
 
 Figure \ref{figure:return} is a visual representation of the return of
 both the portfolio and the benchmark sector by sector in January,
-2010. This plot suggests that for the portfolio, \texttt{Utilities}
-performed the best with a gain of more than 5\% and that
-\texttt{Consumer Discretionary} performed the worst with a loss of
-more than 10\%.
+2010. This plot suggests that Utilities performed the best with a gain
+of more than 5\% and Consumer Discretionary, the worst performing
+sector, lost more than 10\%.
 
 \section*{Multi-Period Brinson Tools}
 
