@@ -195,7 +195,7 @@ compound various returns over $T$ periods where,
 
 and $R_t^P$ and $R_t^B$ are portfolio and benchmark returns in a
 single period $t$, respectively. Geometric return $R_{geometric}$ is
-the difference between $R_p$ and $R_B$:
+thus the difference between $R_p$ and $R_B$:
 
 \begin{center}
   $R_{geometric} = R_p - R_B$.
@@ -334,7 +334,7 @@ where
   are the residuals from the regression.
 \end{itemize}
 
-For the active exposure of each of the $k$ variables $i$, $X_{i}$, $i$
+For the active exposure of each of the $k$ variables, $X_{i}$, $i$
 $\in$ $k$, is expressed as
 
 \begin{center}
