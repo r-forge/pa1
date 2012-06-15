@@ -9,7 +9,7 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small}
 \DefineVerbatimEnvironment{Scode}{Verbatim}{fontsize=\small,fontshape=sl}
 
-\SweaveOpts{echo = TRUE, results = verbatim}
+\SweaveOpts{echo = TRUE, results = verbatim, keep.source = TRUE}
 
 \bibliographystyle{abbrvnat}
 
@@ -282,8 +282,8 @@ where $R_{active} = R_P - R_B$.
 \section*{Single-Period Regression Model}
 
 Another way to think about the analysis as Brinson et al. have done is
-to consider it in the context of a regression model. Conducting the
-Brinson analysis is similar to running a linear regression without the
+to consider it in the context of a regression model. Conducting a
+Brinson attribution is similar to running a linear regression without the
 intercept term. Estimated coefficients will then be the mean return of
 each category in the universe, a.k.a. the factor return of each
 category. The mean return of each category also appears in the Brinson
@@ -334,10 +334,10 @@ where
 
 In the case of this portfolio manager, suppose that she only has three
 holdings in her portfolio. $r_3$ is thus a 3 by 1 matrix with returns
-of all three holdings. The matrix $\mathbf{X_{3,3}}$ records the
-scores for each of the three factors (value, growth, and momentum) in
-each row. $\mathbf{f_3}$ contains the estimated coefficients when regressing
-$\mathbf{r_3}$ on $\mathbf{X_{3, 3}}$. 
+of all her three holdings. The matrix $\mathbf{X_{3,3}}$ records the
+score for each of the three factors (value, growth, and momentum) in
+each row. $\mathbf{f_3}$ contains the estimated coefficients of a
+regression $\mathbf{r_3}$ on $\mathbf{X_{3, 3}}$.
 
 The active exposure of each of the $k$ variables, $X_{i}$, $i$
 $\in$ $k$, is expressed as
@@ -346,18 +346,19 @@ $\in$ $k$, is expressed as
   $X_i = \mathbf{w_{active}'x_{n,i}}$,
 \end{center}
 
-where $X_i$ is value representing the active exposure of the attribute
-$i$ in the portfolio, $\mathbf{w_{active}}$ is a column vector of
-length $n$ containing the active weight of every security in the
-portfolio, and $\mathbf{x_{n}}$ is a column vector of length $n$
+where $X_i$ is the value representing the active exposure of the
+attribute $i$ in the portfolio, $\mathbf{w_{active}}$ is a column
+vector of length $n$ containing the active weight of every security in
+the portfolio, and $\mathbf{x_{n}}$ is a column vector of length $n$
 with attribute $i$ for all securities in the portfolio. Active weight
 of a security is defined as the difference between the portfolio
-weight of the security and its benchmark weight. 
+weight of the security and its benchmark weight.
 
 Using the example mentioned above, the active exposure of the
-attribute value, $X_{value}$ is the product of $\mathbf{w_{active}}'$
-(containing the active weight of each of the three holdings) and
-$\mathbf{x_{3}}$ (containing value scores of the three holdings).
+attribute \texttt{value}, $X_{value}$ is the product of
+$\mathbf{w_{active}}'$ (containing active weight of each of the three
+holdings) and $\mathbf{x_{3}}$ (containing value scores of the three
+holdings).
 
 The contribution of a variable $i$, $R_i$, is thus the product of the
 factor returns for the variable $i$, $f_i$ and the active exposure of
@@ -547,9 +548,11 @@ period portfolio based on the Brinson model.
 
 <<>>=
 data(jan)
-br.single <- brinson(x = jan, date.var = "date", cat.var = "sector",
-                     bench.weight = "benchmark", portfolio.weight =
-                     "portfolio", ret.var = "return")
+br.single <- brinson(x = jan, date.var = "date", 
+                 cat.var = "sector",
+                 bench.weight = "benchmark", 
+                 portfolio.weight = "portfolio", 
+                 ret.var = "return")
 
 @
 
@@ -605,10 +608,10 @@ below.
 <<>>=
 data(quarter)
 br.multi <- brinson(quarter, date.var = "date",
-                    cat.var = "sector",
-                    bench.weight = "benchmark",
-                    portfolio.weight = "portfolio",
-                    ret.var = "return")
+                cat.var = "sector",
+                bench.weight = "benchmark",
+                portfolio.weight = "portfolio",
+                ret.var = "return")
 @
 
 
@@ -671,11 +674,11 @@ both single-period and multi-period data frames.
 
 <<>>=
 rb.single <- regress(jan, date.var = "date",
-                     ret.var = "return",
-                     reg.var = c("sector", "growth",
-                       "size"),
-                     benchmark.weight = "benchmark",
-                     portfolio.weight = "portfolio")
+                ret.var = "return",
+                reg.var = c("sector", "growth",
+                  "size"),
+                benchmark.weight = "benchmark",
+                portfolio.weight = "portfolio")
 exposure(rb.single, var = "growth")
 @
 
@@ -703,10 +706,11 @@ contributed 0.32\%, 0.05\%, and 0.29\%, respectively.
 \section*{Multi-Period Regression Tools}
 <<>>=
 rb.multi <- regress(quarter, date.var = "date",
-                    ret.var = "return",
-                    reg.var = c("sector", "growth", "size"),
-                    benchmark.weight = "benchmark",
-                    portfolio.weight = "portfolio")
+                ret.var = "return",
+                reg.var = c("sector", "growth", 
+                  "size"),
+                benchmark.weight = "benchmark",
+                portfolio.weight = "portfolio")
 rb.multi
 @
 
@@ -734,10 +738,11 @@ the data frame \texttt{year} for illustrative purposes.
 
 <<>>=
 rb.multi2 <- regress(year, date.var = "date",
-                     ret.var = "return",
-                     reg.var = c("sector", "growth", "size"),
-                     benchmark.weight = "benchmark",
-                     portfolio.weight = "portfolio")
+               ret.var = "return",
+               reg.var = c("sector", "growth", 
+                 "size"),
+               benchmark.weight = "benchmark",
+               portfolio.weight = "portfolio")
 returns(rb.multi2, type = "linking")
 @ 
 
@@ -757,12 +762,12 @@ plot(rb.multi2, type = "return")
   Performance Attribution.}
 \end{figure}
 
-Figure \ref{figure:regmultiattrib} displays both the portfolio return
-and the benchmark return from January, 2010 through December, 2010. It
-suggests that the portfolio, consisted of high \texttt{value}
-securities in January, is less volatile than the benchmark. Its
-smaller drawdowns in January, May, August, and November contributed to
-the overall positive active return in 2010.
+Figure \ref{figure:regmultiattrib} displays both the cumulative
+portfolio and benchmark returns from January, 2010 through December,
+2010. It suggests that the portfolio, consisted of high \texttt{value}
+securities in January, consistently outperformed the benchmark in
+2010. Outperformance in May and June helped the overall positive
+active return in 2010 to a large extent.
 
 \section*{Conclusion}
 
