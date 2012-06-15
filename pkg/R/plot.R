@@ -206,6 +206,9 @@ setMethod("plot",
                                  object@benchmark.ret[1, ]),
                                Type = c(rep("Portfolio", len.row),
                                  rep("Benchmark", len.row)))
+              df[1:12, 2] <- cumprod(df[1:12, 2] + 1) - 1
+              df[13:24, 2] <- cumprod(df[13:24, 2] + 1) - 1
+
               temp.plot <- ggplot(df, aes(x = Date, y = Value, col = Type, group = Type)) +
                 geom_line(aes(linetype = Type)) +
                   scale_y_continuous()+ geom_hline(yintercept = 0) + 
