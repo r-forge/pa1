@@ -22,7 +22,8 @@
     default is \code{sector}. } 
   \item{type}{A character vector which indicates the type of plot to be
   shown. It can be either \code{exposure} or \code{returns}. By default,
-    it shows the exposure comparison plot. }
+  it shows the exposure comparison plot. }
+\item{...}{Other options.}
 }
 
 \value{

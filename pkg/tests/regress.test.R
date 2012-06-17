@@ -9,6 +9,8 @@ library(pa)
 ## truth.multi <- regress(x = quarter)
 ## save(truth, truth.multi, file = "regress.test.RData")
 
+load("regress.test.RData")
+
 ## Single-period
 
 data(jan)

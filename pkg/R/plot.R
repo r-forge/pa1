@@ -175,6 +175,11 @@ setMethod("plot",
               len <- length(dates)
               temp <- exposure(object, var = var)
               len.var <- nrow(temp[[1]])
+
+              Date <- NULL
+              Value <- NULL
+              Type <- NULL
+              rm(Date, Value, Type)
               
               for (k in 1:len){
                 .df[[k]] <- data.frame(Date = rep(as.character(dates[k]), 2 * len.var),

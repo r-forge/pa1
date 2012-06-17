@@ -11,6 +11,8 @@ library(pa)
 ## truth.multi <- exposure(b2)
 ## save(truth, truth.multi, file = "exposure.test.RData")
 
+data("exposure.test.RData")
+
 ## Single-period
 
 data(jan)

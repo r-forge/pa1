@@ -16,6 +16,7 @@ library(pa)
 
 ## save(truth, truth.multi, truth.multi.r2, file = "plot.test.RData")
 
+load("plot.test.RData")
 
 ## Single-period
 data(jan)

@@ -11,6 +11,9 @@ library(pa)
 ## truth.multi <- summary(b2)
 ## save(truth, truth.multi, file = "summary.test.RData")
 
+
+load("summary.test.RData")
+
 ## Single-period
 
 data(jan)

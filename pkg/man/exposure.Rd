@@ -19,7 +19,8 @@
   \item{object}{An object of either class \code{brinson} or class
   \code{brinsonMulti}.}  
   \item{var}{Any user-defined category whose exposure is to be
-  displayed.} 
+    displayed.}
+  \item{...}{Other options.}
 }
 
 \value{

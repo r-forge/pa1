@@ -17,8 +17,8 @@
   \describe{
     \item{\code{date.var}:}{ Object of class character storing all the
       dates occurred in the universe data frame.}
-    \item{\code{sector.var}:}{ Object of class character storing the
-      sector variable name in the universe data frame.}
+    \item{\code{cat.var}:}{ Object of class character storing the
+      variable name of the categories in the universe data frame.}
     \item{\code{bench.weight}:}{ Object of class character storing the
       benchmark weight variable name in the universe data frame.}
     \item{\code{portfolio.weight}:}{ Object of class character storing the

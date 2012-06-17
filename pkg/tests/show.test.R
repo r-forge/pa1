@@ -11,6 +11,8 @@ library(pa)
 ## truth.multi <- b2
 ## save(truth, truth.multi, file = "show.test.RData")
 
+load("show.test.RData")
+
 ## Single-period
 
 data(jan)

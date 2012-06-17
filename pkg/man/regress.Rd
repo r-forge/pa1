@@ -30,7 +30,7 @@ regress(x, date.var = "date", ret.var = "return", reg.var = c("sector",
     column in \code{x} to be used as the return variable. }
   \item{reg.var}{Input variables to be used as independent variables in
     the regression analysis. }
-  \item{bench.weight}{A character vector which indicates the name of the
+  \item{benchmark.weight}{A character vector which indicates the name of the
     column or columns in \code{x} to be used as benchmark weight.}
   \item{portfolio.weight}{A character vector which indicates the name of the
     column or columns in \code{x} to be used as portfolio weight.}

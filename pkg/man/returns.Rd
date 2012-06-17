@@ -12,7 +12,7 @@
   
 }
 
-\usage{ returns(object, ...) }
+\usage{ returns(object, type, ...) }
 
 \arguments{
 
@@ -21,6 +21,7 @@
   \item{type}{Type of returns to be shown for regression analysis. They
     include \code{arithmetic}, \code{geometric}, and \code{linking}. The
     default is \code{geometric}. }
+  \item{...}{Other options.}
   
 }
 

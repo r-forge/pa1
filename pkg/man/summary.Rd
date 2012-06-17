@@ -12,13 +12,13 @@
 
 }
 
-\usage{ summary(object) }
+\usage{ summary(object, ...) }
 
 \arguments{
 
   \item{object}{ An object of \code{brinson}, \code{brinsonMulti},
-  \code{regression} or \code{regressionMulti}.} 
-  
+    \code{regression} or \code{regressionMulti}.}
+  \item{...}{ Other options.}
 }
 
 \value{

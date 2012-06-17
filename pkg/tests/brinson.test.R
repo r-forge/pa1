@@ -9,6 +9,8 @@ library(pa)
 ## truth.multi <- brinson(x = quarter)
 ## save(truth, truth.multi, file = "brinson.test.RData")
 
+load("brinson.test.RData")
+
 ## Single-period
 
 data(jan)
