@@ -12,18 +12,18 @@
   
 }
 
-\usage{ returns(object, type, ...) }
+\usage{ returns(object, ...) }
 
 \arguments{
 
   \item{object}{ An object of either class \code{brinson} or class
     \code{brinsonMulti}.} 
-  \item{type}{Type of returns to be shown for regression analysis. They
-    include \code{arithmetic}, \code{geometric}, and \code{linking}. The
-    default is \code{geometric}. }
-  \item{...}{Other options.}
-  
+  \item{...}{Other options including {type} which refers to the
+    type of returns to be shown for regression analysis. They
+    include \code{arithmetic}, \code{geometric}, and \code{linking}.
+    The default is \code{geometric}. }
 }
+  
 
 \value{
 

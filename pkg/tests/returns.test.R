@@ -24,21 +24,21 @@ load("returns.test.RData")
 ## Single-period
 data(jan)
 b1 <- brinson(x = jan)
-result <- returns(b1)
+result <- returns(b1, var = "sector")
 stopifnot(all.equal(result, truth))
 
 r1 <- regress(jan)
-result.r1 <- returns(r1)
+result.r1 <- returns(r1, var = "sector")
 stopifnot(all.equal(result.r1, truth.r1))
 
 ## Multi-period
 
 data(quarter)
 b2 <- brinson(x = quarter)
-result.multi <- returns(b2)
+result.multi <- returns(b2, var = "sector")
 stopifnot(all.equal(result.multi, truth.multi))
 
 r2 <- regress(quarter)
-result.multi.r2 <- returns(r2)
+result.multi.r2 <- returns(r2, var = "sector")
 stopifnot(all.equal(result.multi.r2, truth.multi.r2))
 

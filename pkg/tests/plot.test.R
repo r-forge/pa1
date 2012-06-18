@@ -21,7 +21,7 @@ load("plot.test.RData")
 ## Single-period
 data(jan)
 b1 <- brinson(x = jan)
-result <- plot(b1)
+result <- plot(b1, var = "sector", type = "exposure")
 stopifnot(all.equal(result, truth))
 
 
@@ -29,10 +29,10 @@ stopifnot(all.equal(result, truth))
 
 data(quarter)
 b2 <- brinson(x = quarter)
-result.multi <- plot(b2)
+result.multi <- plot(b2, var = "sector", type = "exposure")
 stopifnot(all.equal(result.multi, truth.multi))
 
 r2 <- regress(quarter)
-result.multi.r2 <- plot(r2)
+result.multi.r2 <- plot(r2, var = "sector", type = "exposure")
 stopifnot(all.equal(result.multi.r2, truth.multi.r2))
 

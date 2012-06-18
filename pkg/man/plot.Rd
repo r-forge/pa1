@@ -10,21 +10,22 @@
 
 }
 
-\usage{ plot(object, var, type, ...) }
+\usage{ plot(object, type, ...) }
 
 \arguments{
   
   \item{object}{The input object on which the plot is based. It can be
     one of the four class objects including \code{brinson},
     \code{brinsonMulti}, \code{regression}, and \code{regressionMulti}. } 
-  \item{var}{The name of the variable whose exposure to be shown. This
-    input has no effect when the \code{type} is \code{return}. The
-    default is \code{sector}. } 
   \item{type}{A character vector which indicates the type of plot to be
-  shown. It can be either \code{exposure} or \code{returns}. By default,
-  it shows the exposure comparison plot. }
-\item{...}{Other options.}
-}
+    shown. It can be either \code{exposure} or \code{returns}. By default,
+    it shows the exposure comparison plot. }
+  \item{...}{Other options including \code{var} which refers to the name
+    of the variable whose exposure to be shown. This input has no effect
+    when the \code{type} is \code{return}. The default is
+    \code{sector}.}
+  }
+
 
 \value{
 
@@ -60,7 +61,7 @@ p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
 bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
 "return")
 
-plot(p2, var = "size")
+plot(p2, var = "size", type = "exposure")
 
 }
 \keyword{file}

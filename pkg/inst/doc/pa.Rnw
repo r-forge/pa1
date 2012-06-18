@@ -584,7 +584,7 @@ interaction effect (0.19\%).
 \centering
 \vspace*{.1in}
 <<fig = TRUE>>=
-plot(br.single, type = "return")
+plot(br.single, var = "sector", type = "return")
 @
 \caption{\label{figure:return}
   Sector Return.}
@@ -756,7 +756,7 @@ active return.
 \centering
 \vspace*{.1in}
 <<fig = TRUE>>=
-plot(rb.multi2, type = "return")
+plot(rb.multi2, var = "sector", type = "return")
 @
 \caption{\label{figure:regmultiattrib}
   Performance Attribution.}

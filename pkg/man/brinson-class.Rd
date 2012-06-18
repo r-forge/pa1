@@ -87,13 +87,13 @@ p1 <- brinson(x = jan, date.var = "date", cat.var = "sector",
 
 summary(p1)
 
-exposure(p1)
+exposure(p1, var = "sector")
 
 returns(p1)
 
-plot(p1, type = "exposure")
+plot(p1, var = "sector", type = "exposure")
 
-plot(p1, type = "returns")
+plot(p1, var = "sector", type = "returns")
 
 }
 

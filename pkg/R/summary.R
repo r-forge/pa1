@@ -26,7 +26,7 @@ setMethod("summary",
             cat("\n")
             
             cat("Exposures", "\n")
-            print(exposure(object))
+            print(exposure(object, var = object@cat.var))
             cat("\n")
 
             cat("Returns", "\n")
@@ -67,11 +67,11 @@ setMethod("summary",
             cat("\n")
             
             cat("Exposures", "\n")
-            print(exposure(object))
+            print(exposure(object, var = object@cat.var))
             cat("\n")
             
             cat("Returns", "\n")
-            print(returns(object))
+            print(returns(object, type = "geometric"))
             cat("\n")
           }
           )

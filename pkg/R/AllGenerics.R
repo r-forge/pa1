@@ -8,16 +8,15 @@
 
 if(!isGeneric("exposure"))
   setGeneric("exposure", function(object,
-                                  var,
+                                  var, 
                                   ...) standardGeneric("exposure"))
+
 if(!isGeneric("returns"))
   setGeneric("returns", function(object,
-                                 type, 
                                  ...) standardGeneric("returns"))
 
 if(!isGeneric("plot"))
   setGeneric("plot", function(object,
-                              var,
                               type,
                               ...) standardGeneric("plot"))
 
