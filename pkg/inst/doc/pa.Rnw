@@ -47,7 +47,7 @@ sector-based approach, which is similar to the concept of the Brinson
 model, to incorporate ''local risk premium'' into the attribution
 model [\cite{multi}]. Further, managers of fixed income portfolios
 utilize models that take into account yield-curve movements
-[\cite{multi}]. The focus of this paper is on attribution models for
+[\cite{lord}]. The focus of this paper is on attribution models for
 equity portfolios. After describing the Brinson and regression
 approaches and demostrating their use via the \pkg{pa} package, we
 show that the Brinson model is just a special case of the regression
