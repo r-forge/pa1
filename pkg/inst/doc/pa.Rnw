@@ -1,6 +1,7 @@
 \documentclass[a4paper]{report}
-\usepackage[round]{natbib}
 
+\usepackage[round]{natbib}
+\usepackage{amssymb}
 \usepackage{Rnews}
 \usepackage{fancyvrb}
 \usepackage{Sweave}
@@ -350,14 +351,11 @@ $R_{selection \, effect}$ is the sum of the country selection effect
 and the sector selection effect:
 
 \begin{center}
-\begin{eqnarray[*]}
-$R_{selection} & = & R_{country \, selection} + R_{sector \,
-    selection} \\ 
-  & = & \sum\limits_{j = 1}^N WC^B_jRC^P_j -
-  \sum\limits_{j = 1}^N WC^B_jRC^B_j \\ 
-  & + & \sum\limits_{j = 1}^N
-  WS^B_jRS^P_j - \sum\limits_{j = 1}^N WS^B_jRS^B_j$,
-\end{eqnarray[*]}
+\begin{eqnarray*}
+  $R_{selection} & = & R_{country \, selection} + R_{sector \, selection} \\ 
+  & = & \sum\limits_{j = 1}^N WC^B_jRC^P_j - \sum\limits_{j = 1}^N WC^B_jRC^B_j \\ 
+  & + & \sum\limits_{j = 1}^N WS^B_jRS^P_j - \sum\limits_{j = 1}^N WS^B_jRS^B_j$,
+\end{eqnarray*}
 \end{center}
 
 assuming there are $N$ sub-categories for sectors and countries,
@@ -401,11 +399,11 @@ Alternatively, the interaction effect can be written as,
 
 \begin{center}
 
-  \begin{eqnarray[*]}
+  \begin{eqnarray*}
   $R_{interaction} & = & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{allocation_k} \\
     & + & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{selection_k} \\
     & + & \sum \limits_{i = 1}^Q \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_i}R_{allocation_j}R_{selection_k} + \dots$.
-  \end{eqnarray[*]}
+  \end{eqnarray*}
 \end{center}
 
 For instance, when there are 3 categories, $3^3 - 2*3 - 1 = 20$
@@ -945,11 +943,11 @@ weight and benchmark weight for that category.
 As mentioned earlier, 
 
 \begin{center}
-\begin{eqnarray[*]}
+\begin{eqnarray*}
   $R_{allocation} & = & \sum\limits_{j = 1}^N W^P_jR^B_j -
   \sum\limits_{j = 1}^N W^B_jR^B_j \\ 
   & = & (\mathbf{W^P} - \mathbf{W^B})\prime \mathbf{f}$,
-\end{eqnarray[*]}
+\end{eqnarray*}
 \end{center}
 
 where $\mathbf{W^P}$ is a column vector indicating the portfolio
@@ -989,11 +987,11 @@ in both the portfolio and the benchmark under a regression framework and
 use the benchmark weights to calculate the selection effect. 
 
 \begin{center}
-  \begin{eqnarray[*]}
-    $R_{selection}$ & = & $\sum\limits_{j = 1}^N W^B_jR^P_j - \sum\limits_{j =
-      1}^N W^B_jR^B_j$ \\
-    & = & $\mathbf{W^B}\prime (\mathbf{f^P} - \mathbf{f^B})$,	
-  \end{eqnarray[*]}
+  \begin{eqnarray*}
+    $R_{selection} & = & \sum\limits_{j = 1}^N W^B_jR^P_j - \sum\limits_{j =
+      1}^N W^B_jR^B_j \\
+    & = & \mathbf{W^B}\prime (\mathbf{f^P} - \mathbf{f^B})$,	
+  \end{eqnarray*}
 \end{center}
 
 where $\mathbf{W^B}$ is the column vector with the benchmark weight of
