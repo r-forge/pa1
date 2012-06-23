@@ -45,7 +45,7 @@ attribution models to assess the performance of their
 portfolios. Equity portfolio managers primarily use the Brinson and
 regression approaches to decompose returns. Portfolio managers use a
 sector-based approach, which is similar to the concept of the Brinson
-model, to incorporate ''local risk premium'' into the attribution
+model, to incorporate ``local risk premium'' into the attribution
 model [\cite{multi}]. Further, managers of fixed income portfolios
 utilize models that take into account yield-curve movements
 [\cite{lord}]. The focus of this paper is on attribution models for
@@ -174,7 +174,7 @@ year[sample.mat, c(-1, -6, -8: -11, -13) ]
 All portfolio holidings are equal-weighted. The row for Canadian
 Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
-2.68\% in August, and 2.90\% in November.
+2.61\% in August, and almost flat in November.
 
 
 \section*{Single-Period Brinson Model}
@@ -361,11 +361,10 @@ and the sector selection effect:
 assuming there are $N$ sub-categories for sectors and countries,
 respectively.
 
-The interaction effect $R_{interaction}$ includes the interaction
+The interaction effect, $R_{interaction}$, includes the interaction
 between country allocation and sector allocation, between country
 allocation and sector selection, between country selection and sector
-allocation, as well as between country selection and sector
-selection. 
+allocation, as well as between country selection and sector selection.
 
 Therefore, in the case of $Q$ categories, the Brinson model becomes
 very complex:
@@ -693,7 +692,7 @@ regression without the intercept term based on a single-period
 portfolio of $n$ securities with $k$ different variables:
 
 \begin{center}
-  $\mathbf{r_n} = \mathbf{X_{n,k}f_k} + \mathbf{u_n}$
+  $\mathbf{r_n} = \mathbf{a} + \mathbf{X_{n,k}f_k} + \mathbf{u_n}$
 \end{center}
 
 where 
@@ -701,6 +700,8 @@ where
 \begin{itemize}
 \item $\mathbf{r_n}$ is a column vector of length $n$. Each element in
   $\mathbf{r_n}$ represents the return of a security in the portfolio.
+\item $\mathbf{a}$ is a column vector of length $n$ with all the
+  intercept terms.
 \item $\mathbf{X_{n,k}}$ is an $n$ by $k$ matrix. Each row represents
   $k$ attributes of a security. There are $n$ securities in the
   portfolio.
@@ -928,17 +929,18 @@ active return in 2010 to a large extent.
 
 \section*{Brinson as Regression}
 
-Another way to think about the analysis as \cite{brinson:gary} have done is
-to consider it in the context of a regression model. Conducting a
-Brinson attribution is similar to running a linear regression without
-the intercept term. Estimated coefficients will then be the mean
-return of each category in the universe, a.k.a. the factor return of
-each category. The mean return of each category also appears in the
-Brinson analysis. The equivalent to the allocation effect for the
-universe in the Brinson model is the sum of the product of the
-estimated coefficient and the active weight of each category. Active
-weight of a category is defined as the difference between portfolio
-weight and benchmark weight for that category.
+Another way to think about the analysis as \cite{brinson:gary} have
+done is to consider it in the context of a regression
+model. Conducting a Brinson attribution is similar to running a linear
+regression without the intercept term. Estimated coefficients will
+then be the mean return of each category of the attributed specified
+in the universe, a.k.a. the factor return of each category. The mean
+return of each category also appears in the Brinson analysis. The
+equivalent to the allocation effect for the universe in the Brinson
+model is the sum of the product of the estimated coefficient and the
+active weight of each category. Active weight of a category is defined
+as the difference between portfolio weight and benchmark weight for
+that category.
 
 As mentioned earlier, 
 
@@ -951,13 +953,13 @@ As mentioned earlier,
 \end{center}
 
 where $\mathbf{W^P}$ is a column vector indicating the portfolio
-weight of each category as specified by the manager; $\mathbf{W^B}$, a
-column vector indicating the benchmark weight of each category as
-specified by the manager, and $\mathbf{f}$ is the column vector which
+weight of each category within the attributed specified by the
+manager; $\mathbf{W^B}$, a column vector indicating the benchmark
+weight of each category, and $\mathbf{f}$ is the column vector which
 has benchmark return of all the categories. Assuming that in this
 case, the universe is the same as the benchmark, $\mathbf{R^B}$ can be
-estimated by regressing returns on the attributes specified by the
-manager:
+estimated by regressing returns on the attribute specified by the
+portfolio manager:
 
 \begin{center}
   $\mathbf{r_n} = \mathbf{X_{n,k}f} + \mathbf{U}$
@@ -996,40 +998,25 @@ use the benchmark weights to calculate the selection effect.
 
 where $\mathbf{W^B}$ is the column vector with the benchmark weight of
 each category within the attribute specified; $\mathbf{f^P}$ and
-$\mathbf{f^B}$ are the column vectors indicating the mean returns of
-the portfolio and the benchmark, respectively. As mentioned above,
-$\mathbf{f^P}$ and $\mathbf{f^B}$ can be estimated by running a linear
-regression without the intercept term with respect to stocks in the
-portfolio and benchmark separately. Hence, the selection effect in the
-Brinson model can be calculated by using linear regression.
+$\mathbf{f^B}$ are the column vectors indicating the mean return of
+the portfolio and that of the benchmark, respectively. As mentioned
+above, $\mathbf{f^P}$ and $\mathbf{f^B}$ can be estimated by running a
+linear regression without the intercept term with respect to stocks in
+the portfolio and benchmark separately. Hence, the selection effect in
+the Brinson model can be calculated by using linear regression.
 
 Interaction effect is the difference between a portfolio's actual
 return and the sum of the allocation and selection effects.
 
 An numerical example of showing that the Brinson model is a special
-case of the regression approach is as follows:
+case of the regression approach is as follows.
 
 Suppose that an equity portfolio manager has a portfolio named
 \texttt{test} with the universe as the benchmark.
 
-%% 
-%% <<echo = FALSE>>=
-%% data(jan)
-%% test <- jan
-%% test$benchmark <- 1/3000
-%% set.seed(8)
-%% test$portfolio <- 0
-%% test$portfolio[sample(3000, 300)] <- 1/300
-%% head(test)
-%% test <- test[ ,c(2, 3, 4, 5, 14:15)]
-%% getwd()
-%% save(test, file = "test.RData")
-%% @
-
-
+%% allocation effect
 <<>>=
 data(test)
-## allocation effect
 br.single <- brinson(x = test, date.var = "date", 
                      cat.var = "sector",
                      bench.weight = "benchmark", 
@@ -1057,10 +1044,11 @@ exposure(br.single, var = "sector")
 @ 
 
 Similarly, applying the regression method produces the same selection
-effect as done by the Brinson model -- -4.25 bps.
+effect as done by the Brinson model, -4.25 bps.
 
+%% selection effect
 <<>>=
-## selection effect
+
 lm.p <- lm(return ~ sector - 1, 
            data = test[test$portfolio != 0, ])
 lm.p$coefficients 
