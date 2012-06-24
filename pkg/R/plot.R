@@ -3,11 +3,12 @@
 ## plot methods for brinson class
 
 setMethod("plot",
-          signature(object = "brinson"),
+          signature(x = "brinson", y = "missing"),
           function(object,
                    var = "sector",
-                   type = "exposure", ...){
-
+                   type = "exposure"){
+            
+            stopifnot(type %in% c("exposure", "return"))            
             ## type == "exposure"
             if (type == "exposure"){
               temp <- exposure(object, var = var)
@@ -54,11 +55,12 @@ setMethod("plot",
 ## plot methods for brinsonMulti class
 
 setMethod("plot",
-          signature(object = "brinsonMulti"),
+          signature(x = "brinsonMulti", y = "missing"),
           function(object,
                    var = "sector",
-                   type = "exposure", ...){
+                   type = "exposure"){
             
+            stopifnot(type %in% c("exposure", "return"))
             if (type == "exposure"){
               .df <- list()
               dates <- object@date.var
@@ -122,11 +124,11 @@ setMethod("plot",
 ## plot for regression class object
 
 setMethod("plot",
-          signature(object = "regression"),
+          signature(x = "regression", y = "missing"),
           function(object,
                    var,
-                   type = "exposure",
-                   ...){
+                   type = "exposure"){
+
             stopifnot(type %in% c("exposure", "return"))
             
             if (type == "exposure"){
@@ -163,12 +165,12 @@ setMethod("plot",
 
 ## plot for regressionMulti class object
 setMethod("plot",
-          signature(object = "regressionMulti"),
+          signature(x = "regressionMulti", y = "missing"),
           function(object,
                    var = "sector",
-                   type = "exposure",
-                   ...){
+                   type = "exposure"){
 
+            stopifnot(type %in% c("exposure", "return"))
             if (type == "exposure"){
               .df <- list()
               dates <- object@date.var

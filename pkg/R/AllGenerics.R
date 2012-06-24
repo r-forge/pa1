@@ -15,10 +15,3 @@ if(!isGeneric("returns"))
   setGeneric("returns", function(object,
                                  ...) standardGeneric("returns"))
 
-if(!isGeneric("plot"))
-  setGeneric("plot", function(object,
-                              type,
-                              ...) standardGeneric("plot"))
-
-if(!isGeneric("show"))
-  setGeneric("show", function(object) standardGeneric("show"))
