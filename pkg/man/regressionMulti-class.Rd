@@ -33,7 +33,7 @@
 \section{Methods}{
   \describe{
     \item{exposure}{\code{signature(object = "regressionMulti")}: ... }
-    \item{plot}{\code{signature(object = "regressionMulti")}: ... }
+    \item{plot}{\code{signature(x = "regressionMulti")}: ... }
     \item{returns}{\code{signature(object = "regressionMulti")}: ... }
     \item{show}{\code{signature(object = "regressionMulti")}: ... }
     \item{summary}{\code{signature(object = "regressionMulti")}: ... }

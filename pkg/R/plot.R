@@ -4,22 +4,22 @@
 
 setMethod("plot",
           signature(x = "brinson", y = "missing"),
-          function(object,
+          function(x,
                    var = "sector",
                    type = "exposure"){
             
             stopifnot(type %in% c("exposure", "return"))            
             ## type == "exposure"
             if (type == "exposure"){
-              temp <- exposure(object, var = var)
+              temp <- exposure(x, var = var)
               len.row <- nrow(temp)
               df <- data.frame(Name = rep(rownames(temp), 2),
                                Value = c(temp[ , 1], temp[ , 2]),
                                Type = c(rep("Portfolio", len.row),
                                  rep("Benchmark", len.row)))
-              if (class(object@universe[[var]])[1] != "numeric"){
+              if (class(x@universe[[var]])[1] != "numeric"){
                 df <- within(df,
-                             Name <- factor(Name, levels = rev(levels(object@universe[[var]]))))} else {
+                             Name <- factor(Name, levels = rev(levels(x@universe[[var]]))))} else {
                                df <- within(df,
                                             Name <- factor(Name, levels = unique(as.factor(df$Name))))}
               
@@ -31,14 +31,14 @@ setMethod("plot",
               
             } else {
               ## type == "returns"
-              df <- data.frame(Name = rep(names(object@ret.port), 2),
-                               Value = c(object@ret.port, object@ret.bench),
-                               Type = c(rep("Portfolio", length(object@ret.port)),
-                                 rep("Benchmark", length(object@ret.bench))))
+              df <- data.frame(Name = rep(names(x@ret.port), 2),
+                               Value = c(x@ret.port, x@ret.bench),
+                               Type = c(rep("Portfolio", length(x@ret.port)),
+                                 rep("Benchmark", length(x@ret.bench))))
 
-              if (class(object@universe[[var]])[1] != "numeric"){
+              if (class(x@universe[[var]])[1] != "numeric"){
                 df <- within(df,
-                             Name <- factor(Name, levels = rev(levels(object@universe[[var]]))))}else {
+                             Name <- factor(Name, levels = rev(levels(x@universe[[var]]))))}else {
                                df <- within(df,
                                             Name <- factor(Name, levels = unique(as.factor(df$Name))))}
       
@@ -56,16 +56,16 @@ setMethod("plot",
 
 setMethod("plot",
           signature(x = "brinsonMulti", y = "missing"),
-          function(object,
+          function(x,
                    var = "sector",
                    type = "exposure"){
             
             stopifnot(type %in% c("exposure", "return"))
             if (type == "exposure"){
               .df <- list()
-              dates <- object@date.var
+              dates <- x@date.var
               len <- length(dates)
-              temp <- exposure(object, var = var)
+              temp <- exposure(x, var = var)
               len.var <- nrow(temp[[1]])
               
               for (k in 1:len){
@@ -77,9 +77,9 @@ setMethod("plot",
               }
               .df <- do.call(rbind,.df)
 
-              if (class(object@universe[[1]]@universe[[var]])[1] != "numeric"){
+              if (class(x@universe[[1]]@universe[[var]])[1] != "numeric"){
                 .df <- within(.df,
-                              Name <- factor(Name, levels = rev(levels(object@universe[[1]]@universe[[var]]))))}else {
+                              Name <- factor(Name, levels = rev(levels(x@universe[[1]]@universe[[var]]))))}else {
                                 .df <- within(.df,
                                               Name <- factor(Name, levels = unique(as.factor(.df$Name))))}
               
@@ -92,22 +92,22 @@ setMethod("plot",
             } else {
               ## type == "returns"
               .df <- list()
-              dates <- object@date.var
+              dates <- x@date.var
               len <- length(dates)
-              len.var <- nrow(object@ret.port)
+              len.var <- nrow(x@ret.port)
               for (k in 1:len){
                 .df[[k]] <- data.frame(Date = rep(as.character(dates[k]), len.var),
-                                       Name = rep(rownames(object@ret.port), 2),
-                                       Value = c(object@ret.port[, k], object@ret.bench[, k]),
+                                       Name = rep(rownames(x@ret.port), 2),
+                                       Value = c(x@ret.port[, k], x@ret.bench[, k]),
                                        Type = c(rep("Portfolio", len.var),
                                          rep("Benchmark", len.var)))
               }
               
               .df <- do.call(rbind,.df)
 
-              if (class(object@universe[[1]]@universe[[var]])[1] != "numeric"){
+              if (class(x@universe[[1]]@universe[[var]])[1] != "numeric"){
                 .df <- within(.df,
-                              Name <- factor(Name, levels = rev(levels(object@universe[[1]]@universe[[var]]))))}else {
+                              Name <- factor(Name, levels = rev(levels(x@universe[[1]]@universe[[var]]))))}else {
                                 .df <- within(.df,
                                               Name <- factor(Name, levels = unique(as.factor(.df$Name))))}
 
@@ -125,23 +125,23 @@ setMethod("plot",
 
 setMethod("plot",
           signature(x = "regression", y = "missing"),
-          function(object,
-                   var,
+          function(x,
+                   var = "sector",
                    type = "exposure"){
 
             stopifnot(type %in% c("exposure", "return"))
             
             if (type == "exposure"){
-              temp <- exposure(object, var = var)
+              temp <- exposure(x, var = var)
               len.row <- nrow(temp)
               df <- data.frame(Name = rep(rownames(temp), 2),
                                Value = c(temp[ , 1], temp[ , 2]),
                                Type = c(rep("Portfolio", len.row),
                                  rep("Benchmark", len.row)))
               
-              if (class(object@universe[[var]])[1] != "numeric"){
+              if (class(x@universe[[var]])[1] != "numeric"){
                 df <- within(df,
-                             Name <- factor(Name, levels = rev(levels(object@universe[[var]]))))} else {
+                             Name <- factor(Name, levels = rev(levels(x@universe[[var]]))))} else {
                                df <- within(df,
                                             Name <- factor(Name, levels = unique(as.factor(df$Name))))}
               
@@ -157,7 +157,7 @@ setMethod("plot",
               ## type == "return", no graph for a single-period
               ## regression attribution.
               print("No graph for single-period regression attribution.")
-              returns(object)
+              returns(x)
             }
           }
           )
@@ -166,16 +166,16 @@ setMethod("plot",
 ## plot for regressionMulti class object
 setMethod("plot",
           signature(x = "regressionMulti", y = "missing"),
-          function(object,
+          function(x,
                    var = "sector",
                    type = "exposure"){
 
             stopifnot(type %in% c("exposure", "return"))
             if (type == "exposure"){
               .df <- list()
-              dates <- object@date.var
+              dates <- x@date.var
               len <- length(dates)
-              temp <- exposure(object, var = var)
+              temp <- exposure(x, var = var)
               len.var <- nrow(temp[[1]])
 
               Date <- NULL
@@ -193,9 +193,9 @@ setMethod("plot",
               .df <- do.call(rbind,.df)
 
               
-              if (class(object@universe[[1]]@universe[[var]])[1] != "numeric"){
+              if (class(x@universe[[1]]@universe[[var]])[1] != "numeric"){
                 .df <- within(.df,
-                              Name <- factor(Name, levels = rev(levels(object@universe[[1]]@universe[[var]]))))}else {
+                              Name <- factor(Name, levels = rev(levels(x@universe[[1]]@universe[[var]]))))}else {
                                 .df <- within(.df,
                                               Name <- factor(Name, levels = unique(as.factor(.df$Name))))}
               
@@ -207,10 +207,10 @@ setMethod("plot",
               
             } else {
               ## type == "returns"
-              len.row <- length(object@date.var)
-              df <- data.frame(Date = rep(as.character(object@date.var), 2),
-                               Value = c(object@portfolio.ret[1, ],
-                                 object@benchmark.ret[1, ]),
+              len.row <- length(x@date.var)
+              df <- data.frame(Date = rep(as.character(x@date.var), 2),
+                               Value = c(x@portfolio.ret[1, ],
+                                 x@benchmark.ret[1, ]),
                                Type = c(rep("Portfolio", len.row),
                                  rep("Benchmark", len.row)))
               df[1:12, 2] <- cumprod(df[1:12, 2] + 1) - 1

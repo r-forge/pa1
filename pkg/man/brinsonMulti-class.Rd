@@ -51,8 +51,8 @@
     display the sector exposure of a portfolio. }
   \item{\code{returns}}{\code{signature(object = "brinson")}. Calculate the
     contribution of various effects based on the brinson model. }
-  \item{\code{plot}}{\code{signature(object = "brinson")}. Plot the exposure or
-    the return of a portfolio. }
+  \item{\code{plot}}{\code{signature(x = "brinson", var = "character",
+    type = "character")}. Plot the exposure or the return of a portfolio. }
 }
 }
 

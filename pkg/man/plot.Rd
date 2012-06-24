@@ -1,7 +1,14 @@
-\name{plot}
-\alias{plot}
-\title{Plot either the exposure or the return of a brinson or a
-  brinsonMulti object}
+\name{plot-methods}
+\docType{methods}
+\alias{plot-methods}
+\alias{plot,ANY,ANY-method}
+\alias{plot,brinson,missing-method}
+\alias{plot,brinsonMulti,missing-method}
+\alias{plot,regression,missing-method}
+\alias{plot,regressionMulti,missing-method}
+
+\title{Plot the exposure or the return of a brinson, brinsonMulti,
+  regression or regressionMulti object}
 
 \description{
 
@@ -10,58 +17,72 @@
 
 }
 
-\usage{ plot(object, type, ...) }
+\section{Methods}{
 
-\arguments{
-  
-  \item{object}{The input object on which the plot is based. It can be
-    one of the four class objects including \code{brinson},
-    \code{brinsonMulti}, \code{regression}, and \code{regressionMulti}. } 
-  \item{type}{A character vector which indicates the type of plot to be
-    shown. It can be either \code{exposure} or \code{returns}. By default,
-    it shows the exposure comparison plot. }
-  \item{...}{Other options including \code{var} which refers to the name
-    of the variable whose exposure to be shown. This input has no effect
-    when the \code{type} is \code{return}. The default is
-    \code{sector}.}
+  \describe{
+
+    \item{\code{signature(x = "ANY", y = "ANY")}}{
+      The usual plot method from the base package.
+    }
+    
+    \item{\code{signature(x = "brinsonMulti", y = "missing")}}{
+      
+      The \code{x} must be a \code{brinsonMulti} class object.
+    
+      The \code{var} can be used to specified the factor whose exposure to
+      be shown. \code{sector} is the default setting where the exposure
+      comparison graph based on sectors will be shown.
+      
+      The \code{type} can be either \code{exposure} or \code{return}. The
+      default setting is \code{exposure}. When the \code{type} is set to
+      \code{return}, the \code{var} option is no longer in use.
+      
+    }
+    
+    \item{\code{signature(x = "brinson", y = "missing")}}{
+      
+      The \code{x} must be a \code{brinson} class object.
+      
+      The \code{var} can be used to specified the factor whose exposure to
+      be shown. \code{sector} is the default setting where the exposure
+      comparison graph based on sectors will be shown.
+      
+      The \code{type} can be either \code{exposure} or \code{return}. The
+      default setting is \code{exposure}. When the \code{type} is set to
+      \code{return}, the \code{var} option is no longer in use.
+      
+    }
+    
+    \item{\code{signature(x = "regressionMulti", y = "missing")}}{
+      
+      The \code{x} must be a \code{regressionMulti} class object.
+      
+      The \code{var} can be used to specified the factor whose exposure to
+      be shown. \code{sector} is the default setting where the exposure
+      comparison graph based on sectors will be shown.
+      
+      The \code{type} can be either \code{exposure} or \code{return}. The
+      default setting is \code{exposure}. When the \code{type} is set to
+      \code{return}, the \code{var} option is no longer in use.
+      
+    }
+    
+  \item{\code{signature(x = "regression", y = "missing")}}{
+    
+    The \code{x} must be a \code{regression} class object.
+    
+    The \code{var} can be used to specified the factor whose exposure to
+    be shown. \code{sector} is the default setting where the exposure
+    comparison graph based on sectors will be shown.
+    
+    The \code{type} can be either \code{exposure} or \code{return}. The
+    default setting is \code{exposure}. When the \code{type} is set to
+    \code{return}, the \code{var} option is no longer in use.
+    
   }
-
-
-\value{
-
-  Return a bar plot if the input is an object of class
-  \code{brinson}. Return a faceted bar plot if the input is an object of
-  class \code{brinsonMulti}.
-
-  Return a trend line if the input is an object of class
-  \code{regressionMulti}. Show no graph for an object of class
-  \code{regression}. 
+  
+}  
 
 }
 
-\author{Yang Lu \email{Yang.Lu@williams.edu}}
-
-\examples{
-
-## Single-period brinson analysis
-
-data(jan)
-
-p1 <- brinson(x = jan, date.var = "date", cat.var = "sector",
-bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
-"return")
-
-plot(p1, type = "return")
-
-## Multi-period brinson analysis
-
-data(quarter)
-
-p2 <- brinson(x = quarter, date.var = "date", cat.var = "sector",
-bench.weight = "benchmark", portfolio.weight = "portfolio", ret.var =
-"return")
-
-plot(p2, var = "size", type = "exposure")
-
-}
-\keyword{file}
+\keyword{methods}

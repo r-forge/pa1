@@ -68,7 +68,8 @@
     display the exposure of the input category of a portfolio. }
   \item{\code{returns}}{\code{signature(object = "brinson")}. Calculate the
     contribution of various effects based on the Brinson analysis. }
-  \item{\code{plot}}{\code{signature(object = "brinson")}. Plot the exposure or
+  \item{\code{plot}}{\code{signature(x = "brinson", var = "character",
+    type = "character")}. Plot the exposure or
     the return of a portfolio. }
 }
 }
