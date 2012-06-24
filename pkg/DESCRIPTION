@@ -1,10 +1,15 @@
 Package: pa
-Title: Performance Attribution for Equity Portfolios
 Version: 0.1-0
 Date: 2012-04-16
-Author: Yang Lu <yang.lu@williams.edu> and David Kane <dkane@acadian-asset.com>
+Title: Performance Attribution for Equity Portfolios
+Authors@R: c(person("Yang", "Lu", role = c("aut", "cre"),
+	   	 email = "yang.lu@williams.edu"),
+	person("David", "Kane", role = c("aut", "cre"),
+		 email = "dkane@acadian-asset.com"))
+Author: Yang Lu and David Kane
+Maintainer: Yang Lu <yang.lu@williams.edu>
+Depends: R (>= 2.4.0), methods, grid, ggplot2, cwhmisc
 Description: A package that performs equity portfolio attribution.
 Maintainer: Yang Lu <Yang.Lu@williams.edu>
-Depends: R (>= 2.4.0), methods, grid, ggplot2, cwhmisc
-License: GPL (>= 2)
+License: GPL-2
 LazyLoad: yes
