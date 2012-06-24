@@ -94,7 +94,7 @@ returns(p1)
 
 plot(p1, var = "sector", type = "exposure")
 
-plot(p1, var = "sector", type = "returns")
+plot(p1, var = "sector", type = "return")
 
 }
 

@@ -259,8 +259,10 @@ categories are defined as:
 
 \begin{center}
   $R_{allocation} = \sum\limits_{j = 1}^N W^P_jR^B_j - \sum\limits_{j
-    = 1}^N W^B_jR^B_j$.
+    = 1}^N W^B_jR^B_j$,
+\end{center}
 
+\begin{center}
   $R_{selection} = \sum\limits_{j = 1}^N W^B_jR^P_j - \sum\limits_{j =
     1}^N W^B_jR^B_j$.
 \end{center}
@@ -317,7 +319,7 @@ each sub-category of the country factor, that is,
 
 \begin{center}
 
-$R_{country \, allocation} = \sum\limits_{j = 1}^N WC^P_jRC^B_j -
+  $R_{country \, allocation} = \sum\limits_{j = 1}^N WC^P_jRC^B_j -
   \sum\limits_{j = 1}^N WC^B_jRC^B_j$,
 
 \end{center}
@@ -337,7 +339,7 @@ benchmark return according to sectors:
 
 \begin{center}
 
-$R_{sector \, allocation} = \sum\limits_{j = 1}^N WS^P_jRS^B_j -
+  $R_{sector \, allocation} = \sum\limits_{j = 1}^N WS^P_jRS^B_j -
   \sum\limits_{j = 1}^N WS^B_jRS^B_j$,
 
 \end{center}
@@ -352,9 +354,9 @@ and the sector selection effect:
 
 \begin{center}
 \begin{eqnarray*}
-  $R_{selection} & = & R_{country \, selection} + R_{sector \, selection} \\ 
+  R_{selection} & = & R_{country \, selection} + R_{sector \, selection} \\ 
   & = & \sum\limits_{j = 1}^N WC^B_jRC^P_j - \sum\limits_{j = 1}^N WC^B_jRC^B_j \\ 
-  & + & \sum\limits_{j = 1}^N WS^B_jRS^P_j - \sum\limits_{j = 1}^N WS^B_jRS^B_j$,
+  & + & \sum\limits_{j = 1}^N WS^B_jRS^P_j - \sum\limits_{j = 1}^N WS^B_jRS^B_j,
 \end{eqnarray*}
 \end{center}
 
@@ -370,8 +372,10 @@ Therefore, in the case of $Q$ categories, the Brinson model becomes
 very complex:
 
 \begin{center}
-  $R_{allocation} = \sum \limits_{j = 1}^Q R_{allocation_j}$, 
-  
+  $R_{allocation} = \sum \limits_{j = 1}^Q R_{allocation_j}$,
+\end{center}
+
+\begin{center}
   $R_{selection} = \sum \limits_{j = 1}^Q R_{selection_j}$, 
 \end{center}
 
@@ -399,9 +403,9 @@ Alternatively, the interaction effect can be written as,
 \begin{center}
 
   \begin{eqnarray*}
-  $R_{interaction} & = & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{allocation_k} \\
+    R_{interaction} & = & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{allocation_k} \\
     & + & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{selection_k} \\
-    & + & \sum \limits_{i = 1}^Q \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_i}R_{allocation_j}R_{selection_k} + \dots$.
+    & + & \sum \limits_{i = 1}^Q \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_i}R_{allocation_j}R_{selection_k} + \dots.
   \end{eqnarray*}
 \end{center}
 
@@ -517,7 +521,9 @@ compound various returns over $T$ periods where,
 
 \begin{center}
   $1 + R_P = \prod\limits_{t = 1}^T (1 + R_t^P)$,
-  
+\end{center}
+
+\begin{center}
   $1 + R_B = \prod\limits_{t = 1}^T (1 + R_t^B)$,
 \end{center}
 
@@ -575,7 +581,7 @@ following is true:
 
 \begin{center}
   $R_P - R_B = \sum\limits_{t = 1}^T b_t^{opt}(R_t^{allocation} +
-  R_t^{selection} + R_t^{interaction})$
+  R_t^{selection} + R_t^{interaction})$,
 \end{center}
 
 where $R_t^{allocation}$, $R_t^{selection}$, and $R_t^{interaction}$
@@ -586,7 +592,9 @@ Within each period $t$, the adjusted attribution is thus expressed as
 
 \begin{center}
   $\hat{R}_t^{allocation} = b_t^{opt}R_t^{allocation}$,
-  
+\end{center}
+
+\begin{center}
   $\hat{R}_t^{selection} = b_t^{opt}R_t^{selection}$,
 \end{center}
 
@@ -946,9 +954,9 @@ As mentioned earlier,
 
 \begin{center}
 \begin{eqnarray*}
-  $R_{allocation} & = & \sum\limits_{j = 1}^N W^P_jR^B_j -
+  R_{allocation} & = & \sum\limits_{j = 1}^N W^P_jR^B_j -
   \sum\limits_{j = 1}^N W^B_jR^B_j \\ 
-  & = & (\mathbf{W^P} - \mathbf{W^B})\prime \mathbf{f}$,
+  & = & (\mathbf{W^P} - \mathbf{W^B})\prime \mathbf{f},
 \end{eqnarray*}
 \end{center}
 
@@ -990,9 +998,10 @@ use the benchmark weights to calculate the selection effect.
 
 \begin{center}
   \begin{eqnarray*}
-    $R_{selection} & = & \sum\limits_{j = 1}^N W^B_jR^P_j - \sum\limits_{j =
-      1}^N W^B_jR^B_j \\
-    & = & \mathbf{W^B}\prime (\mathbf{f^P} - \mathbf{f^B})$,	
+    R_{selection} & = & \sum\limits_{j = 1}^N W^B_jR^P_j -
+    \sum\limits_{j = 1}^N W^B_jR^B_j \\ 
+    & = & \mathbf{W^B}\prime
+    (\mathbf{f^P} - \mathbf{f^B}),
   \end{eqnarray*}
 \end{center}
 
