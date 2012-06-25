@@ -5,14 +5,14 @@ library(pa)
 
 ## data(jan)
 ## b1 <- brinson(x = jan)
-## truth <- plot(b1)
+## truth <- plot(b1, var = "sector", type = "exposure")
 
 ## data(quarter)
 ## b2 <- brinson(x = quarter)
-## truth.multi <- plot(b2)
+## truth.multi <- plot(b2, var = "sector", type = "exposure")
 
 ## r2 <- regress(quarter)
-## truth.multi.r2 <- plot(r2)
+## truth.multi.r2 <- plot(r2, var = "sector", type = "exposure")
 
 ## save(truth, truth.multi, truth.multi.r2, file = "plot.test.RData")
 
