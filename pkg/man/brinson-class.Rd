@@ -59,21 +59,26 @@
 }
 
 \section{Methods}{
-\describe{
-  \item{\code{show}}{\code{signature(object = "brinson")}. Summarize
-    the essential information about the portfolio.}
-  \item{\code{summary}}{\code{signature(object = "brinson")}. Summarize
-    the portfolio and the Brinson attribution.}
-  \item{\code{exposure}}{\code{signature(object = "brinson")}. Calculate and
-    display the exposure of the input category of a portfolio. }
-  \item{\code{returns}}{\code{signature(object = "brinson")}. Calculate the
-    contribution of various effects based on the Brinson analysis. }
-  \item{\code{plot}}{\code{signature(x = "brinson", var = "character",
-    type = "character")}. Plot the exposure or
-    the return of a portfolio. }
+  \describe{
+    
+    \item{\code{show}}{\code{signature(object = "brinson")}. Summarize
+      the essential information about the portfolio.}
+    
+    \item{\code{summary}}{\code{signature(object = "brinson")}. Summarize
+      the portfolio and the Brinson attribution.}
+    
+    \item{\code{exposure}}{\code{signature(object = "brinson")}. Calculate and
+      display the exposure of the input category of a portfolio. }
+    
+    \item{\code{returns}}{\code{signature(object = "brinson")}. Calculate the
+      contribution of various effects based on the Brinson analysis. }
+    
+    \item{\code{plot}}{\code{signature(x = "brinson", var = "character",
+	type = "character")}. Plot the exposure or the return of a portfolio
+      class object. }
+  }
 }
-}
-
+ 
 \author{Yang Lu  \email{yang.lu@williams.edu}}
 
 \examples{

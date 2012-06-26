@@ -38,8 +38,8 @@ regress(x, date.var = "date", ret.var = "return", reg.var = c("sector",
 }
 \value{
   
-  Return an object of class \code{regression} when there is only one unique
-  date in the data frame \code{x}. Otherwise, an object of class
+  Return an object of class \code{regression} when there is only one
+  unique date in the data frame \code{x}. Otherwise, an object of class
   \code{regressionMulti} is returned.
 
 }

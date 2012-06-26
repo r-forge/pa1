@@ -52,11 +52,12 @@
   \item{\code{returns}}{\code{signature(object = "brinson")}. Calculate the
     contribution of various effects based on the brinson model. }
   \item{\code{plot}}{\code{signature(x = "brinson", var = "character",
-    type = "character")}. Plot the exposure or the return of a portfolio. }
+    type = "character")}. Plot the exposure or the return of a portfolio
+  class object. }
 }
 }
 
-\author{  Yang Lu }
+\author{Yang Lu \email{Yang.Lu@williams.edu}}
 
 \examples{
 

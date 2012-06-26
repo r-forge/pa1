@@ -13,7 +13,7 @@
 \description{
 
   This method plots the exposure or return comparison graph of a
-  portfolio and its benchmark.
+  portfolio and its benchmark based on a portfolio class object.
 
 }
 

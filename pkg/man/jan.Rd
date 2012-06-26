@@ -5,12 +5,18 @@
   Edited Barra data set in Jan. 2010.
 }
 \description{
-  An edited version of the data set based on Barra GEM2 data set in year
-  2010. 
+
+  A modified version of the data set based on MSCI Barra GEM2 data set
+  in year 2010.
+
 }
+
 \usage{data(jan)}
+
 \format{
+  
   A data frame with 3000 observations on the following 15 variables.
+
   \describe{
     \item{\code{barrid}}{barra id of a security}
     \item{\code{name}}{name of a security}
@@ -37,12 +43,14 @@
   the columns containing the date, the factor to be analyzed, and the
   return variable, respectively. \code{bench.weight} and
   \code{portfolio.weight} specify the name of the benchmark weight
-  column and that of the portfolio weight column in the data frame. 
+  column and that of the portfolio weight column in the data frame.
 
 }
 
 \examples{
+
 data(jan)
 head(jan)
+
 }
 \keyword{datasets}

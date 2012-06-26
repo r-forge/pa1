@@ -24,7 +24,6 @@
     The default is \code{geometric}. }
 }
   
-
 \value{
 
   When the input is an object of class \code{brinson}, return a matrix
