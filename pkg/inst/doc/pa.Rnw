@@ -26,7 +26,7 @@
 
 \setkeys{Gin}{width=0.95\textwidth}
 
-\section*{Introduction}
+\section{Introduction}
 
 Many portfolio managers measure portfolio performance with reference
 to a benchmark. The difference in return between a portfolio and its
@@ -58,7 +58,7 @@ demostrating their use via the \pkg{pa} package, we show that the
 Brinson model is just a special case of the regression approach.
 
 
-\section*{Data}
+\section{Data}
 
 We demonstrate the use of the \pkg{pa} package with a series of
 examples based on real-world data sets from MSCI Barra's Global Equity
@@ -182,9 +182,9 @@ Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
 2.61\% in August, and almost flat in November.
 
-\section*{The Brinson Model}
+\section{The Brinson Model}
 
-\subsection*{Single-Period Brinson Model}
+\subsection{Single-Period Brinson Model}
 
 Consider an equity portfolio manager who uses the S\&P 500 as the
 benchmark. In a given month, she outperformed the S\&P by 3\%. Part of
@@ -249,27 +249,25 @@ portfolio, arithmetic active return is widely popular because it is
 regarded as more intuitive. The \pkg{pa} package implements the
 arithmetic measure for a single-period Brinson model. 
 
-The arithmetic active return measure of a portfolio $R_{active}$ is
-the portfolio return $R_P$ less the benchmark return $R_B$:
+The arithmetic active return of a portfolio, $R_{active}$, is the
+portfolio return $R_P$ less the benchmark return $R_B$:
 
 \begin{center}
   $R_{active} = R_P - R_B$.
 \end{center}
 
-Since the category allocation of the portfolio is generally different from that of the
-benchmark, allocation plays a role in the active return
-$R_{active}$. The same applies to stock selection where assuming that the
-portfolio has the exact same categorical exposures as the benchmark
-does, equities within each category are different. This contributes to
-the active return $R_{active}$ as well. Allocation effect
+Since the category allocation of the portfolio is generally different
+from that of the benchmark, allocation plays a role in the active
+return, $R_{active}$. The same applies to stock selection where
+assuming that the portfolio has the exact same categorical exposures
+as the benchmark does, equities within each category are
+different. This contributes to $R_{active}$ as well. Allocation effect
 $R_{allocation}$ and selection effect $R_{selection}$ over $N$
 categories are defined as:
-
 \begin{center}
   $R_{allocation} = \sum\limits_{j = 1}^N W^P_jR^B_j - \sum\limits_{j
     = 1}^N W^B_jR^B_j$,
 \end{center}
-
 \begin{center}
   $R_{selection} = \sum\limits_{j = 1}^N W^B_jR^P_j - \sum\limits_{j =
     1}^N W^B_jR^B_j$.
@@ -277,17 +275,17 @@ categories are defined as:
 
 The intuition behind the allocation effect is that a portfolio would
 produce different returns with different allocation schemes while
-having the same sotck selection and thus benchmark return for each category.  The difference
-between the two returns is that caused by the allocation scheme and is called the allocation effect. Similarly, two
-different returns can be produced when two portfolios have the same
-allocation yet dissimilar returns due to differences in stock
+having the same sotck selection and thus benchmark return for each
+category.  The difference between the two returns is that caused by
+the allocation scheme and is called the allocation effect. Similarly,
+two different returns can be produced when two portfolios have the
+same allocation yet dissimilar returns due to differences in stock
 selection within each category. This difference is the selection
 effect.
 
 Interaction effect, $R_{interaction}$, is the result of subtracting
 return due to allocation $R_{allocation}$ and return due to selection
 $R_{selection}$ from the active return $R_{active}$:
-
 \begin{center}
   $R_{interaction} = R_{active} - R_{allocation} - R_{selection}$.
 \end{center}
@@ -308,7 +306,6 @@ contributions of any given two categories (for instance, country and
 sector) to her portfolio based on the Brinson model. With respect to
 each of the two categories, there is an allocation effect and a
 selection effect: 
-
 \begin{center}
   $R_{active} = R_{allocation} + R_{selection} + R_{interaction}$,
 \end{center}
@@ -322,7 +319,6 @@ Specifically, the country allocation effect is the return caused by
 the difference between the actual country allocation and the benchmark
 country allocation while assuming the same benchmark return within
 each sub-category of the country factor, that is,
-
 \begin{center}
   $R_{country \, allocation} = \sum\limits_{j = 1}^N WC^P_jRC^B_j -
   \sum\limits_{j = 1}^N WC^B_jRC^B_j$,
@@ -349,7 +345,6 @@ benchmark return of any given sector $j$ of all $N$ sectors.
 In the same vein, the return as a result of the selection effect
 $R_{selection \, effect}$ is the sum of the country selection effect
 and the sector selection effect:
-
 \begin{center}
 \begin{eqnarray*}
   R_{selection} & = & R_{country \, selection} + R_{sector \, selection} \\ 
@@ -394,9 +389,7 @@ $k$. Therefore, the number of interaction terms for $Q$ categories is
 $3^Q - 2Q - 1$.
 
 Alternatively, the interaction effect can be written as,
-
 \begin{center}
-
   \begin{eqnarray*}
     R_{interaction} & = & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{allocation_k} \\
     & + & \sum \limits_{j = 1}^Q \sum \limits_{k = 1}^Q R_{allocation_j}R_{selection_k} \\
@@ -416,7 +409,7 @@ multi-variate Brinson analysis.
 To some extent, the regression-based model detailed later solves the
 problem of multivariate attribution.
 
-\subsection*{Single-Period Brinson Tools}
+\subsection{Single-Period Brinson Tools}
 
 Brinson analysis is run by calling the function \texttt{brinson} to
 produce an object of class \texttt{brinson} (a single-period
@@ -433,10 +426,10 @@ br.single <- brinson(x = jan, date.var = "date",
 
 @
 
-\texttt{jan}, contains all the information necessary to conduct a
-single-period Brinson analysis. \texttt{date.var}, \texttt{cat.var},
-and \texttt{return} identify the columns containing the date, the
-factor to be analyzed, and the return variable,
+The data frame, \texttt{jan}, contains all the information necessary
+to conduct a single-period Brinson analysis. \texttt{date.var},
+\texttt{cat.var}, and \texttt{return} identify the columns containing
+the date, the factor to be analyzed, and the return variable,
 respectively. \texttt{bench.weight} and \texttt{portfolio.weight}
 specify the name of the benchmark weight column and that of the
 portfolio weight column in the data frame.
@@ -472,9 +465,7 @@ both the portfolio and the benchmark sector by sector in January,
 best with a gain of more than 5\% and Consumer Discretionary, the
 worst performing sector, lost more than 10\%.
 
-
-
-\subsection*{Multi-Period Brinson Model}
+\subsection{Multi-Period Brinson Model}
 
 To obtain Brinson attribution on a multi-period data set, one
 calculates allocation, selection and interaction within each period
@@ -490,10 +481,6 @@ circumvent the adding-up problem. \cite{multi} discussed various
 linking algorithms to connect arithmetic return with geometric return
 and argued that the \emph{optimized linking algorithm} is the best way
 to link attribution over time.
-
-%% We present arithmetic, geometric and optimized linking algorithms
-%% below. The \pkg{pa} package offers the same three options for
-%% multi-period attribution as shown later in this paper.
 
 \texttt{Arithmetic Attribution.} The arithmetic attribution model
 calculates active return and contributions due to allocation,
@@ -585,7 +572,7 @@ can be written as
 \end{center}
 where $R_{active} = R_P - R_B$.
 
-\section*{Multi-Period Brinson Tools}
+\section{Multi-Period Brinson Tools}
 
 In practice, analyzing a single-period portfolio is meaningless as
 portfolio managers and their clients are more interested in the
@@ -649,9 +636,9 @@ portfolio and the benchmark of the allocation effect from January,
 \texttt{Utilities} performed the best with a gain of more than 5\% in
 January and February, 2010 but tanked in March, 2010.
 
-\section*{Regression}
+\section{Regression}
 
-\subsection*{Single-Period Regression Model}
+\subsection{Single-Period Regression Model}
 
 One advantage of a regression-based approach is that such analysis
 allows one to define their own attribution model by easily
@@ -665,7 +652,6 @@ regression without the intercept term based on a single-period
 portfolio of $n$ securities with $k$ different variables:
 \begin{center}
   $\mathbf{r}_n = \mathbf{X}_{n,k}\mathbf{f}_k + \mathbf{u}_n$
-  %%  $\mathbf{r_n} = \mathbf{a} + \mathbf{X_{n,k}f_k} + \mathbf{u_n}$
 \end{center}
 where 
 \begin{itemize}
@@ -727,7 +713,7 @@ of contributions of all $k$ variables and the residual $u$
 \end{center}
 
 For instance, a hypothetical portfolio has three holdings (A, B, and
-C), each of which has two attributes -- size and value. 
+C), each of which has two attributes -- size and value.
 
 <<echo = FALSE>>=
 test.df <- data.frame(Return = c(0.3, 0.4, 0.5),
@@ -750,7 +736,7 @@ value based on the regression model. Size contributes 1\% of the
 negative active return of the portfolio and value causes the portfolio
 to lose the other 10.0\%.
 
-\section*{Single-Period Regression Tools}
+\section{Single-Period Regression Tools}
 
 Another conventional attribution methodolody is the regression-based
 analysis. As mentioned, the \pkg{pa} package provides tools to analyze
@@ -788,7 +774,7 @@ portfolio made a loss of 2.91\% and the benchmark lost
 contributed 0.32\%, 0.05\%, and 0.29\%, respectively.
 
 
-\section*{Multi-Period Regression Model}
+\section{Multi-Period Regression Model}
 
 The same challenge of linking arithmetic and geometric returns is
 present in multi-period regression model. We apply the optimized
@@ -817,7 +803,7 @@ Thus, the overall active return $R_{active}$ can be decomposed into
 \end{center}
 where $U$ is the residual across $T$ periods.
 
-\section*{Multi-Period Regression Tools}
+\section{Multi-Period Regression Tools}
 <<>>=
 rb.multi <- regress(quarter, date.var = "date",
                 ret.var = "return",
@@ -883,7 +869,7 @@ securities in January, consistently outperformed the benchmark in
 2010. Outperformance in May and June helped the overall positive
 active return in 2010 to a large extent.
 
-\section*{Brinson as Regression}
+\section{Brinson as Regression}
 
 Another way to think about the analysis as \cite{brinson:gary} have
 done is to consider it in the context of a regression
@@ -897,7 +883,6 @@ model is the sum of the product of the estimated coefficient and the
 active weight of each category. 
 
 Using the same regression model as before,
-
 \begin{center}
 \begin{eqnarray*}
   R_{allocation} & = & \sum\limits_{j = 1}^N W^P_jR^B_j -
@@ -1022,7 +1007,7 @@ exposure(br.single, var = "sector")[ ,2] %*%
   (lm.test$coefficients - test.reg@coefficients)
 @ 
 
-\section*{Conclusion}
+\section{Conclusion}
 
 In this paper, we describe two widely-used methods for performance
 attribution -- the Brinson model and the regression-based approach,
