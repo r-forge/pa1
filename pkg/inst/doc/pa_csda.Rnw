@@ -51,13 +51,13 @@ attribute active return to different factors.
 
 We demonstrate the use of the \pkg{pa} package with a series of
 examples based on real-world data sets from MSCI Barra's Global Equity
-Model II(GEM2).\footnote{See www.msci.com and \cite{gem2} for more
-  information.} MSCI Barra is a leading provider of investment
-decision support tools to investment institutions worldwide. According
-to the company:
+Model II (GEM2).\footnote{See www.msci.com and \cite{gem2} for more
+  information.} 
 
 % Note that the font size for this quote small and then go
-% back to normal.
+% back to normal. 
+
+% Is this font size shrinkage consistent with The R Journal standards?
 
 \small
 
@@ -81,10 +81,6 @@ to the company:
 
 \end{itemize}
 
-GEM2 leverages the decades of experience that MSCI Barra has in
-developing and maintaining global equity multi-factor models and
-indices, and offers important enhancements over GEM, which is utilized
-by hundreds of institutional fund managers worldwide.
 \end{quote}
 
 \normalsize
@@ -94,8 +90,8 @@ size, country, and various style factors for a universe of
 approximately 48,000 securities on a monthly basis.
 
 For illustrative purposes, this article uses three modified versions
-of the original data set, containing 3000 securities, namely
-\texttt{year}, \texttt{quarter}, and \texttt{jan}. The data frame,
+of the original data set (\texttt{year}, \texttt{quarter}, and \texttt{jan}), each containing 3000 securities. 
+The data frame,
 \texttt{quarter}, is a subset of \texttt{year}, containing the data of
 the first quarter. The data frame, \texttt{jan}, is a subset of
 \texttt{quarter} with the data from January, 2010.
@@ -112,9 +108,9 @@ names(year)
 
 \begin{itemize}
 
-\item barrid: security identifier by Barra.
+\item barrid: Barra security identifier.
 
-\item name: name of a security.
+\item name: company name.
 
 \item return: monthly total return in trading currency.
 
@@ -123,22 +119,22 @@ names(year)
 \item sector: consolidated sector categories based on the
   GICS.\footnote{Global Industry Classification Standard}
 
-\item momentum: capture sustained relative performance.
+\item momentum: a measure of sustained relative price performance.
 
-\item value: capture the extent to which a stock is priced
+\item value: the extent to which a stock is priced
   inexpensively in the market.
 
-\item size: differentiate between large and small cap companies.
+\item size: normalized market capitalization.
 
 \item growth: capture stock's growth prospects.
 
-\item cap.usd: capitalization in model base currency USD.
+\item cap.usd: market capitalization in USD.
 
-\item yield: dividend of a security.
+\item yield: dividend yield of a security.
 
 \item country: the country in which the company is traded.
 
-\item currency: currency of exposure.
+\item currency: currency in which the security is priced.
 
 \item portfolio: top 200 securities based on \texttt{value} scores
   in January are selected as portfolio holdings and are held through
