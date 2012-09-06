@@ -6,7 +6,7 @@ Date: 2012-06-24
 Authors@R: c(person("Yang", "Lu", role = c("aut", "cre"),
 	   	 email = "yang.lu@williams.edu"),
 	person("David", "Kane", role = c("aut", "cre"),
-		 email = "dkane@acadian-asset.com"))
+		 email = "dave.kane@gmail.com"))
 Author: Yang Lu and David Kane
 Maintainer: Yang Lu <yang.lu@williams.edu>
 Depends: R (>= 2.4.0), methods, grid, ggplot2, cwhmisc
