@@ -138,8 +138,7 @@ names(year)
 
 \item portfolio: top 200 securities based on \texttt{value} scores
   in January are selected as portfolio holdings and are held through
-  December 2010. This is to avoid the complexity of trading in the
-  analyses.
+  December 2010. They are equal-weighted each month.
 
 \item benchmark: top 1000 securities based on size each month. The
   benchmark is cap-weighted.
@@ -191,6 +190,8 @@ highest quintile and so forth. For generality, we will use the term
 security in one, and only one, category.
 
 Notations:
+
+%% Go through all these with someone to make sure they are correct!
 
 \begin{itemize}
 
@@ -273,13 +274,14 @@ $R_{selection}$ from the active return $R_{active}$:
   $R_{interaction} = R_{active} - R_{allocation} - R_{selection}$.
 \end{center}
 
+%% Consider cutting 90% of this.
 
 \subsection{Weakness of the Brinson Model}
 
 The Brinson model allows portfolio managers to analyze the relative
 return of a portfolio using any attribute of a security, such as
-country or sector. One weakness of the model is to expand the analysis
-beyond two categories.\footnote{\citet{garytwo} proposed a framework
+country or sector. Unfortuinately, it is very hard to expand the analysis beyond 
+two categories.\footnote{\citet{garytwo} proposed a framework
   to include two variables in the Brinson analysis.} As the number of
 categories increases, this procedure is subject to the \textit{curse
   of dimensionality}.
