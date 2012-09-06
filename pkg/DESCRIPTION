@@ -2,7 +2,7 @@ Package: pa
 Type: Package
 Title: Performance Attribution for Equity Portfolios
 Version: 1.0
-Date: 2012-06-24
+Date: 2012-09-06
 Authors@R: c(person("Yang", "Lu", role = c("aut", "cre"),
 	   	 email = "yang.lu@williams.edu"),
 	person("David", "Kane", role = c("aut", "cre"),
