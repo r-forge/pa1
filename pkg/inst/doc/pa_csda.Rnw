@@ -15,6 +15,7 @@
 \bibliographystyle{abbrvnat}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \begin{article}
 \title{Performance Attribution for Equity Portfolios}
 \author{Yang Lu and David Kane}
@@ -28,7 +29,7 @@
 
 \section{Introduction}
 
-Many portfolio managers measure performance with reference to a
+Almost all portfolio managers measure performance with reference to a
 benchmark. The difference in return between a portfolio and its
 benchmark is the active return of the portfolio. Portfolio managers
 and their clients want to know what caused this active
@@ -45,7 +46,7 @@ while equity managers who focus on the effect of currency movements
 use variations of the Brinson model to incorporate ``local risk
 premium'' \cite{localrisk}. In contrast, in this paper we focus on
 attribution models for equity portfolios without considering any
-currency effect.
+currency effects.
 
 
 The \pkg{pa} package provides tools for conducting both methods for
