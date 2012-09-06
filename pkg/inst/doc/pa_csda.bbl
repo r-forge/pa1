@@ -5,6 +5,10 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
+\bibitem[Bacon(2008)]{practical}
+C.~Bacon.
+\newblock \emph{{Practical Portfolio Performance Measurement and Attribution}}.
+\newblock John Wiley \& Sons, Ltd., 2 edition, 2008.
 
 \bibitem[Brinson et~al.(1986)Brinson, Hood, and Beebower]{brinson:gary}
 G.~Brinson, R.~Hood, and G.~Beebower.
@@ -30,8 +34,6 @@ J.~Enos and D.~Kane.
 R.~Grinold.
 \newblock {Attribution, Modeling asset characteristics as portfolios}.
 \newblock \emph{The Journal of Portfolio Management}, page~19, Winter 2006.
-
-%% Maybe get rid of these references?
 
 \bibitem[Menchero(2000)]{linking}
 J.~Menchero.
