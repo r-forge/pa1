@@ -750,8 +750,7 @@ active return in 2010 to a large extent.
 In this paper, we describe two widely-used methods for performance
 attribution -- the Brinson model and the regression-based approach,
 and provide a simple collection of tools to implement these two
-methods in \texttt{R} with the \texttt{pa} package. We also show that
-the Brinson model is a special case of the regression method. A
+methods in \texttt{R} with the \texttt{pa} package.  A
 comprehensive package, \texttt{portfolio} \cite{kane:david}, provides
 facilities to calculate exposures and returns for equity
 portfolios. It is possible to use the \texttt{pa} package based on the
