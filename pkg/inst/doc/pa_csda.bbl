@@ -1,0 +1,53 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+
+\bibitem[Brinson et~al.(1986)Brinson, Hood, and Beebower]{brinson:gary}
+G.~Brinson, R.~Hood, and G.~Beebower.
+\newblock {Determinants of Portfolio Performance}.
+\newblock \emph{Financial Analysts Journal}, 42\penalty0 (4):\penalty0 39--44,
+  Jul.--Aug. 1986.
+\newblock URL \url{http://www.jstor.org/stable/4478947}.
+
+\bibitem[Brinson et~al.(1991)Brinson, Singer, and Beebower]{garytwo}
+G.~Brinson, B.~Singer, and G.~Beebower.
+\newblock {Determinants of Portfolio Performance II: An Update}.
+\newblock \emph{Financial Analysts Journal}, 47\penalty0 (3):\penalty0 40--48,
+  May--Jun. 1991.
+\newblock URL \url{http://www.jstor.org/stable/4479432}.
+
+\bibitem[Enos and Kane(2006)]{kane:david}
+J.~Enos and D.~Kane.
+\newblock {Analysing Equity Portfolios in R}.
+\newblock \emph{R News}, 6\penalty0 (2):\penalty0 13--19, MAY 2006.
+\newblock URL \url{http://CRAN.R-project.org/doc/Rnews}.
+
+\bibitem[Grinold(2006)]{jpmreg}
+R.~Grinold.
+\newblock {Attribution, Modeling asset characteristics as portfolios}.
+\newblock \emph{The Journal of Portfolio Management}, page~19, Winter 2006.
+
+%% Maybe get rid of these references?
+
+\bibitem[Menchero(2000)]{linking}
+J.~Menchero.
+\newblock {An Optimized Approach to Linking Attribution Effects over Time}.
+\newblock \emph{Journal of Performance Measurement}, 5\penalty0 (1):\penalty0
+  36--42, 2000.
+
+\bibitem[Menchero(2004)]{multi}
+J.~Menchero.
+\newblock {Multiperiod Arithmetic Attribution}.
+\newblock \emph{Financial Analysts Journal}, 60\penalty0 (4):\penalty0 76--91,
+  2004.
+
+\bibitem[Menchero et~al.(2008)Menchero, Morozov, and Shepard]{gem2}
+J.~Menchero, A.~Morozov, and P.~Shepard.
+\newblock {The Barra Global Equity Model (GEM2)}.
+\newblock \emph{MSCI Barra Research Notes}, Sept. 2008.
+
+\end{thebibliography}
