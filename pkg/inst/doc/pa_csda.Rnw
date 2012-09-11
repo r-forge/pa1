@@ -52,9 +52,8 @@ examples based on data from MSCI Barra's Global Equity
 Model II (GEM2).\footnote{See www.msci.com and \cite{gem2} for more
   information.} The original data set contains selected attributes such as industry,
 size, country, and various style factors for a universe of
-approximately 48,000 securities on a monthly basis.
-
-For illustrative purposes, this article uses three modified versions
+approximately 48,000 securities on a monthly basis. For illustrative 
+purposes, this article uses three modified versions
 of the original data set (\texttt{year}, \texttt{quarter}, and \texttt{jan}), each containing 3000 securities. 
 The data frame,
 \texttt{quarter}, is a subset of \texttt{year}, containing the data of
@@ -71,45 +70,13 @@ data(year)
 names(year)
 @
 
-\begin{itemize}
-
-\item barrid: Barra security identifier.
-
-\item name: company name.
-
-\item return: monthly total return in trading currency.
-
-\item date: the starting date of the month to which the data belong.
-
-\item sector: consolidated sector categories based on the
-  GICS.\footnote{Global Industry Classification Standard}
-
-\item momentum: a measure of sustained relative price performance.
-
-\item value: the extent to which a stock is priced
-  inexpensively in the market.
-
-\item size: normalized market capitalization.
-
-\item growth: capture stock's growth prospects.
-
-\item cap.usd: market capitalization in USD.
-
-\item yield: dividend yield of a security.
-
-\item country: the country in which the company is traded.
-
-\item currency: currency in which the security is priced.
-
-\item portfolio: top 200 securities based on \texttt{value} scores
+See \texttt{?year} for information on the different variables. 
+The top 200 securities, based on \texttt{value} scores,
   in January are selected as portfolio holdings and are held through
-  December 2010. They are equal-weighted each month.
-
-\item benchmark: top 1000 securities based on size each month. The
+  December 2010 with monthly rebalances to maintain equal-weighting.
+  The benchmark for this portfolio is defined as the largest 1000 
+  securities based on \texttt{size} each month. The
   benchmark is cap-weighted.
-
-\end{itemize}
-
 
 Here is a sample of rows and columns from the data frame
 \texttt{year}:
@@ -123,10 +90,10 @@ sample.mat <- rbind(which(year$portfolio == 0 & year$benchmark == 0)[2],
 year[sample.mat, c(-1, -6, -7, -9: -11, -13) ]
 @
 
-The portfolio has 200 equal-weighted holdings. The row for Canadian
-Imperial Bank of Commerce indicates that it is one of the 200
+The portfolio has 200 equal-weighted holdings each month. The row 
+for Canadian Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
-2.61\% in August, and almost flat in November.
+2.61\% in August, and close to flat in November.
 
 \section{The Brinson Model}
 
