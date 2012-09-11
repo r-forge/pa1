@@ -50,40 +50,7 @@ estimate the contributions from different factors.
 We demonstrate the use of the \pkg{pa} package with a series of
 examples based on data from MSCI Barra's Global Equity
 Model II (GEM2).\footnote{See www.msci.com and \cite{gem2} for more
-  information.} 
-
-% Note that the font size for this quote small and then go
-% back to normal. 
-
-% Is this font size shrinkage consistent with The R Journal standards?
-
-\small
-
-\begin{quote}
-  
-  GEM2 is the latest Barra global multi-factor equity model. It
-  provides a foundation for investment decision support tools via a
-  broad range of insightful analytics for developed and emerging
-  market portfolios. The latest model version provides:
-
-\begin{itemize}
-\item Improved accuracy of risk forecasts and increased explanatory
-  power.
-
-\item An intuitive structure that accommodates different investment
-  processes in developed vs. emerging markets.
-
-\item Greater responsiveness to market dynamics.
-
-\item Comprehensive market coverage.
-
-\end{itemize}
-
-\end{quote}
-
-\normalsize
-
-The original data set contains selected attributes such as industry,
+  information.} The original data set contains selected attributes such as industry,
 size, country, and various style factors for a universe of
 approximately 48,000 securities on a monthly basis.
 
