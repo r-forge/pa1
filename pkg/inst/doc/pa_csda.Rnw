@@ -301,7 +301,7 @@ exposure(br.multi, var = "size")
 
 The \texttt{exposure} method on the class \texttt{br.multi} object
 shows the exposure of the portfolio and the benchmark based on a
-user-defined category. Here, it shows the exposure on
+user-specified variable. Here, it shows the exposure on
 \texttt{size}. We can see that the portfolio overweights the benchmark
 in the lowest quintile in \texttt{size} and underweights in the
 highest quintile.
@@ -318,27 +318,10 @@ shows the aggregate attribution results. The portfolio formed by top
 200 value securities in January had an active return of 1.14\% over
 the first quarter of 2010. The allocation and the selection effects
 contributed 0.95\% and 1.6\% respectively; the interaction effect
-made a loss of 1.42\%.
+decreased returns by 1.42\%.
 
-\begin{figure}
-\centering
-\vspace*{.1in}
-<<fig = TRUE>>=
-plot(br.multi, type = "return")
-@
-\caption{\label{figure:multireturn}
-  Sector Return Across Time.}
-\end{figure}
-
-Figure \ref{figure:multireturn} depicts the returns of both the
-portfolio and the benchmark of the allocation effect from January,
-2010 through March. 2010. This plot shows that for the portfolio,
-\texttt{Utilities} performed the best with a gain of more than 5\% in
-January and February, 2010 but tanked in March, 2010.
 
 \section{Regression}
-
-\subsection{Single-Period Regression Model}
 
 One advantage of a regression-based approach is that such analysis
 allows one to define their own attribution model by easily
