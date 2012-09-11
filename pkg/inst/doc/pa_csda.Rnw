@@ -416,7 +416,7 @@ value based on the regression model. Size contributes 1\% of the
 negative active return of the portfolio and value causes the portfolio
 to lose the other 10.0\%.
 
-\section{Regression Tools}
+\subsection{Regression Tools}
 
 The \pkg{pa} package provides tools to analyze
 both single-period and multi-period data frames.
@@ -432,7 +432,16 @@ exposure(rb.single, var = "growth")
 @
 
 \texttt{reg.var} specifies the columns containing variables whose
-contributions are to be analyzed. Calling \texttt{exposure} with a
+contributions are to be analyzed. 
+
+% Yang: Insert your new paragraph here. 
+
+
+<<>>=
+exposure(rb.single, var = "growth")
+@
+
+Calling \texttt{exposure} with a
 specified \texttt{var} yields information on the exposure of both the
 portfolio and the benchmark by that variable. If \texttt{var} is a
 continuous variable, for instance, \texttt{growth}, the exposure will
