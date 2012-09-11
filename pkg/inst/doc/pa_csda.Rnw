@@ -212,7 +212,7 @@ categories increases, this procedure is subject to the curse
   ameliorates this problem.
 
 
-\subsection{Single-Period Brinson Tools}
+\subsection{Brinson Tools}
 
 Brinson analysis is run by calling the function \texttt{brinson} to
 produce an object of class \texttt{brinson}. Below we show the tools
@@ -267,109 +267,13 @@ both the portfolio and the benchmark sector by sector in January,
 2010. Utilities was the
 sector with the highest active return in the portfolio.
 
-\subsection{Multi-Period Brinson Model}
-
 To obtain Brinson attribution on a multi-period data set, one
 calculates allocation, selection and interaction within each period
 and aggregates them across time. There are three methods for this --
-arithmetic, geometric, and optimized linking. Arithmetic measure
-calculates relative performance of a portfolio and its benchmark by a
-difference; geometric measure does so by a ratio. Arithmetic measure
-is more intuitive but a well-known challenge in arithmetic attribution
-is that active returns do not add up over multiple periods due to
-geometric compounding.  Geometric is able to
-circumvent the adding-up problem. 
-
-\texttt{Arithmetic Attribution.} The arithmetic attribution model
+arithmetic, geometric, and optimized linking. The arithmetic attribution model
 calculates active return and contributions due to allocation,
 selection, and interaction in each period and sums them over multiple
-periods. The arithmetic active return over $T$ periods
-$R_{arithmetic}$ is expressed as:
-\begin{center}
-  $R_{arithmetic} = \sum\limits_{t = 1}^T R_t^{active}$,
-\end{center}
-and $R_t^{active}$ is the active return in a single period $t$.
-
-\texttt{Geometric Attribution.} The geometric attribution is to
-compound various returns over $T$ periods where,
-\begin{center}
-  $1 + R_P = \prod\limits_{t = 1}^T (1 + R_t^P)$,
-\end{center}
-\begin{center}
-  $1 + R_B = \prod\limits_{t = 1}^T (1 + R_t^B)$,
-\end{center}
-and $R_t^P$ and $R_t^B$ are portfolio and benchmark returns in a
-single period $t$, respectively. Geometric return $R_{geometric}$ is
-thus the difference between $R_p$ and $R_B$:
-\begin{center}
-  $R_{geometric} = R_p - R_B$.
-\end{center}
-
-\texttt{Optimized Linking Algorithm.} The well-known challenge faced
-in arithmetic attribution is that the actual active return over time
-is not equal to the arithmetic summation of single-period active
-returns,
-\begin{center}
-  $ R_{geometric} \not= R_{arithmetic}$,
-\end{center}
-i.e.,
-\begin{center}
-  $R_P - R_B \not= \sum\limits_{t = 1}^T R_t^{active}$.
-\end{center}
-
-\cite{multi} proposed an optimized linking coefficient $b^{opt}$ to
-link arithmetic returns of individual periods with geometric returns
-over time,
-\begin{center}
-  $R_p - R_B = \sum\limits_{t = 1}^T b_t^{opt}R_t^{active}$,
-\end{center}
-where $b_t^{opt}$ is the optimized linking coefficient in a single
-period $t$.
-
-The optimized linking coefficient $b_t^{opt}$ is the summation of a
-\emph{natural scaling} $A$ and an \emph{adjustment} $a_t$ specific to
-a time period $t$,
-\begin{center}
-  $b_t^{opt} = A + a_t$,
-\end{center}
-where $A$ is an coefficient for linking from the single-period to the
-multi-period return and $a_t$ is an adjustment to eliminate
-residuals\footnote{See \cite{linking} for more information on the
-  optimized linking coefficients.}.
-
-Since active return over time $R_P - R_B$ is a summation of active
-return in each period adjusted to the optimized linking algorithm, the
-following is true:
-\begin{center}
-  $R_P - R_B = \sum\limits_{t = 1}^T b_t^{opt}(R_t^{allocation} +
-  R_t^{selection} + R_t^{interaction})$,
-\end{center}
-where $R_t^{allocation}$, $R_t^{selection}$, and $R_t^{interaction}$
-represent allocation, selection and interaction in each period $t$,
-respectively.
-
-Within each period $t$, the adjusted attribution is thus expressed as
-\begin{center}
-  $\hat{R}_t^{allocation} = b_t^{opt}R_t^{allocation}$,
-\end{center}
-\begin{center}
-  $\hat{R}_t^{selection} = b_t^{opt}R_t^{selection}$,
-\end{center}
-and
-\begin{center}
-  $\hat{R}_t^{interaction} = b_t^{opt}R_t^{interaction}$. 
-\end{center}
-
-Therefore, across $T$ periods, active return $R_{active}$, the
-difference between portfolio return $R_P$ and benchmark return $R_B$,
-can be written as
-\begin{center}
-  $R_{active} = \sum\limits_{t= 1}^T (\hat{R}_t^{allocation} +
-  \hat{R}_t^{selection} + \hat{R}_t^{interaction})$,
-\end{center}
-where $R_{active} = R_P - R_B$.
-
-\section{Multi-Period Brinson Tools}
+periods. 
 
 In practice, analyzing a single-period portfolio is meaningless as
 portfolio managers and their clients are more interested in the
