@@ -215,9 +215,7 @@ categories increases, this procedure is subject to the curse
 \subsection{Brinson Tools}
 
 Brinson analysis is run by calling the function \texttt{brinson} to
-produce an object of class \texttt{brinson}. Below we show the tools
-provided in the \pkg{pa} package to analyze a single period portfolio
-based on the Brinson model.
+produce an object of class \texttt{brinson}. 
 
 <<>>=
 data(jan)
