@@ -458,7 +458,7 @@ portfolio and the benchmark, and the contribution of each input
 variable according to the regression-based analysis. In this case, the
 portfolio made a loss of 2.91\% and the benchmark lost
 4.38\%. Therefore, the portfolio outperformed the benchmark by
-1.47\%. \texttt{Sector}, \texttt{growth}, and \texttt{size}
+1.47\%. \texttt{sector}, \texttt{growth}, and \texttt{size}
 contributed 0.32\%, 0.05\%, and 0.29\%, respectively.
 
 Regression-based analysis can be applied to a multi-period data frame
@@ -470,7 +470,7 @@ both the portfolio and the benchmark.
 
 
 <<>>=
-rb.multi <- regress(quarter, date.var = "date",
+rb.multi <- regress(year, date.var = "date",
                 ret.var = "return",
                 reg.var = c("sector", "growth", 
                   "size"),
@@ -482,33 +482,22 @@ rb.multi
 The regression-based summary shows that the contribution of each input
 variable in addition to the basic information on the portfolio. The
 summary suggests that the active return of the portfolio in year 2010
-is 1.27\%. The \texttt{Residual} number indicates the contribution
+is 10.1\%. The \texttt{Residual} number indicates the contribution
 of the interaction among various variables including \texttt{sector},
-\texttt{growth}, and \texttt{growth}.
+\texttt{growth}, and \texttt{growth}. Based on the
+regression model, \texttt{size} contributed to the lion share of the
+active return.
 
 <<>>=
 summary(rb.multi)
 @
 
-Visual representation of relative performance of a portfolio against
-its benchmark is best viewed across a longer time span. Here, we use
-the data frame \texttt{year} for illustrative purposes. 
-
-<<>>=
-rb.multi2 <- regress(year, date.var = "date",
-               ret.var = "return",
-               reg.var = c("sector", "growth", 
-                 "size"),
-               benchmark.weight = "benchmark",
-               portfolio.weight = "portfolio")
-returns(rb.multi2, type = "linking")
-@ 
-
-We obtained an object \emph{rb.multi2} of class \emph{regressMulti}
-based on the data set from January, 2010 through December, 2010. The
-portfolio beat the benchmark by 10.1\% over this period. Based on the
-regression model, \texttt{size} contributed to the lion share of the
-active return.
+Figure \ref{figure:regmultiattrib} displays both the cumulative
+portfolio and benchmark returns from January, 2010 through December,
+2010. It suggests that the portfolio, consisted of high \texttt{value}
+securities in January, consistently outperformed the benchmark in
+2010. Outperformance in May and June helped the overall positive
+active return in 2010 to a large extent.
 
 \begin{figure}
 \centering
@@ -519,13 +508,6 @@ plot(rb.multi2, var = "sector", type = "return")
 \caption{\label{figure:regmultiattrib}
   Performance Attribution.}
 \end{figure}
-
-Figure \ref{figure:regmultiattrib} displays both the cumulative
-portfolio and benchmark returns from January, 2010 through December,
-2010. It suggests that the portfolio, consisted of high \texttt{value}
-securities in January, consistently outperformed the benchmark in
-2010. Outperformance in May and June helped the overall positive
-active return in 2010 to a large extent.
 
 
 \section{Conclusion}
