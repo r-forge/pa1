@@ -503,7 +503,7 @@ active return in 2010 to a large extent.
 \centering
 \vspace*{.1in}
 <<fig = TRUE>>=
-plot(rb.multi2, var = "sector", type = "return")
+plot(rb.multi, var = "sector", type = "return")
 @
 \caption{\label{figure:regmultiattrib}
   Performance Attribution.}
@@ -511,7 +511,6 @@ plot(rb.multi2, var = "sector", type = "return")
 
 
 \section{Conclusion}
-
 
 In this paper, we describe two widely-used methods for performance
 attribution -- the Brinson model and the regression-based approach,
