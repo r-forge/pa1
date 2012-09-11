@@ -48,7 +48,7 @@ estimate the contributions from different factors.
 \section{Data}
 
 We demonstrate the use of the \pkg{pa} package with a series of
-examples based on real-world data from MSCI Barra's Global Equity
+examples based on data from MSCI Barra's Global Equity
 Model II (GEM2).\footnote{See www.msci.com and \cite{gem2} for more
   information.} 
 
@@ -275,8 +275,7 @@ $R_{selection}$ from the active return $R_{active}$:
 The Brinson model allows portfolio managers to analyze the relative
 return of a portfolio using any attribute of a security, such as
 country or sector. Unfortunately, it is very hard to expand the analysis beyond 
-two categories.\footnote{\citet{garytwo} proposed a framework
-  to include two variables in the Brinson analysis.} As the number of
+two categories. As the number of
 categories increases, this procedure is subject to the curse
   of dimensionality. To some extent, the regression-based model detailed later 
   ameliorates this problem.
@@ -349,12 +348,8 @@ calculates relative performance of a portfolio and its benchmark by a
 difference; geometric measure does so by a ratio. Arithmetic measure
 is more intuitive but a well-known challenge in arithmetic attribution
 is that active returns do not add up over multiple periods due to
-geometric compounding.\footnote{See \cite{practical} for a complete
-  discussion of the complexity involved.} Geometric is able to
-circumvent the adding-up problem. \cite{multi} discussed various
-linking algorithms to connect arithmetic return with geometric return
-and argued that the \emph{optimized linking algorithm} is the best way
-to link attribution over time.
+geometric compounding.  Geometric is able to
+circumvent the adding-up problem. 
 
 \texttt{Arithmetic Attribution.} The arithmetic attribution model
 calculates active return and contributions due to allocation,
