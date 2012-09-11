@@ -30,12 +30,10 @@
 \section{Introduction}
 
 Almost all portfolio managers measure performance with reference to a
-benchmark. The difference in return between a portfolio and its
-benchmark is the active return of the portfolio. Portfolio managers
-and their clients want to know what caused this active
-return. Performance attribution decomposes the active return. The two
-most common approaches are the Brinson-Hood-Beebower (hereafter
-referred to as the Brinson model) and a regression-based
+benchmark. The difference in return between a portfolio and the
+benchmark is its active return. Performance attribution decomposes the 
+active return. The two
+most common approaches are the Brinson model and a regression-based
 analysis.\footnote{See \cite{brinson:gary} and \cite{jpmreg} for more
   information.}
 
@@ -45,12 +43,12 @@ equity portfolios. The Brinson model takes an ANOVA-type approach and
 decomposes the active return of any portfolio into asset allocation,
 stock selection, and interaction effects. The regression-based
 analysis utilizes estimated coefficients from a linear model to
-attribute active return to different factors. 
+estimate the contributions from different factors. 
 
 \section{Data}
 
 We demonstrate the use of the \pkg{pa} package with a series of
-examples based on real-world data sets from MSCI Barra's Global Equity
+examples based on real-world data from MSCI Barra's Global Equity
 Model II (GEM2).\footnote{See www.msci.com and \cite{gem2} for more
   information.} 
 
