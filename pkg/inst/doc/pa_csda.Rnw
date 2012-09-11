@@ -97,8 +97,6 @@ portfolio holdings with a weight of 0.5\% in 2010. Its return was
 
 \section{The Brinson Model}
 
-\subsection{Single-Period Brinson Model}
-
 Consider an equity portfolio manager who uses the S\&P 500 as the
 benchmark. In a given month, she outperformed the S\&P by 3\%. Part of
 that performance was due to the fact that she allocated more weight of
@@ -171,12 +169,11 @@ portfolio return $R_P$ less the benchmark return $R_B$:
   $R_{active} = R_P - R_B$.
 \end{center}
 
-Since the category allocation of the portfolio is generally different
-from that of the benchmark, allocation plays a role in the active
-return, $R_{active}$. The same applies to stock selection where
-assuming that the portfolio has the exact same categorical exposures
-as the benchmark does, equities within each category are
-different. This contributes to $R_{active}$ as well. Allocation effect
+Since the category weights of the portfolio are generally different
+from those of the benchmark, allocation plays a role in the active
+return, $R_{active}$. The same applies to stock selection effects. 
+Within a given category, the portfolio and the benchmark will rarely 
+have exactly the same holdings. Allocation effect
 $R_{allocation}$ and selection effect $R_{selection}$ over $N$
 categories are defined as:
 \begin{center}
@@ -206,7 +203,7 @@ $R_{selection}$ from the active return $R_{active}$:
   $R_{interaction} = R_{active} - R_{allocation} - R_{selection}$.
 \end{center}
 
-The Brinson model allows portfolio managers to analyze the relative
+The Brinson model allows portfolio managers to analyze the active
 return of a portfolio using any attribute of a security, such as
 country or sector. Unfortunately, it is very hard to expand the analysis beyond 
 two categories. As the number of
@@ -267,9 +264,7 @@ plot(br.single, var = "sector", type = "return")
 
 Figure \ref{figure:return} is a visual representation of the return of
 both the portfolio and the benchmark sector by sector in January,
-2010. This plot shows that in absolute terms, Utilities performed the
-best with a gain of more than 5\% and Consumer Discretionary, the
-worst performing sector, lost more than 10\%. Utilities was also the
+2010. Utilities was the
 sector with the highest active return in the portfolio.
 
 \subsection{Multi-Period Brinson Model}
