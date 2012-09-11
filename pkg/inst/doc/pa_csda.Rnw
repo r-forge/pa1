@@ -68,7 +68,7 @@ library(pa)
 <<>>=
 data(year)
 names(year)
-
+@
 
 See \texttt{?year} for information on the different variables. 
 The top 200 securities, based on \texttt{value} scores,
@@ -659,7 +659,7 @@ attribution.
 
 \address{Yang Lu and David Kane\\
   \email{yang.lu@williams.edu} and \\
-  \email{dkane@acadian-asset.com}}
+  \email{dave.kane@gmail.com}}
 
 \bibliography{pa}
 
