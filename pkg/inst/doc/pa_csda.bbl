@@ -1,14 +1,9 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
-
-\bibitem[Bacon(2008)]{practical}
-C.~Bacon.
-\newblock \emph{{Practical Portfolio Performance Measurement and Attribution}}.
-\newblock John Wiley \& Sons, Ltd., 2 edition, 2008.
 
 \bibitem[Brinson et~al.(1986)Brinson, Hood, and Beebower]{brinson:gary}
 G.~Brinson, R.~Hood, and G.~Beebower.
@@ -16,13 +11,6 @@ G.~Brinson, R.~Hood, and G.~Beebower.
 \newblock \emph{Financial Analysts Journal}, 42\penalty0 (4):\penalty0 39--44,
   Jul.--Aug. 1986.
 \newblock URL \url{http://www.jstor.org/stable/4478947}.
-
-\bibitem[Brinson et~al.(1991)Brinson, Singer, and Beebower]{garytwo}
-G.~Brinson, B.~Singer, and G.~Beebower.
-\newblock {Determinants of Portfolio Performance II: An Update}.
-\newblock \emph{Financial Analysts Journal}, 47\penalty0 (3):\penalty0 40--48,
-  May--Jun. 1991.
-\newblock URL \url{http://www.jstor.org/stable/4479432}.
 
 \bibitem[Enos and Kane(2006)]{kane:david}
 J.~Enos and D.~Kane.
