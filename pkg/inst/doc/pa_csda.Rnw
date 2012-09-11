@@ -307,18 +307,17 @@ in the lowest quintile in \texttt{size} and underweights in the
 highest quintile.
 
 <<>>=
-returns(br.multi, type = "linking")
+returns(br.multi, type = "arithmetic")
 @ 
 
 The \texttt{returns} method shows the results of the Brinson analysis
-applied to the data from January, 2010 through March, 2010. The
-optimized linking algorithm is applied here by setting the type to
-\emph{linking}. The first portion of the \texttt{returns} output shows
+applied to the data from January, 2010 through March, 2010. The first 
+portion of the \texttt{returns} output shows
 the Brinson attribution in individual periods. The second portion
 shows the aggregate attribution results. The portfolio formed by top
-200 value securities in January had an active return of 12.7\% over
+200 value securities in January had an active return of 1.14\% over
 the first quarter of 2010. The allocation and the selection effects
-contributed 0.95\% and 1.73\% respectively; the interaction effect
+contributed 0.95\% and 1.6\% respectively; the interaction effect
 made a loss of 1.42\%.
 
 \begin{figure}
