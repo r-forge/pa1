@@ -35,16 +35,14 @@
   a benchmark. The difference in return between a portfolio and the
   benchmark is its active return. Performance attribution decomposes
   the active return. The two most common approaches are the Brinson
-  model and a regression-based analysis.\footnote{See
-    \cite{brinson:gary} and \cite{jpmreg} for more information.}
-
-
-  The \pkg{pa} package provides tools for conducting both methods for
-  equity portfolios. The Brinson model takes an ANOVA-type approach
-  and decomposes the active return of any portfolio into asset
-  allocation, stock selection, and interaction effects. The
-  regression-based analysis utilizes estimated coefficients from a
-  linear model to estimate the contributions from different factors.
+  model \citep{brinson:gary} and a regression-based analysis
+  \citep{jpmreg}. The \pkg{pa} package provides tools for conducting
+  both methods for equity portfolios. The Brinson model takes an
+  ANOVA-type approach and decomposes the active return of any
+  portfolio into asset allocation, stock selection, and interaction
+  effects. The regression-based analysis utilizes estimated
+  coefficients from a linear model to estimate the contributions from
+  different factors.
 
 
 }
@@ -53,11 +51,10 @@
 
 Almost all portfolio managers measure performance with reference to a
 benchmark. The difference in return between a portfolio and the
-benchmark is its active return. Performance attribution decomposes the 
-active return. The two
-most common approaches are the Brinson model and a regression-based
-analysis.\footnote{See \cite{brinson:gary} and \cite{jpmreg} for more
-  information.}
+benchmark is its active return. Performance attribution decomposes the
+active return. The two most common approaches are the Brinson model
+and a regression-based analysis.\footnote{See \citep{brinson:gary} and
+  \citep{jpmreg} for more information.}
 
 
 The \pkg{pa} package provides tools for conducting both methods for
@@ -117,7 +114,7 @@ for Canadian Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
 2.61\% in August, and close to flat in November.
 
-\section{The Brinson Model}
+\section{Brinson model}
 
 Consider an equity portfolio manager who uses the S\&P 500 as the
 benchmark. In a given month, she outperformed the S\&P by 3\%. Part of
@@ -218,7 +215,7 @@ dissimilar returns due to differences in stock selection within each
 category ($R^p_j$ vs. $R^B_j$). This difference is the selection
 effect ($R_{selection}$).
 
-Interaction effect, $R_{interaction}$, is the result of subtracting
+Interaction effect ($R_{interaction}$) is the result of subtracting
 return due to allocation $R_{allocation}$ and return due to selection
 $R_{selection}$ from the active return $R_{active}$:
 \begin{center}
@@ -227,14 +224,14 @@ $R_{selection}$ from the active return $R_{active}$:
 
 The Brinson model allows portfolio managers to analyze the active
 return of a portfolio using any attribute of a security, such as
-country or sector. Unfortunately, it is very hard to expand the analysis beyond 
-two categories. As the number of
-categories increases, this procedure is subject to the curse
-  of dimensionality. To some extent, the regression-based model detailed later 
-  ameliorates this problem.
+country or sector. Unfortunately, it is very hard to expand the
+analysis beyond two categories. As the number of categories increases,
+this procedure is subject to the curse of dimensionality. To some
+extent, the regression-based model detailed later ameliorates this
+problem.
 
 
-\subsection{Brinson Tools}
+\subsection{Brinson tools}
 
 Brinson analysis is run by calling the function \texttt{brinson} to
 produce an object of class \texttt{brinson}. 
@@ -438,7 +435,7 @@ value based on the regression model. Size contributes 1\% of the
 negative active return of the portfolio and value causes the portfolio
 to lose the other 10.0\%.
 
-\subsection{Regression Tools}
+\subsection{Regression tools}
 
 The \pkg{pa} package provides tools to analyze
 both single-period and multi-period data frames.
@@ -455,10 +452,10 @@ exposure(rb.single, var = "growth")
 
 \texttt{reg.var} specifies the columns containing variables whose
 contributions are to be analyzed. Each of the \texttt{reg.var} input
-corresponds to a particular column in $\mathbf{X}_{n,k}$ from the
-aforementioned regression model. \texttt{ret.var} specifies the column
-in the data frame \texttt{jan} based on which $\mathbf{r}_n$ in the
-regression model is formed.
+variables corresponds to a particular column in $\mathbf{X}_{n,k}$
+from the aforementioned regression model. \texttt{ret.var} specifies
+the column in the data frame \texttt{jan} based on which
+$\mathbf{r}_n$ in the regression model is formed.
 
 <<>>=
 exposure(rb.single, var = "growth")
@@ -548,43 +545,21 @@ methodology. Before reaching that level of complexity, however,
 \texttt{pa} provides a good starting point for basic performance
 attribution.
 
-\address{Yang Lu and David Kane\\
-  \email{yang.lu@williams.edu} and \\
-  \email{dave.kane@gmail.com}}
+\bibliography{pa}
 
-%\bibliography{pa}
+\address{Yang Lu\\
+  Williams College\\
+  2896 Paresky Center, Williamstown, MA 01267   \\
+  United States}\\
+\email{yang.lu@williams.edu}
 
-\begin{thebibliography}{4}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+\address{David Kane\\ 
+  Harvard University\\ 
+  IQSS 1737 Cambridge Street
+  CGIS Knafel Building, Room 350 Cambridge, MA 02138\\ 
+  United States}\\ 
+\email{dave.kane@gmail.com}
 
-\bibitem[Brinson et~al.(1986)Brinson, Hood, and Beebower]{brinson:gary}
-G.~Brinson, R.~Hood, and G.~Beebower.
-\newblock {Determinants of Portfolio Performance}.
-\newblock \emph{Financial Analysts Journal}, 42\penalty0 (4):\penalty0 39--44,
-  Jul.--Aug. 1986.
-\newblock URL \url{http://www.jstor.org/stable/4478947}.
-
-\bibitem[Enos and Kane(2006)]{kane:david}
-J.~Enos and D.~Kane.
-\newblock {Analysing Equity Portfolios in R}.
-\newblock \emph{R News}, 6\penalty0 (2):\penalty0 13--19, MAY 2006.
-\newblock URL \url{http://CRAN.R-project.org/doc/Rnews}.
-
-\bibitem[Grinold(2006)]{jpmreg}
-R.~Grinold.
-\newblock {Attribution, Modeling asset characteristics as portfolios}.
-\newblock \emph{The Journal of Portfolio Management}, page~19, Winter 2006.
-
-\bibitem[Menchero et~al.(2008)Menchero, Morozov, and Shepard]{gem2}
-J.~Menchero, A.~Morozov, and P.~Shepard.
-\newblock {The Barra Global Equity Model (GEM2)}.
-\newblock \emph{MSCI Barra Research Notes}, Sept. 2008.
-
-\end{thebibliography}
 
 
 \end{article}
