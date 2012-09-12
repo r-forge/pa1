@@ -1,7 +1,12 @@
 \title{Performance Attribution for Equity Portfolios}
 \author{by Yang Lu and David Kane}
 
+%%\VignetteIndexEntry{Using the pa package}
+%%\VignetteDepends{pa}
+
 \maketitle
+
+\setkeys{Gin}{width=0.95\textwidth}
 
 \abstract{
 
@@ -9,16 +14,14 @@
   a benchmark. The difference in return between a portfolio and the
   benchmark is its active return. Performance attribution decomposes
   the active return. The two most common approaches are the Brinson
-  model and a regression-based analysis.\footnote{See
-    \cite{brinson:gary} and \cite{jpmreg} for more information.}
-
-
-  The \pkg{pa} package provides tools for conducting both methods for
-  equity portfolios. The Brinson model takes an ANOVA-type approach
-  and decomposes the active return of any portfolio into asset
-  allocation, stock selection, and interaction effects. The
-  regression-based analysis utilizes estimated coefficients from a
-  linear model to estimate the contributions from different factors.
+  model \citep{brinson:gary} and a regression-based analysis
+  \citep{jpmreg}. The \pkg{pa} package provides tools for conducting
+  both methods for equity portfolios. The Brinson model takes an
+  ANOVA-type approach and decomposes the active return of any
+  portfolio into asset allocation, stock selection, and interaction
+  effects. The regression-based analysis utilizes estimated
+  coefficients from a linear model to estimate the contributions from
+  different factors.
 
 
 }
@@ -27,11 +30,10 @@
 
 Almost all portfolio managers measure performance with reference to a
 benchmark. The difference in return between a portfolio and the
-benchmark is its active return. Performance attribution decomposes the 
-active return. The two
-most common approaches are the Brinson model and a regression-based
-analysis.\footnote{See \cite{brinson:gary} and \cite{jpmreg} for more
-  information.}
+benchmark is its active return. Performance attribution decomposes the
+active return. The two most common approaches are the Brinson model
+and a regression-based analysis.\footnote{See \citep{brinson:gary} and
+  \citep{jpmreg} for more information.}
 
 
 The \pkg{pa} package provides tools for conducting both methods for
@@ -110,7 +112,7 @@ for Canadian Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
 2.61\% in August, and close to flat in November.
 
-\section{The Brinson Model}
+\section{Brinson model}
 
 Consider an equity portfolio manager who uses the S\&P 500 as the
 benchmark. In a given month, she outperformed the S\&P by 3\%. Part of
@@ -211,7 +213,7 @@ dissimilar returns due to differences in stock selection within each
 category ($R^p_j$ vs. $R^B_j$). This difference is the selection
 effect ($R_{selection}$).
 
-Interaction effect, $R_{interaction}$, is the result of subtracting
+Interaction effect ($R_{interaction}$) is the result of subtracting
 return due to allocation $R_{allocation}$ and return due to selection
 $R_{selection}$ from the active return $R_{active}$:
 \begin{center}
@@ -220,14 +222,14 @@ $R_{selection}$ from the active return $R_{active}$:
 
 The Brinson model allows portfolio managers to analyze the active
 return of a portfolio using any attribute of a security, such as
-country or sector. Unfortunately, it is very hard to expand the analysis beyond 
-two categories. As the number of
-categories increases, this procedure is subject to the curse
-  of dimensionality. To some extent, the regression-based model detailed later 
-  ameliorates this problem.
+country or sector. Unfortunately, it is very hard to expand the
+analysis beyond two categories. As the number of categories increases,
+this procedure is subject to the curse of dimensionality. To some
+extent, the regression-based model detailed later ameliorates this
+problem.
 
 
-\subsection{Brinson Tools}
+\subsection{Brinson tools}
 
 Brinson analysis is run by calling the function \texttt{brinson} to
 produce an object of class \texttt{brinson}. 
@@ -497,7 +499,7 @@ value based on the regression model. Size contributes 1\% of the
 negative active return of the portfolio and value causes the portfolio
 to lose the other 10.0\%.
 
-\subsection{Regression Tools}
+\subsection{Regression tools}
 
 The \pkg{pa} package provides tools to analyze
 both single-period and multi-period data frames.
@@ -524,10 +526,10 @@ High     0.130    0.0783
 
 \texttt{reg.var} specifies the columns containing variables whose
 contributions are to be analyzed. Each of the \texttt{reg.var} input
-corresponds to a particular column in $\mathbf{X}_{n,k}$ from the
-aforementioned regression model. \texttt{ret.var} specifies the column
-in the data frame \texttt{jan} based on which $\mathbf{r}_n$ in the
-regression model is formed.
+variables corresponds to a particular column in $\mathbf{X}_{n,k}$
+from the aforementioned regression model. \texttt{ret.var} specifies
+the column in the data frame \texttt{jan} based on which
+$\mathbf{r}_n$ in the regression model is formed.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -562,9 +564,9 @@ Securities in the benchmark:         1000
 
 Returns 
                  2010-01-01
-Sector             0.003189
-Growth             0.000504
-Size               0.002905
+sector             0.003189
+growth             0.000504
+size               0.002905
 Residual           0.008092
 Portfolio Return  -0.029064
 Benchmark Return  -0.043753
@@ -630,33 +632,33 @@ Avg securities in the benchmark:     1000
 Returns 
 $Raw
                  2010-01-01 2010-02-01 2010-03-01
-Sector               0.0032     0.0031     0.0002
-Growth               0.0005     0.0009    -0.0001
-Size                 0.0029     0.0295     0.0105
+sector               0.0032     0.0031     0.0002
+growth               0.0005     0.0009    -0.0001
+size                 0.0029     0.0295     0.0105
 Residual             0.0081    -0.0172    -0.0302
 Portfolio Return    -0.0291     0.0192     0.0298
 Benchmark Return    -0.0438     0.0029     0.0494
 Active Return        0.0147     0.0163    -0.0196
                  2010-04-01 2010-05-01 2010-06-01
-Sector               0.0016     0.0039     0.0070
-Growth               0.0001     0.0002     0.0004
-Size                 0.0135     0.0037     0.0018
+sector               0.0016     0.0039     0.0070
+growth               0.0001     0.0002     0.0004
+size                 0.0135     0.0037     0.0018
 Residual            -0.0040     0.0310     0.0183
 Portfolio Return    -0.0080    -0.0381     0.0010
 Benchmark Return    -0.0192    -0.0769    -0.0266
 Active Return        0.0113     0.0388     0.0276
                  2010-07-01 2010-08-01 2010-09-01
-Sector               0.0016     0.0047    -0.0022
-Growth              -0.0005     0.0005    -0.0006
-Size                 0.0064     0.0000     0.0096
+sector               0.0016     0.0047    -0.0022
+growth              -0.0005     0.0005    -0.0006
+size                 0.0064     0.0000     0.0096
 Residual            -0.0324     0.0173    -0.0220
 Portfolio Return     0.0515    -0.0119     0.0393
 Benchmark Return     0.0764    -0.0344     0.0545
 Active Return       -0.0249     0.0225    -0.0152
                  2010-10-01 2010-11-01 2010-12-01
-Sector               0.0015    -0.0044    -0.0082
-Growth              -0.0010    -0.0004     0.0010
-Size                 0.0022     0.0130     0.0056
+sector               0.0015    -0.0044    -0.0082
+growth              -0.0010    -0.0004     0.0010
+size                 0.0022     0.0130     0.0056
 Residual             0.0137     0.0175    -0.0247
 Portfolio Return     0.0414    -0.0036     0.0260
 Benchmark Return     0.0249    -0.0293     0.0523
@@ -664,9 +666,9 @@ Active Return        0.0165     0.0257    -0.0263
 
 $Aggregate
                  2010-01-01, 2010-12-01
-Sector                           0.0120
-Growth                           0.0011
-Size                             0.1030
+sector                           0.0120
+growth                           0.0011
+size                             0.1030
 Residual                        -0.0269
 Portfolio Return                 0.1191
 Benchmark Return                 0.0176
@@ -711,7 +713,7 @@ methodology. Before reaching that level of complexity, however,
 \texttt{pa} provides a good starting point for basic performance
 attribution.
 
-%\bibliography{pa}
+%%\bibliography{pa}
 
 \begin{thebibliography}{4}
 \providecommand{\natexlab}[1]{#1}
@@ -751,8 +753,9 @@ J.~Menchero, A.~Morozov, and P.~Shepard.
   United States}\\
 \email{yang.lu@williams.edu}
 
-\address{David Kane\\
-  Affiliation\\
-  Address\\
-  United States}\\
+\address{David Kane\\ 
+  Harvard University\\ 
+  IQSS 1737 Cambridge Street
+  CGIS Knafel Building, Room 350 Cambridge, MA 02138\\ 
+  United States}\\ 
 \email{dave.kane@gmail.com}
