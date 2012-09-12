@@ -2,7 +2,7 @@
 
 \usepackage[round]{natbib}
 \usepackage{amssymb}
-\usepackage{Rnews}
+\usepackage{RJournal}
 \usepackage{fancyvrb}
 \usepackage{Sweave}
 
@@ -16,9 +16,11 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
+
 \begin{article}
+   
 \title{Performance Attribution for Equity Portfolios}
-\author{Yang Lu and David Kane}
+\author{by Yang Lu and David Kane}
 
 %%\VignetteIndexEntry{Using the pa package}
 %%\VignetteDepends{pa}
@@ -26,6 +28,26 @@
 \maketitle
 
 \setkeys{Gin}{width=0.95\textwidth}
+
+\abstract{
+
+  Almost all portfolio managers measure performance with reference to
+  a benchmark. The difference in return between a portfolio and the
+  benchmark is its active return. Performance attribution decomposes
+  the active return. The two most common approaches are the Brinson
+  model and a regression-based analysis.\footnote{See
+    \cite{brinson:gary} and \cite{jpmreg} for more information.}
+
+
+  The \pkg{pa} package provides tools for conducting both methods for
+  equity portfolios. The Brinson model takes an ANOVA-type approach
+  and decomposes the active return of any portfolio into asset
+  allocation, stock selection, and interaction effects. The
+  regression-based analysis utilizes estimated coefficients from a
+  linear model to estimate the contributions from different factors.
+
+
+}
 
 \section{Introduction}
 
@@ -48,14 +70,14 @@ estimate the contributions from different factors.
 \section{Data}
 
 We demonstrate the use of the \pkg{pa} package with a series of
-examples based on data from MSCI Barra's Global Equity
-Model II (GEM2).\footnote{See www.msci.com and \cite{gem2} for more
-  information.} The original data set contains selected attributes such as industry,
-size, country, and various style factors for a universe of
-approximately 48,000 securities on a monthly basis. For illustrative 
-purposes, this article uses three modified versions
-of the original data set (\texttt{year}, \texttt{quarter}, and \texttt{jan}), each containing 3000 securities. 
-The data frame,
+examples based on data from MSCI Barra's Global Equity Model II
+(GEM2).\footnote{See www.msci.com and \cite{gem2} for more
+  information.} The original data set contains selected attributes
+such as industry, size, country, and various style factors for a
+universe of approximately 48,000 securities on a monthly basis. For
+illustrative purposes, this article uses three modified versions of
+the original data set (\texttt{year}, \texttt{quarter}, and
+\texttt{jan}), each containing 3000 securities.  The data frame,
 \texttt{quarter}, is a subset of \texttt{year}, containing the data of
 the first quarter. The data frame, \texttt{jan}, is a subset of
 \texttt{quarter} with the data from January, 2010.
@@ -432,22 +454,22 @@ exposure(rb.single, var = "growth")
 @
 
 \texttt{reg.var} specifies the columns containing variables whose
-contributions are to be analyzed. 
-
-% Yang: Insert your new paragraph here. 
-
+contributions are to be analyzed. Each of the \texttt{reg.var} input
+corresponds to a particular column in $\mathbf{X}_{n,k}$ from the
+aforementioned regression model. \texttt{ret.var} specifies the column
+in the data frame \texttt{jan} based on which $\mathbf{r}_n$ in the
+regression model is formed.
 
 <<>>=
 exposure(rb.single, var = "growth")
 @
 
-Calling \texttt{exposure} with a
-specified \texttt{var} yields information on the exposure of both the
-portfolio and the benchmark by that variable. If \texttt{var} is a
-continuous variable, for instance, \texttt{growth}, the exposure will
-be shown in 5 quantiles. Majority of the high \texttt{value}
-securities in the portfolio in January have relatively low
-\texttt{growth} scores.
+Calling \texttt{exposure} with a specified \texttt{var} yields
+information on the exposure of both the portfolio and the benchmark by
+that variable. If \texttt{var} is a continuous variable, for instance,
+\texttt{growth}, the exposure will be shown in 5 quantiles. Majority
+of the high \texttt{value} securities in the portfolio in January have
+relatively low \texttt{growth} scores.
 
 <<>>=
 summary(rb.single)
@@ -530,7 +552,40 @@ attribution.
   \email{yang.lu@williams.edu} and \\
   \email{dave.kane@gmail.com}}
 
-\bibliography{pa}
+%\bibliography{pa}
+
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Brinson et~al.(1986)Brinson, Hood, and Beebower]{brinson:gary}
+G.~Brinson, R.~Hood, and G.~Beebower.
+\newblock {Determinants of Portfolio Performance}.
+\newblock \emph{Financial Analysts Journal}, 42\penalty0 (4):\penalty0 39--44,
+  Jul.--Aug. 1986.
+\newblock URL \url{http://www.jstor.org/stable/4478947}.
+
+\bibitem[Enos and Kane(2006)]{kane:david}
+J.~Enos and D.~Kane.
+\newblock {Analysing Equity Portfolios in R}.
+\newblock \emph{R News}, 6\penalty0 (2):\penalty0 13--19, MAY 2006.
+\newblock URL \url{http://CRAN.R-project.org/doc/Rnews}.
+
+\bibitem[Grinold(2006)]{jpmreg}
+R.~Grinold.
+\newblock {Attribution, Modeling asset characteristics as portfolios}.
+\newblock \emph{The Journal of Portfolio Management}, page~19, Winter 2006.
+
+\bibitem[Menchero et~al.(2008)Menchero, Morozov, and Shepard]{gem2}
+J.~Menchero, A.~Morozov, and P.~Shepard.
+\newblock {The Barra Global Equity Model (GEM2)}.
+\newblock \emph{MSCI Barra Research Notes}, Sept. 2008.
+
+\end{thebibliography}
+
 
 \end{article}
 \end{document}
