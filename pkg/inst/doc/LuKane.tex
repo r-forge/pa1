@@ -1,39 +1,30 @@
 \title{Performance Attribution for Equity Portfolios}
 \author{by Yang Lu and David Kane}
 
-%%\VignetteIndexEntry{Using the pa package}
-%%\VignetteDepends{pa}
-
 \maketitle
 
 \setkeys{Gin}{width=0.95\textwidth}
 
 \abstract{
 
-  Almost all portfolio managers measure performance with reference to
-  a benchmark. The difference in return between a portfolio and the
-  benchmark is its active return. Performance attribution decomposes
-  the active return. The two most common approaches are the Brinson
-  model \citep{brinson:gary} and a regression-based analysis
-  \citep{jpmreg}. The \pkg{pa} package provides tools for conducting
-  both methods for equity portfolios. The Brinson model takes an
-  ANOVA-type approach and decomposes the active return of any
-  portfolio into asset allocation, stock selection, and interaction
-  effects. The regression-based analysis utilizes estimated
-  coefficients from a linear model to estimate the contributions from
-  different factors.
-
-
+The \pkg{pa} package provides tools for conducting performance
+attribution for equity portfolios. The package uses two methods: the
+Brinson-Hood-Beebower model (hereafter referred to as the Brinson
+model) and a regression-based analysis. The Brinson model takes an
+ANOVA-type approach and decomposes the active return of any portfolio
+into asset allocation, stock selection, and interaction effect. The
+regression-based analysis utilizes estimated coefficients, based on a
+regression model, to attribute active return to different
+factors. 
 }
-
 \section{Introduction}
 
 Almost all portfolio managers measure performance with reference to a
 benchmark. The difference in return between a portfolio and the
 benchmark is its active return. Performance attribution decomposes the
 active return. The two most common approaches are the Brinson model
-and a regression-based analysis.\footnote{See \citep{brinson:gary} and
-  \citep{jpmreg} for more information.}
+and a regression-based analysis.\footnote{See \citet{brinson:gary}
+and \citet{jpmreg} for more information.}
 
 
 The \pkg{pa} package provides tools for conducting both methods for
@@ -42,12 +33,11 @@ decomposes the active return of any portfolio into asset allocation,
 stock selection, and interaction effects. The regression-based
 analysis utilizes estimated coefficients from a linear model to
 estimate the contributions from different factors. 
-
 \section{Data}
 
 We demonstrate the use of the \pkg{pa} package with a series of
 examples based on data from MSCI Barra's Global Equity Model II
-(GEM2).\footnote{See www.msci.com and \cite{gem2} for more
+(GEM2).\footnote{See www.msci.com and \citet{gem2} for more
   information.} The original data set contains selected attributes
 such as industry, size, country, and various style factors for a
 universe of approximately 48,000 securities on a monthly basis. For
@@ -57,21 +47,15 @@ the original data set (\texttt{year}, \texttt{quarter}, and
 \texttt{quarter}, is a subset of \texttt{year}, containing the data of
 the first quarter. The data frame, \texttt{jan}, is a subset of
 \texttt{quarter} with the data from January, 2010.
-
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > data(year)
 > names(year)
-\end{Sinput}
-\begin{Soutput}
  [1] "barrid"    "name"      "return"   
  [4] "date"      "sector"    "momentum" 
  [7] "value"     "size"      "growth"   
 [10] "cap.usd"   "yield"     "country"  
 [13] "currency"  "portfolio" "benchmark"
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 See \texttt{?year} for information on the different variables. 
 The top 200 securities, based on \texttt{value} scores,
@@ -83,9 +67,7 @@ The top 200 securities, based on \texttt{value} scores,
 
 Here is a sample of rows and columns from the data frame
 \texttt{year}:
-
-\begin{Schunk}
-\begin{Soutput}
+\begin{smallverbatim}
                                       name
 44557  BLUE STAR OPPORTUNITIES CORP       
 25345  SEADRILL                           
@@ -104,14 +86,12 @@ Here is a sample of rows and columns from the data frame
 264017     PAK     0.005  0.000000
 380927     CAN     0.005  0.000012
 388340     CAN     0.005  0.000012
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 The portfolio has 200 equal-weighted holdings each month. The row 
 for Canadian Imperial Bank of Commerce indicates that it is one of the 200
 portfolio holdings with a weight of 0.5\% in 2010. Its return was
 2.61\% in August, and close to flat in November.
-
 \section{Brinson model}
 
 Consider an equity portfolio manager who uses the S\&P 500 as the
@@ -137,11 +117,7 @@ highest quintile and so forth. For generality, we will use the term
 security in one, and only one, category.
 
 Notations:
-
-%% Go through all these with someone to make sure they are correct!
-
 \begin{itemize}
-
 \item $w^B_i$ is the weight of security $i$ in the benchmark.
 \item $w^P_i$ is the weight of security $i$ in the portfolio.
 \item $W^B_j$ is the weight of category $j$ in the benchmark. $W^B_j
@@ -157,7 +133,6 @@ Notations:
 \end{itemize}
 
 The return of a portfolio, $R_P$, can be calculated in two ways:
-
 \begin{itemize}
   \item On an individual security level by summing over $n$ stocks: $R_P =
     \sum\limits_{i = 1}^n w^P_ir_i$.
@@ -166,7 +141,6 @@ The return of a portfolio, $R_P$, can be calculated in two ways:
 \end{itemize}
 
 Similar definitions apply to the return of the benchmark, $R_B$,
-
 \begin{itemize}
   \item $R_B = \sum\limits_{i = 1}^n w^B_ir_i$.
   \item $R_B = \sum\limits_{j = 1}^N W^B_jR^B_j$.
@@ -181,7 +155,6 @@ intuitive than a ratio over a single period.
 
 The arithmetic active return of a portfolio, $R_{active}$, is the
 portfolio return $R_P$ less the benchmark return $R_B$:
-
 \begin{center}
   $R_{active} = R_P - R_B$.
 \end{center}
@@ -196,8 +169,6 @@ categories are defined as:
 \begin{center}
   $R_{allocation} = \sum\limits_{j = 1}^N W^P_jR^B_j - \sum\limits_{j
     = 1}^N W^B_jR^B_j$,
-\end{center}
-\begin{center}
   $R_{selection} = \sum\limits_{j = 1}^N W^B_jR^P_j - \sum\limits_{j =
     1}^N W^B_jR^B_j$.
 \end{center}
@@ -227,23 +198,18 @@ analysis beyond two categories. As the number of categories increases,
 this procedure is subject to the curse of dimensionality. To some
 extent, the regression-based model detailed later ameliorates this
 problem.
-
-
 \subsection{Brinson tools}
 
 Brinson analysis is run by calling the function \texttt{brinson} to
 produce an object of class \texttt{brinson}. 
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > data(jan)
 > br.single <- brinson(x = jan, date.var = "date", 
-+                  cat.var = "sector",
-+                  bench.weight = "benchmark", 
-+                  portfolio.weight = "portfolio", 
-+                  ret.var = "return")
-\end{Sinput}
-\end{Schunk}
++            cat.var = "sector",
++            bench.weight = "benchmark", 
++            portfolio.weight = "portfolio", 
++            ret.var = "return")
+\end{smallverbatim}
 
 The data frame, \texttt{jan}, contains all the information necessary
 to conduct a single-period Brinson analysis. \texttt{date.var},
@@ -259,15 +225,12 @@ portfolio (including the number of securities in the portfolio and the
 benchmark as well as sector exposures) and the results of the Brinson
 analysis.
 
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > summary(br.single)
-\end{Sinput}
-\begin{Soutput}
-Period:                              2010-01-01
-Methodology:                         Brinson
-Securities in the portfolio:         200
-Securities in the benchmark:         1000
+Period:                            2010-01-01
+Methodology:                       Brinson
+Securities in the portfolio:       200
+Securities in the benchmark:       1000
 
 Exposures 
             Portfolio Benchmark
@@ -288,22 +251,18 @@ Allocation Effect    -0.00140
 Selection Effect      0.01418
 Interaction Effect    0.00191
 Active Return         0.01469
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 The \texttt{br.single} summary shows that the active return of the
 portfolio, in January, 2010 was 1.47\%. This return can be decomposed
 into allocation effect (-0.14\%), selection effect (1.42\%), and
 interaction effect (0.19\%).
-
+\begin{smallverbatim}
+> plot(br.single, var = "sector", type = "return")
+\end{smallverbatim}
 \begin{figure}
 \centering
 \vspace*{.1in}
-\begin{Schunk}
-\begin{Sinput}
-> plot(br.single, var = "sector", type = "return")
-\end{Sinput}
-\end{Schunk}
 \includegraphics{pa_csda-006}
 \caption{\label{figure:return}
   Sector Return.}
@@ -329,26 +288,19 @@ model over time, we can use the function \texttt{brinson} and input a
 multi-period data set (for instance, \texttt{quarter}) as shown
 below. 
 
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > data(quarter)
-> br.multi <- brinson(quarter, date.var = "date",
-+                 cat.var = "sector",
-+                 bench.weight = "benchmark",
-+                 portfolio.weight = "portfolio",
-+                 ret.var = "return")
-\end{Sinput}
-\end{Schunk}
-
-
+> br.multi <- brinson(quarter,
++           date.var = "date",
++           cat.var = "sector",
++           bench.weight = "benchmark",
++           portfolio.weight = "portfolio",
++           ret.var = "return")
+\end{smallverbatim}
 The object \texttt{br.multi} of class \texttt{brinsonMulti} is an
 example of a multi-period Brinson analysis.
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > exposure(br.multi, var = "size")
-\end{Sinput}
-\begin{Soutput}
 $Portfolio
      2010-01-01 2010-02-01 2010-03-01
 Low       0.140      0.140      0.155
@@ -364,8 +316,7 @@ Low      0.0681     0.0568     0.0628
 3        0.1260     0.1375     0.1140
 4        0.2520     0.2457     0.2506
 High     0.5417     0.5374     0.5557
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 The \texttt{exposure} method on the class \texttt{br.multi} object
 shows the exposure of the portfolio and the benchmark based on a
@@ -373,27 +324,22 @@ user-specified variable. Here, it shows the exposure on
 \texttt{size}. We can see that the portfolio overweights the benchmark
 in the lowest quintile in \texttt{size} and underweights in the
 highest quintile.
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > returns(br.multi, type = "arithmetic")
-\end{Sinput}
-\begin{Soutput}
 $Raw
-              2010-01-01 2010-02-01 2010-03-01
-Allocation       -0.0014     0.0062     0.0047
-Selection         0.0142     0.0173    -0.0154
-Interaction       0.0019    -0.0072    -0.0089
-Active Return     0.0147     0.0163    -0.0196
+             2010-01-01 2010-02-01 2010-03-01
+Allocation      -0.0014     0.0062     0.0047
+Selection        0.0142     0.0173    -0.0154
+Interaction      0.0019    -0.0072    -0.0089
+Active Return    0.0147     0.0163    -0.0196
 
 $Aggregate
-              2010-01-01, 2010-03-01
-Allocation                    0.0095
-Selection                     0.0160
-Interaction                  -0.0142
-Active Return                 0.0114
-\end{Soutput}
-\end{Schunk}
+             2010-01-01, 2010-03-01
+Allocation                   0.0095
+Selection                    0.0160
+Interaction                 -0.0142
+Active Return                0.0114
+\end{smallverbatim}
 
 The \texttt{returns} method shows the results of the Brinson analysis
 applied to the data from January, 2010 through March, 2010. The first 
@@ -404,8 +350,6 @@ shows the aggregate attribution results. The portfolio formed by top
 the first quarter of 2010. The allocation and the selection effects
 contributed 0.95\% and 1.6\% respectively; the interaction effect
 decreased returns by 1.42\%.
-
-
 \section{Regression}
 
 One advantage of a regression-based approach is that such analysis
@@ -482,14 +426,12 @@ of contributions of all $k$ variables and the residual $u$
 For instance, a hypothetical portfolio has three holdings (A, B, and
 C), each of which has two attributes -- size and value.
 
-\begin{Schunk}
-\begin{Soutput}
+\begin{smallverbatim}
   Return Name Size Value Active_Weight
 1    0.3    A  1.2   3.0           0.5
 2    0.4    B  2.0   2.0           0.1
 3    0.5    C  0.8   1.5          -0.6
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 Following the procedure as mentioned, the factor returns for size and
 value are -0.0313 and -0.1250. The active exposure of size is 0.32
@@ -498,31 +440,25 @@ which can be decomposed into the contribution of size and that of
 value based on the regression model. Size contributes 1\% of the
 negative active return of the portfolio and value causes the portfolio
 to lose the other 10.0\%.
-
 \subsection{Regression tools}
 
 The \pkg{pa} package provides tools to analyze
 both single-period and multi-period data frames.
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > rb.single <- regress(jan, date.var = "date",
-+                 ret.var = "return",
-+                 reg.var = c("sector", "growth",
-+                   "size"),
-+                 benchmark.weight = "benchmark",
-+                 portfolio.weight = "portfolio")
++          ret.var = "return",
++          reg.var = c("sector", "growth", 
++                      "size"),
++          benchmark.weight = "benchmark",
++          portfolio.weight = "portfolio")
 > exposure(rb.single, var = "growth")
-\end{Sinput}
-\begin{Soutput}
      Portfolio Benchmark
 Low      0.305    0.2032
 2        0.395    0.4225
 3        0.095    0.1297
 4        0.075    0.1664
 High     0.130    0.0783
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 \texttt{reg.var} specifies the columns containing variables whose
 contributions are to be analyzed. Each of the \texttt{reg.var} input
@@ -530,20 +466,15 @@ variables corresponds to a particular column in $\mathbf{X}_{n,k}$
 from the aforementioned regression model. \texttt{ret.var} specifies
 the column in the data frame \texttt{jan} based on which
 $\mathbf{r}_n$ in the regression model is formed.
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > exposure(rb.single, var = "growth")
-\end{Sinput}
-\begin{Soutput}
      Portfolio Benchmark
 Low      0.305    0.2032
 2        0.395    0.4225
 3        0.095    0.1297
 4        0.075    0.1664
 High     0.130    0.0783
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 Calling \texttt{exposure} with a specified \texttt{var} yields
 information on the exposure of both the portfolio and the benchmark by
@@ -551,16 +482,12 @@ that variable. If \texttt{var} is a continuous variable, for instance,
 \texttt{growth}, the exposure will be shown in 5 quantiles. Majority
 of the high \texttt{value} securities in the portfolio in January have
 relatively low \texttt{growth} scores.
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > summary(rb.single)
-\end{Sinput}
-\begin{Soutput}
-Period:                              2010-01-01
-Methodology:                         Regression
-Securities in the portfolio:         200
-Securities in the benchmark:         1000
+Period:                            2010-01-01
+Methodology:                       Regression
+Securities in the portfolio:       200
+Securities in the benchmark:       1000
 
 Returns 
                  2010-01-01
@@ -571,8 +498,7 @@ Residual           0.008092
 Portfolio Return  -0.029064
 Benchmark Return  -0.043753
 Active Return      0.014689
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 The \texttt{summary} method shows the number of securities in the
 portfolio and the benchmark, and the contribution of each input
@@ -588,26 +514,20 @@ class object \texttt{rb.multi} directly, a short summary of the
 analysis is provided, showing the starting and ending period of the
 analysis, the methodology, and the average number of securities in
 both the portfolio and the benchmark.
-
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > rb.multi <- regress(year, date.var = "date",
-+                 ret.var = "return",
-+                 reg.var = c("sector", "growth", 
-+                   "size"),
-+                 benchmark.weight = "benchmark",
-+                 portfolio.weight = "portfolio")
++         ret.var = "return",
++         reg.var = c("sector", "growth", 
++                     "size"),
++         benchmark.weight = "benchmark",
++         portfolio.weight = "portfolio")
 > rb.multi
-\end{Sinput}
-\begin{Soutput}
-Period starts:                       2010-01-01
-Period ends:                         2010-12-01
-Methodology:                         Regression
-Securities in the portfolio:         200
-Securities in the benchmark:         1000
-\end{Soutput}
-\end{Schunk}
+Period starts:                     2010-01-01
+Period ends:                       2010-12-01
+Methodology:                       Regression
+Securities in the portfolio:       200
+Securities in the benchmark:       1000
+\end{smallverbatim}
 
 The regression-based summary shows that the contribution of each input
 variable in addition to the basic information on the portfolio. The
@@ -617,17 +537,13 @@ of the interaction among various variables including \texttt{sector},
 \texttt{growth}, and \texttt{growth}. Based on the
 regression model, \texttt{size} contributed to the lion share of the
 active return.
-
-\begin{Schunk}
-\begin{Sinput}
+\begin{smallverbatim}
 > summary(rb.multi)
-\end{Sinput}
-\begin{Soutput}
-Period starts:                       2010-01-01
-Period ends:                         2010-12-01
-Methodology:                         Regression
-Avg securities in the portfolio:     200
-Avg securities in the benchmark:     1000
+Period starts:                     2010-01-01
+Period ends:                       2010-12-01
+Methodology:                       Regression
+Avg securities in the portfolio:   200
+Avg securities in the benchmark:   1000
 
 Returns 
 $Raw
@@ -673,8 +589,7 @@ Residual                        -0.0269
 Portfolio Return                 0.1191
 Benchmark Return                 0.0176
 Active Return                    0.1015
-\end{Soutput}
-\end{Schunk}
+\end{smallverbatim}
 
 Figure \ref{figure:regmultiattrib} displays both the cumulative
 portfolio and benchmark returns from January, 2010 through December,
@@ -682,35 +597,30 @@ portfolio and benchmark returns from January, 2010 through December,
 securities in January, consistently outperformed the benchmark in
 2010. Outperformance in May and June helped the overall positive
 active return in 2010 to a large extent.
-
+\begin{smallverbatim}
+> plot(rb.multi, var = "sector", type = "return")
+\end{smallverbatim}
 \begin{figure}
 \centering
 \vspace*{.1in}
-\begin{Schunk}
-\begin{Sinput}
-> plot(rb.multi, var = "sector", type = "return")
-\end{Sinput}
-\end{Schunk}
 \includegraphics{pa_csda-016}
 \caption{\label{figure:regmultiattrib}
   Performance Attribution.}
 \end{figure}
-
-
 \section{Conclusion}
 
 In this paper, we describe two widely-used methods for performance
 attribution -- the Brinson model and the regression-based approach,
 and provide a simple collection of tools to implement these two
-methods in \texttt{R} with the \texttt{pa} package.  A
-comprehensive package, \texttt{portfolio} \cite{kane:david}, provides
+methods in \texttt{R} with the \pkg{pa} package.  A
+comprehensive package, \pkg{portfolio} \citet{kane:david}, provides
 facilities to calculate exposures and returns for equity
-portfolios. It is possible to use the \texttt{pa} package based on the
-output from the \texttt{portfolio} package. Further, the flexibility
+portfolios. It is possible to use the \pkg{pa} package based on the
+output from the \pkg{portfolio} package. Further, the flexibility
 of \texttt{R} itself allows users to extend and modify these packages
 to suit their own needs and/or execute their preferred attribution
 methodology. Before reaching that level of complexity, however,
-\texttt{pa} provides a good starting point for basic performance
+\pkg{pa} provides a good starting point for basic performance
 attribution.
 
 %%\bibliography{pa}
@@ -749,13 +659,16 @@ J.~Menchero, A.~Morozov, and P.~Shepard.
 
 \address{Yang Lu\\
   Williams College\\
-  2896 Paresky Center, Williamstown, MA 01267   \\
+  2896 Paresky Center \\
+  Williamstown, MA 01267 \\
   United States}\\
 \email{yang.lu@williams.edu}
 
 \address{David Kane\\ 
   Harvard University\\ 
-  IQSS 1737 Cambridge Street
-  CGIS Knafel Building, Room 350 Cambridge, MA 02138\\ 
+  IQSS \\
+  1737 Cambridge Street \\
+  CGIS Knafel Building, Room 350 \\
+  Cambridge, MA 02138\\ 
   United States}\\ 
 \email{dave.kane@gmail.com}
