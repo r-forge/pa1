@@ -615,10 +615,10 @@ below.
 <<>>=
 data(quarter)
 br.multi <- brinson(quarter, date.var = "date",
-                cat.var = "sector",
-                bench.weight = "benchmark",
-                portfolio.weight = "portfolio",
-                ret.var = "return")
+                    cat.var = "sector",
+                    bench.weight = "benchmark",
+                    portfolio.weight = "portfolio",
+                    ret.var = "return")
 @
 
 

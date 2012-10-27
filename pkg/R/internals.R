@@ -66,9 +66,9 @@
     geom_bar(width = 0.5, position = position_dodge()) + coord_flip() +
       ylab(type) + xlab("Sector") +
         geom_hline(yintercept = 0) +
-          
+          + ggtitle(title) + 
           theme(panel.background = element_blank(), ## theme_blank(),
-                title = title, 
+                ## title = title, 
                 axis.line = element_blank(),
                 panel.grid.minor = element_blank(),
                 panel.grid.major = element_blank(),
@@ -95,6 +95,7 @@
   facet.plot <- ggplot(df, aes(Name, Value, fill = Type)) +
     geom_bar(position = position_dodge()) + coord_flip() + theme_bw()+
       facet_wrap( ~ Date) + scale_x_discrete(name = "Sector") + ylab(type) +
-        opts(title = title)
+        ## opts(title = title)
+        ggtitle(title)
   return(facet.plot)
 }
