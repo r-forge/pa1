@@ -1052,7 +1052,7 @@ attribution.
 
 \address{Yang Lu and David Kane\\
   \email{yang.lu@williams.edu} and \\
-  \email{dkane@acadian-asset.com}}
+  \email{dave.kane@gmail.com}}
 
 \bibliography{pa}
 
