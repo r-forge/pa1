@@ -69,7 +69,7 @@
           
           theme(panel.background = element_blank(), ## theme_blank(),
                 title = title, 
-                axis.line = theme_blank(),
+                axis.line = element_blank(),
                 panel.grid.minor = element_blank(),
                 panel.grid.major = element_blank(),
                 plot.background = element_rect(fill = NA, colour = NA))
