@@ -66,7 +66,7 @@
     geom_bar(width = 0.5, position = position_dodge()) + coord_flip() +
       ylab(type) + xlab("Sector") +
         geom_hline(yintercept = 0) +
-          + ggtitle(title) + 
+          ggtitle(title) + 
           theme(panel.background = element_blank(), ## theme_blank(),
                 ## title = title, 
                 axis.line = element_blank(),
