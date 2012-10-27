@@ -67,12 +67,12 @@
       ylab(type) + xlab("Sector") +
         geom_hline(yintercept = 0) +
           
-          opts(panel.background = element_blank(), ## theme_blank(),
-               title = title, 
-               axis.line = theme_blank(),
-               panel.grid.minor = element_blank(),
-               panel.grid.major = element_blank(),
-               plot.background = element_rect(fill = NA, colour = NA))
+          theme(panel.background = element_blank(), ## theme_blank(),
+                title = title, 
+                axis.line = theme_blank(),
+                panel.grid.minor = element_blank(),
+                panel.grid.major = element_blank(),
+                plot.background = element_rect(fill = NA, colour = NA))
   
   return(bar.plot)
   
