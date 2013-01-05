@@ -94,7 +94,7 @@
   rm(Type)
   
   facet.plot <- ggplot(df, aes(Name, Value, fill = Type)) +
-    geom_bar(position = position_dodge()) + coord_flip() + theme_bw()+
+    geom_bar(position = position_dodge(), stat = "identity") + coord_flip() + theme_bw()+
       facet_wrap( ~ Date) + scale_x_discrete(name = "Sector") + ylab(type) +
         ## opts(title = title)
         ggtitle(title)
