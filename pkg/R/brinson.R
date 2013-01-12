@@ -1,5 +1,4 @@
 ## A method called brinson to apply the Brinson model analysis
-
 ## Yang Lu Yang.Lu@williams.edu
 
 brinson <- function(x, 
