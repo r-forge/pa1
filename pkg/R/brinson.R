@@ -159,5 +159,4 @@ brinson <- function(x,
     
     return(portfolio)
   }
-
 }
