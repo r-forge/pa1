@@ -482,7 +482,7 @@ interaction effect (0.19\%).
 \begin{figure}
 \centering
 \vspace*{.1in}
-<<fig = TRUE>>=
+<<fig = TRUE>>
 plot(br.single, var = "sector", type = "return")
 @
 \caption{\label{figure:return}
