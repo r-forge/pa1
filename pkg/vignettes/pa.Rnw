@@ -1,10 +1,11 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper]{article}
 \usepackage[round]{natbib}
 \usepackage{amssymb}
-%% \usepackage{Rnews}
-\usepackage{RJournal}
+%% \usepackage{RJournal}
 \usepackage{fancyvrb}
-\usepackage{Sweave}
+\usepackage{Sweave, url}
+\usepackage{hyperref}
+
 
 \DefineVerbatimEnvironment{Sinput}{Verbatim}{fontsize=\small,fontshape=sl}
 \DefineVerbatimEnvironment{Soutput}{Verbatim}{fontsize=\small}
@@ -15,9 +16,9 @@
 \bibliographystyle{abbrvnat}
 
 \begin{document}
-\begin{article}
+
 \title{Performance Attribution for Equity Portfolios}
-\author{Yang Lu and David Kane}
+\author{Yang Lu\thanks{\href{mailto:yang.lu2014@gmail.com}{yang.lu2014@gmail.com}} and David Kane\thanks{\href{mailto:dave.kane@gmail.com}{dave.kane@gmail.com}}}
 
 %%\VignetteIndexEntry{Using the pa package}
 %%\VignetteDepends{pa}
@@ -48,7 +49,7 @@ attribution models for equity portfolios without considering any
 currency effect.
 
 
-The \pkg{pa} package provides tools for conducting both methods for
+The \textbf{pa} package provides tools for conducting both methods for
 equity portfolios. The Brinson model takes an ANOVA-type approach and
 decomposes the active return of any portfolio into asset allocation,
 stock selection, and interaction effects. The regression-based
@@ -61,7 +62,7 @@ case of the regression approach.
 
 \section{Data}
 
-We demonstrate the use of the \pkg{pa} package with a series of
+We demonstrate the use of the \textbf{pa} package with a series of
 examples based on real-world data sets from MSCI Barra's Global Equity
 Model II(GEM2).\footnote{See www.msci.com and \cite{gem2} for more
   information.} MSCI Barra is a leading provider of investment
@@ -212,12 +213,13 @@ Notations:
 
 \item $w^B_i$ is the weight of security $i$ in the benchmark.
 \item $w^P_i$ is the weight of security $i$ in the portfolio.
-\item $W^B_j$ is the weight of category $j$ in the benchmark. $W^B_j
-  = \sum w^B_i$, $i$ $\in$ $j$.
+\item $W^B_j$ is the weight of category $j$ in the benchmark. $W^B_j =
+  \sum w^B_i$, $i$ $\in$ $j$.
 \item $W^P_j$ is the weight of a category $j$ in the portfolio. $W^P_j
   = \sum w^P_i$, $i$ $\in$ $j$.
-\item The sum of the weight $w^B_i$, $w^P_i$, $W^B_j$, and $W^P_j$ is 1, respectively.
-  \item $r_i$ is the return of security $i$.
+\item The sum of the weight $w^B_i$, $w^P_i$, $W^B_j$, and $W^P_j$ is
+  1, respectively.
+\item $r_i$ is the return of security $i$.
 \item $R^B_j$ is the return of a category $j$ in the benchmark. $R^B_j
   = \sum w^B_ir_i$, $i$ $\in$ $j$.
 \item $R^P_j$ is the return of a category $j$ in the portfolio. $R^P_j
@@ -242,7 +244,7 @@ Similar definitions apply to the return of the benchmark, $R_B$,
 
 Active return of a portfolio, $R_{active}$, is a performance measure
 of a portfolio relative to its benchmark. The two conventional
-measures of active return are arithmetic and geometric.  The \pkg{pa}
+measures of active return are arithmetic and geometric.  The \textbf{pa}
 package implements the arithmetic measure of the active return for a
 single-period Brinson model because an arithmetic difference is more
 intuitive than a ratio over a single period.
@@ -443,7 +445,7 @@ problem of multivariate attribution.
 
 Brinson analysis is run by calling the function \texttt{brinson} to
 produce an object of class \texttt{brinson}. Below we show the tools
-provided in the \pkg{pa} package to analyze a single period portfolio
+provided in the \textbf{pa} package to analyze a single period portfolio
 based on the Brinson model.
 
 <<>>=
@@ -453,7 +455,6 @@ br.single <- brinson(x = jan, date.var = "date",
                  bench.weight = "benchmark", 
                  portfolio.weight = "portfolio", 
                  ret.var = "return")
-
 @
 
 The data frame, \texttt{jan}, contains all the information necessary
@@ -482,9 +483,9 @@ interaction effect (0.19\%).
 \begin{figure}
 \centering
 \vspace*{.1in}
-<<fig = TRUE>>
+<<fig = TRUE>>=
 plot(br.single, var = "sector", type = "return")
-@
+@ 
 \caption{\label{figure:return}
   Sector Return.}
 \end{figure}
@@ -655,11 +656,10 @@ made a loss of 1.42\%.
 \begin{figure}
 \centering
 \vspace*{.1in}
-<<fig = TRUE>>=
+<<fig = TRUE, height = 5, width = 9>>=
 plot(br.multi, type = "return")
 @
-\caption{\label{figure:multireturn}
-  Sector Return Across Time.}
+\caption{\label{figure:multireturn} Sector Return Across Time.}
 \end{figure}
 
 Figure \ref{figure:multireturn} depicts the returns of both the
@@ -770,7 +770,7 @@ to lose the other 10.0\%.
 \subsection{Single-Period Regression Tools}
 
 Another conventional attribution methodolody is the regression-based
-analysis. As mentioned, the \pkg{pa} package provides tools to analyze
+analysis. As mentioned, the \textbf{pa} package provides tools to analyze
 both single-period and multi-period data frames.
 
 <<>>=
@@ -1051,11 +1051,8 @@ methodology. Before reaching that level of complexity, however,
 \texttt{pa} provides a good starting point for basic performance
 attribution.
 
-\address{Yang Lu and David Kane\\
-  \email{yang.lu2014@gmail.com} and \\
-  \email{dave.kane@gmail.com}}
 
 \bibliography{pa}
 
-\end{article}
+
 \end{document}
