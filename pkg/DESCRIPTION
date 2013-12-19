@@ -3,7 +3,7 @@ Version: 1.2-1
 Date: 2013-12-13
 Title: Performance Attribution for Equity Portfolios
 Authors@R: c(person("Yang", "Lu", role = c("aut", "cre"),
-	       	 email = "yang.lu@williams.edu"),
+	       	 email = "yang.lu2014@gmail.edu"),
 	person("David", "Kane", role = c("aut"),
 		 email = "dave.kane@gmail.com"))
 Depends: grid, R (>= 2.10)
